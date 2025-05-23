@@ -1,5 +1,6 @@
 import SceneSwitch from '$lib/SceneSwitch'
-import S_Room from '$src/game/scenes/S_Room'
+import S_Main from '$src/game/scenes/S_Main'
+import S_LocationSelect from '$src/game/scenes/S_LocationSelect'
 
 
 
@@ -7,7 +8,7 @@ export default class Scene extends SceneSwitch {
     // @ts-ignore
     scenes: Map<string, any> = new Map([
         // ['plinko', S_test_mechanics],
-        ['room', S_Room],
+        ['room', S_Main],
     ])
     // pause = new S_Pause()
     initial = 'room'

@@ -85,6 +85,66 @@ class ButtonDockSide extends BaseNode {
     }
 }
 
+class ButtonSummon extends BaseNode {
+    bg: Sprite
+    lbl: Text
+
+    constructor() {
+        super()
+        this.bg = create_sprite('main/ButtonSummon')
+        this.lbl = create_text({
+            text: 'Summon', style: {
+                align: 'center',
+                fill: colors.dark,
+                stroke: { width: 4, color: '0xec9bd3' },
+                fontSize: 48
+
+            }
+        })
+        this.addChild(this.bg)
+        this.addChild(this.lbl)
+
+        this.lbl.position.set(0, 41)
+
+    }
+}
+
+
+class SideButton extends BaseNode {
+    icon: Sprite
+    bg: Sprite
+    lbl: Text
+
+    constructor(icon_name: string, lbl_text: string, isDisabled = false) {
+        super()
+        this.bg = create_sprite('main/BtnTemplate')
+        this.icon = create_sprite(icon_name)
+        this.lbl = create_text({
+            text: lbl_text, style: {
+                align: 'center',
+                fill: colors.dark,
+                stroke: { width: 4, color: colors.bright },
+                fontSize: 38
+
+            }
+        })
+
+        if (isDisabled) {
+            this.bg = create_sprite('main/BtnTemplateBW')
+            this.lbl.style.fill = colors.dark
+            this.lbl.style.stroke = {width: 0}
+        }
+
+        this.icon.scale.set(0.6)
+
+        this.addChild(this.bg)
+        this.addChild(this.icon)
+        this.addChild(this.lbl)
+
+        this.icon.position.y = -this.bg.height / 2 + 10
+        this.lbl.position.y += 20
+    }
+}
 
 
 
@@ -96,6 +156,12 @@ export default class S_Room extends BaseNode {
     button_reward = new ButtonDockSide(`icons/gift`, 'Free Gems')
     header = new Header()
 
+    button_summon = new ButtonSummon()
+
+    button_events = new SideButton('icons/lock', 'Events', true)
+    button_quests = new SideButton('icons/scroll', 'Quests')
+    button_dungeons = new SideButton('icons/lock', 'Dungeons', true)
+
     constructor() {
         super()
         console.log('mounted: room')
@@ -104,6 +170,18 @@ export default class S_Room extends BaseNode {
         this.addChild(this.button_spin)
         this.addChild(this.button_reward)
         this.addChild(this.header)
+
+        this.addChild(this.button_summon)
+
+        this.addChild(this.button_events)
+        this.addChild(this.button_quests)
+        this.addChild(this.button_dungeons)
+
+        microManage(this.button_events)
+        // this.addChild(this.button_quests)
+        // this.addChild(this.button_challenges)
+        // this.addChild(this.button_dungeons)
+        // this.addChild(this.button_arena)
     }
 
     start() {
@@ -150,13 +228,35 @@ export default class S_Room extends BaseNode {
         this.button_spin.position.x = (- this.bw + this.button_spin.width) / 2 + this.bw / 30
         this.button_spin.position.y = (this.bh / 2) - (this.dock.height * 0.96)
 
-
         // button_reward
         this.button_reward.scale.set(
             (this.bw / 5) / (this.button_reward.width / this.button_reward.scale.x)
         )
         this.button_reward.position.x = (this.bw - this.button_reward.width) / 2 - this.bw / 30
         this.button_reward.position.y = (this.bh / 2) - (this.dock.height * 0.96)
+
+        // button_summon
+        this.button_summon.scale.set(
+            (this.bw / 3) / (this.button_summon.width / this.button_summon.scale.x)
+        )
+        this.button_summon.position.y = -this.bh/2 + this.header.height + this.button_summon.height/2 + 10
+
+        // button_events
+        this.button_events.scale.set(
+            (this.bw / 4.4) / (this.button_events.width / this.button_events.scale.x)
+        )
+        this.button_events.position.x = -this.bw / 2 + this.button_events.width / 2 + 5
+        this.button_events.position.y = -150
+
+        // button_quests
+        this.button_quests.scale.set(this.button_events.scale.x)
+        this.button_quests.position.x = -this.bw / 2 + this.button_quests.width / 2 + 5
+        this.button_quests.position.y = this.button_events.position.y + this.button_quests.height + 10
+
+        // button_dungeons
+        this.button_dungeons.scale.set(this.button_events.scale.x)
+        this.button_dungeons.position.x = -this.bw / 2 + this.button_dungeons.width / 2 + 5
+        this.button_dungeons.position.y = this.button_quests.position.y + this.button_quests.height + 10
 
     }
 }

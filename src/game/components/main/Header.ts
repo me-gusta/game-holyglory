@@ -1,6 +1,5 @@
 import BaseNode from "$lib/BaseNode"
 import { create_graphics, create_sprite, create_text } from "$lib/create_things"
-import microManage from "$lib/dev/microManage"
 import colors from "$src/game/colors"
 import { Graphics, Sprite, Text } from "pixi.js"
 
@@ -210,8 +209,6 @@ export default class Header extends BaseNode {
         this.addChild(this.player_crowns)
         this.addChild(this.player_experience)
         this.addChild(this.button_settings)
-
-        microManage(this.player_experience)
 
     }
 
