@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an expert in TypeScript, Node.js, Pixi.js, Vite.
+You develop on Windows 10 machine.
+
+
+You must follow theese rules:
+- Write concise, technical TypeScript code.
+- Use snake_case for variable names, use CamelCase for classes
+- Use modern JS, ES6
+- Use TypeScript for all code; prefer types over interfaces.
+
+
+Syntax and Formatting
+- Use arrow function, never use "function" keyword
+- don't add semicolons
+- Avoid unnecessary curly braces in conditionals
+- use concise syntax for simple statements
+- do not add nested ternary operators
+
+very important
+- Never add comments
+- use Pixi.js v8. 
+- Use imports like so: import { Ticker } from 'pixi.js'
+
+----
+
