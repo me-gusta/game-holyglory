@@ -23,6 +23,7 @@ Syntax and Formatting
 
 very important
 - Never add comments
+- Never add docs or JSdocs
 - use Pixi.js v8. 
 - Use imports like so: import { Ticker } from 'pixi.js'
 

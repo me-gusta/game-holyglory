@@ -1,11 +1,92 @@
 import BaseNode from "$lib/BaseNode"
-import { DestroyOptions, Ticker } from "pixi.js"
+import { create_graphics, create_point, create_sprite, create_text, create_vector } from "$lib/create_things"
+import { Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite } from "pixi.js"
+import colors from "../colors"
+import WoodenHeader from "../components/WoodenHeader"
+import make_draggable from "$lib/make_draggable"
+import { rad2deg, rad2sector } from "$lib/math"
+import { Easing } from "@tweenjs/tween.js"
+import VRow from "../components/VRow"
+
+
+class CardLocation extends BaseNode {
+    icon: Sprite
+    lbl: Text
+    bg: Sprite
+    constructor(bg_image: string, lbl_text: string, isDisabled = false) {
+        super()
+
+        this.bg = create_sprite(bg_image)
+        this.lbl = create_text({
+            text: lbl_text, style: {
+                fontSize: 64,
+                fill: colors.bright,
+                stroke: { width: 6, color: colors.dark }
+            }
+        })
+        this.lbl.anchor.x = 1
+        this.icon = create_sprite('icons/lock')
+
+        if (isDisabled) {
+            this.bg = create_sprite(bg_image + '_disabled')
+            this.lbl.alpha = 0
+        }
+
+        this.addChild(this.bg)
+        this.addChild(this.lbl)
+        this.addChild(this.icon)
+
+        this.icon.alpha = isDisabled ? 0.7 : 0
+
+        this.interactive = true
+
+        this.on('pointerup', () => {
+            console.log('location selected')
+        })
+    }
+
+    resize() {
+        const s = this.bw / (this.bg.width / this.bg.scale.x)
+        this.scale.set(s)
+
+        this.lbl.position.x = this.bg.width / 2 - 20
+        this.lbl.position.y = this.bg.height / 2 - 60
+    }
+}
+
+class ButtonBack extends BaseNode {
+    bg: Sprite
+    constructor() {
+        super()
+        this.bg = create_sprite('button_back')
+        this.addChild(this.bg)
+
+        this.interactive = true
+    }
+}
 
 
 export default class S_LocationSelect extends BaseNode {
+    bg: TilingSprite
+    header = new WoodenHeader('World')
+    vrow = new VRow()
+    button_back = new ButtonBack()
 
     constructor() {
         super()
+        this.bg  = new TilingSprite({texture: Texture.from('seamlessbg')})
+        this.addChild(this.bg)
+        this.addChild(this.header)
+        this.addChild(this.vrow)
+        this.addChild(this.button_back)
+
+        const locations = [
+            new CardLocation('locations/location1', 'Grin Hill Zone'),
+            new CardLocation('locations/location2', 'Forest', true),
+            new CardLocation('locations/location3', 'Dark Forest', true),
+        ]
+
+        for (let loc of locations) this.vrow.add(loc)
     }
 
     start() {
@@ -17,6 +98,33 @@ export default class S_LocationSelect extends BaseNode {
         this.bw = window.screen_size.width
         this.bh = window.screen_size.height
 
+        // header
+        this.header.bw = this.bw * 0.75
+        this.header.resize()
+        this.header.position.y = -this.bh / 2 + this.header.height / 2 + this.bh * 0.01
+
+        // vrow
+        this.vrow.bw = this.bw * 0.9
+        this.vrow.bh = this.bh - (this.header.height + this.bh * 0.04)
+        this.vrow.resize()
+        this.vrow.position.y = -this.bh / 2 + (this.bh - this.vrow.bh)
+
+        // button_back
+        this.button_back.scale.set(
+            (this.bw / 10) / (this.button_back.width / this.button_back.scale.x)
+        )
+        this.button_back.position.x = -this.bw / 2 + this.button_back.width / 2 + this.bw * 0.02
+        this.button_back.position.y = this.bh / 2 - this.button_back.height / 2 - this.bw * 0.02
+        
+        // bg
+        this.bg.width = this.bw
+        this.bg.height = this.bh
+
+        this.bg.position.x = -this.bw/2
+        this.bg.position.y = -this.bh/2
+
+        const bg_scale = (this.bw/ 256) / 5
+        this.bg.tileScale.set(bg_scale)
 
     }
 }

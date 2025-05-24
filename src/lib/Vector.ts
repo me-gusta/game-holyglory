@@ -71,7 +71,7 @@ export class Vector {
         return this
     }
 
-    sub(vec: IPoint) {
+    subtract(vec: IPoint) {
         this.x -= vec.x
         this.y -= vec.y
         return this

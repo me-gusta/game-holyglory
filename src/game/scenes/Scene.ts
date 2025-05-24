@@ -8,7 +8,7 @@ export default class Scene extends SceneSwitch {
     // @ts-ignore
     scenes: Map<string, any> = new Map([
         // ['plinko', S_test_mechanics],
-        ['room', S_Main],
+        ['room', S_LocationSelect],
     ])
     // pause = new S_Pause()
     initial = 'room'
