@@ -10,9 +10,12 @@ export default class VRow extends BaseNode {
     container = new Container<BaseNode>()
     container_height = 0
 
-    gap = 10
     msk = create_graphics().rect(0, 0, 500, 500).fill('white')
     area = create_graphics().rect(0, 0, 500, 500).fill('white')
+
+    
+    padding_bottom = 20
+    gap = 10
     constructor() {
         super()
 
@@ -71,7 +74,6 @@ export default class VRow extends BaseNode {
         this.on('dragend', (event) => {
             const max_offset = this.container_height - this.bh
             if (max_offset < 0) return
-            const padding_bottom = 20
 
             prev_postion.x = 0
             prev_postion.y = 0
@@ -79,7 +81,7 @@ export default class VRow extends BaseNode {
             // console.log('dragend')
             if (this.container.position.y < -max_offset) {
                 this.tween(this.container)
-                    .to({ y: -max_offset - padding_bottom }, 200)
+                    .to({ y: -max_offset - this.padding_bottom }, 200)
                     .easing(Easing.Quadratic.Out)
                     .start()
             }
@@ -93,6 +95,11 @@ export default class VRow extends BaseNode {
 
             this.container.interactiveChildren = true
         })
+    }
+
+    scroll_to_bottom() {
+        const max_offset = this.container_height - this.bh
+        this.container.position.y = -max_offset- this.padding_bottom
     }
 
     add(obj: BaseNode) {

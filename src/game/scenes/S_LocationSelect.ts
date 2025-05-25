@@ -7,6 +7,7 @@ import make_draggable from "$lib/make_draggable"
 import { rad2deg, rad2sector } from "$lib/math"
 import { Easing } from "@tweenjs/tween.js"
 import VRow from "../components/VRow"
+import ButtonBack from "../components/ButtonBack"
 
 
 class CardLocation extends BaseNode {
@@ -27,9 +28,15 @@ class CardLocation extends BaseNode {
         this.lbl.anchor.x = 1
         this.icon = create_sprite('icons/lock')
 
+        this.interactive = true
+        this.cursor = 'pointer'
+
         if (isDisabled) {
             this.bg = create_sprite(bg_image + '_disabled')
             this.lbl.alpha = 0
+            
+            this.interactive = false
+            this.cursor = 'default'
         }
 
         this.addChild(this.bg)
@@ -37,8 +44,6 @@ class CardLocation extends BaseNode {
         this.addChild(this.icon)
 
         this.icon.alpha = isDisabled ? 0.7 : 0
-
-        this.interactive = true
 
         this.on('pointerup', () => {
             console.log('location selected')
@@ -54,16 +59,6 @@ class CardLocation extends BaseNode {
     }
 }
 
-class ButtonBack extends BaseNode {
-    bg: Sprite
-    constructor() {
-        super()
-        this.bg = create_sprite('button_back')
-        this.addChild(this.bg)
-
-        this.interactive = true
-    }
-}
 
 
 export default class S_LocationSelect extends BaseNode {
