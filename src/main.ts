@@ -4,11 +4,13 @@ import Scene from '$src/game/scenes/Scene'
 import {process_timers} from '$lib/time'
 import {time_groups} from '$lib/BaseNode'
 import AssetManager from '$lib/AssetManager'
-import {sleep} from '$src/game/utility'
+import {sleep} from '$lib/utility'
 import {Howl} from 'howler'
+import store from '$lib/store'
 
 const preload = async () => {
     await load_assets();
+    await store.load_user_data();
 
     // Load fonts in parallel
     await Promise.all([

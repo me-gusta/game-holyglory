@@ -5,29 +5,22 @@ import S_Location from '$src/game/scenes/S_Location'
 import S_Battle from '$src/game/scenes/S_Battle'
 
 
-
 export default class Scene extends SceneSwitch {
     // @ts-ignore
     scenes: Map<string, any> = new Map([
-        // ['plinko', S_test_mechanics],
-        ['room', S_Battle],
+        ['main', S_Main],
+        ['location_select', S_LocationSelect],
+        ['location', S_Location],
+        ['battle', S_Battle],
     ])
-    // pause = new S_Pause()
-    initial = 'room'
+    initial = 'battle'
 
     constructor() {
         super()
-
-        this.on('enable_pause', () => {
-            // this.pause.visible = true
-        })
-        // this.addChild(this.pause)
-        // this.pause.zIndex = 10
     }
 
 
     resize() {
         super.resize();
-        // this.pause.resize()
     }
 }

@@ -164,7 +164,6 @@ export default class S_Room extends BaseNode {
 
     constructor() {
         super()
-        console.log('mounted: room')
         this.addChild(this.dock)
         this.addChild(this.button_story)
         this.addChild(this.button_spin)
@@ -177,11 +176,9 @@ export default class S_Room extends BaseNode {
         this.addChild(this.button_quests)
         this.addChild(this.button_dungeons)
 
-        microManage(this.button_events)
-        // this.addChild(this.button_quests)
-        // this.addChild(this.button_challenges)
-        // this.addChild(this.button_dungeons)
-        // this.addChild(this.button_arena)
+        this.button_story.on('pointerup', () => {
+            this.trigger('set_scene', 'location_select')
+        })
     }
 
     start() {

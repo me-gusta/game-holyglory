@@ -3,18 +3,16 @@ import { create_graphics, create_point, create_sprite, create_text, create_vecto
 import { Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite } from "pixi.js"
 import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
-import make_draggable from "$lib/make_draggable"
-import { rad2deg, rad2sector } from "$lib/math"
-import { Easing } from "@tweenjs/tween.js"
 import VRow from "../components/VRow"
 import ButtonBack from "../components/ButtonBack"
+import store from "$lib/store"
 
 
 class CardLocation extends BaseNode {
     icon: Sprite
     lbl: Text
     bg: Sprite
-    constructor(bg_image: string, lbl_text: string, isDisabled = false) {
+    constructor(bg_image: string, lbl_text: string, isUnlocked = false) {
         super()
 
         this.bg = create_sprite(bg_image)
@@ -31,7 +29,7 @@ class CardLocation extends BaseNode {
         this.interactive = true
         this.cursor = 'pointer'
 
-        if (isDisabled) {
+        if (!isUnlocked) {
             this.bg = create_sprite(bg_image + '_disabled')
             this.lbl.alpha = 0
             
@@ -43,7 +41,7 @@ class CardLocation extends BaseNode {
         this.addChild(this.lbl)
         this.addChild(this.icon)
 
-        this.icon.alpha = isDisabled ? 0.7 : 0
+        this.icon.alpha = isUnlocked ?  0 : 0.7
 
         this.on('pointerup', () => {
             console.log('location selected')
@@ -75,13 +73,22 @@ export default class S_LocationSelect extends BaseNode {
         this.addChild(this.vrow)
         this.addChild(this.button_back)
 
-        const locations = [
-            new CardLocation('locations/location1', 'Grin Hill Zone'),
-            new CardLocation('locations/location2', 'Forest', true),
-            new CardLocation('locations/location3', 'Dark Forest', true),
-        ]
 
-        for (let loc of locations) this.vrow.add(loc)
+        for (let e of Object.values(store.locations)) {
+            const loc = new CardLocation(e.card_image, e.title, e.is_unlocked)
+            this.vrow.add(
+                loc
+            )
+            console.log(e.card_image, e.title, e.is_unlocked);
+
+            loc.on('pointerdown', () => {
+                store.selected_location = e.eid
+                this.trigger('set_scene', 'location')
+            })
+        }
+
+        
+        this.button_back.on('pointerdown', () => this.trigger('set_scene', 'main'))
     }
 
     start() {

@@ -2,7 +2,7 @@ import BaseNode from "$lib/BaseNode"
 import { create_graphics, create_vector } from "$lib/create_things"
 import { Container, FederatedPointerEvent, Sprite, Text } from "pixi.js"
 import make_draggable from "$lib/make_draggable"
-import { rad2sector } from "$lib/math"
+import { rad2sector } from "$lib/utility"
 import { Easing } from "@tweenjs/tween.js"
 
 

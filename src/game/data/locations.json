@@ -1,0 +1,20 @@
+{
+    "68346741c2572db90139cc1a": {
+        "eid": "68346741c2572db90139cc1a",
+        "title": "Green Hill Zone", 
+        "tile_images_folder": "map/hills/",
+        "card_image": "locations/location1"
+    },
+    "683468ca97da9ca77ea0ba47": {
+        "eid": "683468ca97da9ca77ea0ba47",
+        "title": "Forest", 
+        "tile_images_folder": "map/forest/",
+        "card_image": "locations/location2"
+    },
+    "683468ce456b6829ec02923d": {
+        "eid": "683468ce456b6829ec02923d",
+        "title": "Dark Forest", 
+        "tile_images_folder": "map/dark_forest/",
+        "card_image": "locations/location3"
+    }
+}

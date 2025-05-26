@@ -6,6 +6,8 @@ import colors from "../colors"
 import microManage from "$lib/dev/microManage"
 import ButtonBack from "../components/ButtonBack"
 import WoodenHeader from "../components/WoodenHeader"
+import store from "$lib/store"
+import { chunk, push_until } from "$lib/utility"
 
 
 class MapMarker extends BaseNode {
@@ -17,6 +19,11 @@ class MapMarker extends BaseNode {
 
         this.addChild(this.icon)
     }
+}
+
+type BattlePinEntity = {
+    number: number
+    captured: boolean
 }
 
 class MapPin extends BaseNode {
@@ -31,11 +38,13 @@ class MapPin extends BaseNode {
 
         this.bg = create_sprite('map/pin')
 
-        this.lbl = create_text({text: n, style: {
-            fill: colors.bright,
-            fontSize: 62,
-            stroke: {width: 6, color: colors.dark},
-        }})
+        this.lbl = create_text({
+            text: n, style: {
+                fill: colors.bright,
+                fontSize: 62,
+                stroke: { width: 6, color: colors.dark },
+            }
+        })
 
         this.marker = new MapMarker()
 
@@ -46,7 +55,7 @@ class MapPin extends BaseNode {
 
         this.marker.y = -75
 
-        this.set_active(false)
+        this.set_active(isActive)
         this.set_marker(false)
     }
 
@@ -66,7 +75,7 @@ class MapPin extends BaseNode {
 class MapPiece extends BaseNode {
     bg: Sprite
     container: Container
-    constructor(tile_label: string, n: number, pin_ns: number[]) {
+    constructor(tile_label: string, n: number, es: (BattlePinEntity|null)[]) {
         super()
         this.bg = create_sprite(tile_label + n)
         this.container = new Container()
@@ -74,10 +83,14 @@ class MapPiece extends BaseNode {
         this.addChild(this.bg)
         this.addChild(this.container)
 
-        for (let i = 0; i < pin_ns.length; i++) {
-            const pn = pin_ns[i]
-            if (pn === -1 ) continue
-            const pin = new MapPin(pn)
+        for (let i = 0; i < es.length; i++) {
+            const e = es[i]
+
+
+            if (!e) continue
+
+            const pn = e.number
+            const pin = new MapPin(pn, e.captured)
             this.addChild(pin)
 
             if (i === 0) {
@@ -89,7 +102,13 @@ class MapPiece extends BaseNode {
             if (i === 2) {
                 pin.position.set(-32, -224)
             }
-            map_pins.set(pn, pin)
+
+            if (i > 0) {
+                const prev = es[i-1]
+                if (prev?.captured && !e.captured) {
+                    pin.set_marker(true)
+                }
+            }
         }
 
     }
@@ -100,7 +119,7 @@ class MapPiece extends BaseNode {
     }
 }
 
-const map_pins = new Map<number, MapPin>()
+// const map_pins = new Map<number, MapPin>()
 
 type LocationContext = {
     title: string
@@ -114,18 +133,20 @@ export default class S_Location extends BaseNode {
 
     constructor() {
         super()
-        const {title, tile_label} = {title: 'Hills', tile_label: 'map/hills'}
+        console.log(store.selected_location, store.locations[store.selected_location]);
+        
+        const { title, tile_images_folder } = store.locations[store.selected_location]
         this.header = new WoodenHeader(title)
 
-        const tiles = [
-            new MapPiece(tile_label, 1, [10,11,-1]),
-            new MapPiece(tile_label, 3, [7,8,9]),
-            new MapPiece(tile_label, 3, [4,5,6]),
-            new MapPiece(tile_label, 2, [1,2,3]),
-        ]
+        const pieces = chunk(Object.values(store.battles), 3)
+        for (let es of pieces.reverse()) {
+            // const numbers = e.map(el => el.number)
+            push_until(es, null, 3)
+            // console.log(numbers);
 
-        for (let el of tiles) {
-            this.vrow.add(el)
+            const tile = new MapPiece(tile_images_folder, 1, es)
+            
+            this.vrow.add(tile)
         }
 
         this.vrow.gap = 0
@@ -135,19 +156,21 @@ export default class S_Location extends BaseNode {
         this.addChild(this.button_back)
         this.addChild(this.header)
 
+        this.button_back.on('pointerdown', () => this.trigger('set_scene', 'location_select'))
+
     }
 
     start() {
         this.vrow.scroll_to_bottom()
 
-        const current_pn = 3
+        // const current_pn = 3
 
-        const current_pin = map_pins.get(current_pn)!
+        // const current_pin = map_pins.get(current_pn)!
 
-        current_pin.set_marker(true)
+        // current_pin.set_marker(true)
 
-        map_pins.get(1)!.set_active(true)
-        map_pins.get(2)!.set_active(true)
+        // map_pins.get(1)!.set_active(true)
+        // map_pins.get(2)!.set_active(true)
     }
 
     resize() {
@@ -159,9 +182,9 @@ export default class S_Location extends BaseNode {
         this.vrow.bw = this.bw
         this.vrow.bh = this.bh
         this.vrow.resize()
-        this.vrow.position.y = -this.bh/2
+        this.vrow.position.y = -this.bh / 2
 
-        
+
         // button_back
         this.button_back.scale.set(
             (this.bw / 10) / (this.button_back.width / this.button_back.scale.x)
