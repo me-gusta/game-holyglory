@@ -1,7 +1,6 @@
 import {Container, EventEmitter, FederatedPointerEvent} from 'pixi.js'
 
-export default (el: Container) => {
-    let dead_zone = 20
+export default (el: Container, dead_zone=20) => {
     let dragging = false
     let initial_pos: { x: number, y: number } | null = null
     

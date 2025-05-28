@@ -183,7 +183,27 @@ export function chunk(array: any[], size: number) {
 
 export function push_until(arr: any[], value: any, size: number) {
     if (arr.length < size) {
-      arr.push(...Array(size - arr.length).fill(value));
+        arr.push(...Array(size - arr.length).fill(value));
     }
     return arr;
-  }
+}
+
+export const mutable_filter = <T>(array: T[], predicate: (value: T, index: number, array: T[]) => boolean): T[] => {
+    let writeIndex = 0;
+    
+    for (let readIndex = 0; readIndex < array.length; readIndex++) {
+        if (predicate(array[readIndex], readIndex, array)) {
+            array[writeIndex] = array[readIndex];
+            writeIndex++;
+        }
+    }
+    
+    array.length = writeIndex;
+    return array;
+};
+
+export const distance_between_points = (a: IPoint, b: IPoint): number => {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    return Math.sqrt(dx * dx + dy * dy);
+}; 

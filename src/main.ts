@@ -26,11 +26,31 @@ const preload = async () => {
 
     // Load spritesheets in parallel
     await Promise.all([
-        AssetManager.load_spritesheet('buy_fixer'),
+        AssetManager.load_spritesheet('splash'),
         AssetManager.load_spritesheet('jackpot'),
         AssetManager.load_spritesheet('merge'),
         AssetManager.load_spritesheet('spawn'),
         AssetManager.load_spritesheet('spin')
+    ]);
+
+    // Load spines in parallel
+    await Promise.all([
+        Assets.load({
+            alias: 'spine/leonard-data',
+            src: 'assets/spines/leonard/leonard.json',
+        }),
+        Assets.load({
+            alias: 'spine/leonard-atlas',
+            src: 'assets/spines/leonard/leonard_tex.atlas',
+        }),
+        Assets.load({
+            alias: 'spine/skeleton-data',
+            src: 'assets/spines/skeleton/skeleton.json',
+        }),
+        Assets.load({
+            alias: 'spine/skeleton-atlas',
+            src: 'assets/spines/skeleton/skeleton_tex.atlas',
+        }),
     ]);
 
 

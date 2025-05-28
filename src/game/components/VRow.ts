@@ -53,7 +53,7 @@ export default class VRow extends BaseNode {
             
             if (prev_postion.x === 0 && prev_postion.y === 0) prev_postion.copyFrom(event.global)
 
-            const v_diff = prev_postion.copy().subtract(event.global)
+            const v_diff = prev_postion.copy().substract(event.global)
             const l_diff = v_diff.length
 
             const angle = v_diff.angle()

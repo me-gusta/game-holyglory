@@ -1,6 +1,6 @@
 {
   "frames": {
-    "buy_fixer-0": {
+    "splash-0": {
       "frame": {
         "x": 0,
         "y": 0,
@@ -20,7 +20,7 @@
         "h": 64
       }
     },
-    "buy_fixer-1": {
+    "splash-1": {
       "frame": {
         "x": 32,
         "y": 0,
@@ -40,7 +40,7 @@
         "h": 64
       }
     },
-    "buy_fixer-2": {
+    "splash-2": {
       "frame": {
         "x": 64,
         "y": 0,
@@ -60,7 +60,7 @@
         "h": 64
       }
     },
-    "buy_fixer-3": {
+    "splash-3": {
       "frame": {
         "x": 96,
         "y": 0,
@@ -80,7 +80,7 @@
         "h": 64
       }
     },
-    "buy_fixer-4": {
+    "splash-4": {
       "frame": {
         "x": 128,
         "y": 0,
@@ -100,7 +100,7 @@
         "h": 64
       }
     },
-    "buy_fixer-5": {
+    "splash-5": {
       "frame": {
         "x": 160,
         "y": 0,
@@ -120,7 +120,7 @@
         "h": 64
       }
     },
-    "buy_fixer-6": {
+    "splash-6": {
       "frame": {
         "x": 0,
         "y": 32,
@@ -140,7 +140,7 @@
         "h": 64
       }
     },
-    "buy_fixer-7": {
+    "splash-7": {
       "frame": {
         "x": 32,
         "y": 32,
@@ -160,7 +160,7 @@
         "h": 64
       }
     },
-    "buy_fixer-8": {
+    "splash-8": {
       "frame": {
         "x": 64,
         "y": 32,
@@ -180,7 +180,7 @@
         "h": 64
       }
     },
-    "buy_fixer-9": {
+    "splash-9": {
       "frame": {
         "x": 96,
         "y": 32,
@@ -200,7 +200,7 @@
         "h": 64
       }
     },
-    "buy_fixer-10": {
+    "splash-10": {
       "frame": {
         "x": 128,
         "y": 32,
@@ -220,7 +220,7 @@
         "h": 64
       }
     },
-    "buy_fixer-11": {
+    "splash-11": {
       "frame": {
         "x": 160,
         "y": 32,
@@ -242,12 +242,12 @@
     }
   },
   "animations": {
-    "buy_fixer": ["buy_fixer-1","buy_fixer-2","buy_fixer-3","buy_fixer-4","buy_fixer-5","buy_fixer-6","buy_fixer-7","buy_fixer-8","buy_fixer-9","buy_fixer-10","buy_fixer-11"]
+    "splash": ["splash-1","splash-2","splash-3","splash-4","splash-5","splash-6","splash-7","splash-8","splash-9","splash-10","splash-11"]
   },
   "meta": {
     "app": "sprite-sheet-to-json",
     "version": "1.0.0",
-    "image": "buy_fixer.png",
+    "image": "splash.png",
     "format": "RGBA8888",
     "size": {
       "w": 192,
