@@ -10,6 +10,9 @@ import Pole from "../components/battle/Pole"
 import registerKeypress from "$lib/dev/registerKeypress"
 import microManage from "$lib/dev/microManage"
 import { Spine } from "@esotericsoftware/spine-pixi-v8"
+import { Layer } from '@pixi/layers';
+
+const char_z = [30, 10, 20]
 
 class PlacementsCharacter extends Container<Graphics> {
     p1: Graphics
@@ -20,13 +23,13 @@ class PlacementsCharacter extends Container<Graphics> {
         super()
 
         this.p1 = create_graphics()
-            .circle(0, 0, 5)
+            .circle(0, 0, 10)
             .fill('red')
         this.p2 = create_graphics()
-            .circle(0, 0, 5)
+            .circle(0, 0, 10)
             .fill('blue')
         this.p3 = create_graphics()
-            .circle(0, 0, 5)
+            .circle(0, 0, 10)
             .fill('green')
 
         this.addChild(this.p1)
@@ -50,20 +53,18 @@ class PlacementsEnemies extends Container<Graphics> {
         super()
 
         this.p1 = create_graphics()
-            .circle(0, 0, 50)
+            .circle(0, 0, 10)
             .fill('red')
         this.p2 = create_graphics()
-            .circle(0, 0, 50)
+            .circle(0, 0, 10)
             .fill('blue')
         this.p3 = create_graphics()
-            .circle(0, 0, 50)
+            .circle(0, 0, 10)
             .fill('green')
 
         this.addChild(this.p1)
         this.addChild(this.p2)
         this.addChild(this.p3)
-
-
     }
 
     resize() {
@@ -80,8 +81,10 @@ class Battlefield extends BaseNode {
     place_characters = new PlacementsCharacter()
     place_enemies = new PlacementsEnemies()
 
-    characters: Container<Spine> = new Container()
-    enemies: Container<Spine> = new Container()
+    spines: Container<Spine> = new Container()
+    characters: Spine[] = []
+    enemies: Spine[] = []
+    // enemies: Container<Spine> = new Container()
 
     constructor() {
         super()
@@ -91,35 +94,61 @@ class Battlefield extends BaseNode {
         this.addChild(this.bg)
         this.addChild(this.place_characters)
         this.addChild(this.place_enemies)
+        this.addChild(this.spines)
 
         for (let i = 0; i < 3; i++) {
             const character = Spine.from({ skeleton: "spine/leonard-data", atlas: "spine/leonard-atlas", scale: 0.5 })
-            this.characters.addChild(character)
+            this.characters.push(character)
+            this.spines.addChild(character)
 
             character.state.setAnimation(0, 'idle2', true)
             character.state.timeScale = 0.6
         }
-        this.addChild(this.characters)
 
 
         for (let i = 0; i < 3; i++) {
             const enemy = Spine.from({ skeleton: "spine/skeleton-data", atlas: "spine/skeleton-atlas", scale: 0.5 })
-            this.enemies.addChild(enemy)
+            this.enemies.push(enemy)
+            this.spines.addChild(enemy)
 
             enemy.state.setAnimation(0, 'idle2', true)
             enemy.scale.x = -1
             enemy.state.timeScale = 0.6
         }
-        this.addChild(this.enemies)
 
         registerKeypress('r', () => this.anim_character_hit())
+        registerKeypress('t', () => this.anim_walk_in())
+    }
+
+    anim_walk_in() {
+        for (let i = 0; i < 3; i++) {
+            const character = this.characters[i]
+            character.position.copyFrom(this.place_characters.getChildAt(i)! as any)
+            character.position.x -= 500
+            character.zIndex = char_z[i]
+
+            const point_to = create_point().copyFrom(this.place_characters.getChildAt(i)! as any)
+
+            character.state.timeScale = 3
+            character.state.setAnimation(0, 'run', true)
+            
+            this.tween(character)
+                .to(point_to, 2000)
+                .easing(Easing.Sinusoidal.Out)
+                .start()
+            
+            this.set_timeout(1900, () => {
+                character.state.timeScale = 0.6
+                character.state.setAnimation(0, 'idle2', true)
+            })
+        }
     }
 
     anim_character_hit() {
         // this.characters.zIndex = 100
 
         for (let i = 0; i < 3; i++) {
-            const delay = random_int(0, 500)
+            const delay = random_int(0, 300)
 
             this.set_timeout(delay, () => {
                 
@@ -127,24 +156,37 @@ class Battlefield extends BaseNode {
                 point_a.x -= 60
                 const point_b = create_point().copyFrom(this.place_characters.getChildAt(i)! as any)
 
-                const char: Spine = this.characters.getChildAt(i)!
-                char.state.setAnimation(0, 'attack', false)
-                char.state.timeScale = 1.7
-                char.state.addAnimation(0, 'idle2', true)
+                const character: Spine = this.characters[i]
+                character.state.setAnimation(0, 'attack', false)
+                character.state.timeScale = 1.7
+                character.state.addAnimation(0, 'idle2', true)
+                
+                
 
-                this.tween(char.position)
+                this.tween(character.position)
                     .to(point_a, 600)
                     .easing(Easing.Quadratic.In)
+                    .onStart(() => {
+                        character.zIndex = char_z[i] + 2
+                    })
                     .start()
+                
+                this.set_timeout(700, () => {
+                    const fx = create_fx('splash', this.spines, character)
+                    fx.scale.set(6)
+                    fx.zIndex = char_z[i] + 2
+                    fx.position.copyFrom(point_a)
+                    fx.position.x + 60
+                })
 
                 this.set_timeout(810, () => {
-                    char.state.timeScale = 3
-                    this.tween(char.position)
+                    character.state.timeScale = 3
+                    this.tween(character.position)
                         .to(point_b, 200)
                         .easing(Easing.Quadratic.Out)
                         .start()
                         .onComplete(() => {
-                            char.state.timeScale = 0.6
+                            character.state.timeScale = 0.6
                         })
                 })
             })
@@ -160,19 +202,15 @@ class Battlefield extends BaseNode {
         this.place_enemies.resize()
 
         for (let i = 0; i < 3; i++) {
-            const character = this.characters.getChildAt(i)! as Spine
+            const character = this.characters[i]
             character.position.copyFrom(this.place_characters.getChildAt(i)! as any)
-            if (i === 0) character.zIndex = 10
-            if (i === 1) character.zIndex = 0
-            if (i === 2) character.zIndex = 20
+            character.zIndex = char_z[i]
         }
 
         for (let i = 0; i < 3; i++) {
-            const enemy = this.enemies.getChildAt(i)! as Spine
+            const enemy = this.enemies[i]
             enemy.position.copyFrom(this.place_enemies.getChildAt(i)! as any)
-            if (i === 0) enemy.zIndex = 10
-            if (i === 1) enemy.zIndex = 0
-            if (i === 2) enemy.zIndex = 20
+            enemy.zIndex = char_z[i]
         }
     }
 }
