@@ -1,48 +1,48 @@
 
-leonard_tex.png
-size: 2048,1024
+skeleton_tex.png
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 arm2
   rotate: false
-  xy: 1,1
-  size: 643,702
-  orig: 643,702
+  xy: 1,191
+  size: 83,57
+  orig: 83,57
   offset:0,0
   index: -1
 leg2
   rotate: false
-  xy: 1100,501
-  size: 340,431
-  orig: 340,431
-  offset:0,0
-  index: -1
-leg1
-  rotate: false
-  xy: 1741,501
-  size: 268,504
-  orig: 268,504
+  xy: 70,1
+  size: 60,99
+  orig: 60,99
   offset:0,0
   index: -1
 body
   rotate: false
-  xy: 646,1
-  size: 389,498
-  orig: 389,498
+  xy: 1,1
+  size: 67,106
+  orig: 67,106
+  offset:0,0
+  index: -1
+leg1
+  rotate: false
+  xy: 88,102
+  size: 54,86
+  orig: 54,86
   offset:0,0
   index: -1
 head
   rotate: false
-  xy: 646,501
-  size: 452,365
-  orig: 452,365
+  xy: 1,109
+  size: 85,80
+  orig: 85,80
   offset:0,0
   index: -1
 arm1
   rotate: false
-  xy: 1442,501
-  size: 297,465
-  orig: 297,465
+  xy: 132,1
+  size: 41,96
+  orig: 41,96
   offset:0,0
   index: -1

@@ -43,6 +43,7 @@ const preload = async () => {
             alias: 'spine/leonard-atlas',
             src: 'assets/spines/leonard/leonard_tex.atlas',
         }),
+
         Assets.load({
             alias: 'spine/skeleton-data',
             src: 'assets/spines/skeleton/skeleton.json',
@@ -50,6 +51,15 @@ const preload = async () => {
         Assets.load({
             alias: 'spine/skeleton-atlas',
             src: 'assets/spines/skeleton/skeleton_tex.atlas',
+        }),
+
+        Assets.load({
+            alias: 'spine/wolf-data',
+            src: 'assets/spines/wolf/wolf.json',
+        }),
+        Assets.load({
+            alias: 'spine/wolf-atlas',
+            src: 'assets/spines/wolf/wolf_tex.atlas',
         }),
     ]);
 

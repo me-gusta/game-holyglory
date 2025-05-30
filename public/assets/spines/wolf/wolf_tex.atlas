@@ -1,0 +1,41 @@
+
+wolf_tex.png
+size: 256,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+leg_f1
+  rotate: false
+  xy: 205,1
+  size: 40,82
+  orig: 40,82
+  offset:0,0
+  index: -1
+leg_b2
+  rotate: false
+  xy: 58,175
+  size: 47,76
+  orig: 47,76
+  offset:0,0
+  index: -1
+leg_b1
+  rotate: false
+  xy: 1,175
+  size: 55,113
+  orig: 55,113
+  offset:0,0
+  index: -1
+body
+  rotate: false
+  xy: 1,1
+  size: 202,172
+  orig: 202,172
+  offset:0,0
+  index: -1
+tail
+  rotate: false
+  xy: 1,290
+  size: 68,88
+  orig: 68,88
+  offset:0,0
+  index: -1

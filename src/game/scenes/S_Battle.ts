@@ -37,9 +37,9 @@ class PlacementsFriends extends Container<Graphics> {
         this.addChild(this.p2)
         this.addChild(this.p3)
 
-        this.p1.position.set(80, 448)
-        this.p2.position.set(179, 418)
-        this.p3.position.set(260, 448)
+        this.p1.position.set(80, 548)
+        this.p2.position.set(179, 518)
+        this.p3.position.set(260, 548)
 
     }
 }
@@ -71,9 +71,9 @@ class PlacementsEnemies extends Container<Graphics> {
     resize() {
         const { width } = window.screen_size
 
-        this.p1.position.set(width / this.parent.scale.x - 80, 448)
-        this.p2.position.set(width / this.parent.scale.x - 179, 418)
-        this.p3.position.set(width / this.parent.scale.x - 260, 448)
+        this.p1.position.set(width / this.parent.scale.x - 80, 548)
+        this.p2.position.set(width / this.parent.scale.x - 179, 518)
+        this.p3.position.set(width / this.parent.scale.x - 260, 548)
     }
 }
 
@@ -138,17 +138,20 @@ class Character extends BaseNode {
 
         this.spine_name = spine_name
         this.hp_pb = new HpProgressBar()
-        this.spine = Spine.from({ skeleton: `spine/${spine_name}-data`, atlas: `spine/${spine_name}-atlas`, scale: 0.5 })
+
+        let scale = 1
+        if (spine_name === 'leonard') scale = 0.6
+        this.spine = Spine.from({ skeleton: `spine/${spine_name}-data`, atlas: `spine/${spine_name}-atlas`, scale })
 
         this.addChild(this.spine)
         this.addChild(this.hp_pb)
 
-        this.hp_pb.position.y = -this.spine.height / 2
+        this.hp_pb.position.y = -this.spine.height 
     }
 
     setAnimation(name:string, loop=false) {
         if (this.spine_name === 'leonard') {
-            if (name === 'idle2') this.spine.state.timeScale = 0.6
+            if (name === 'idle') this.spine.state.timeScale = 0.6
             if (name === 'run') this.spine.state.timeScale = 3
             if (name === 'attack') this.spine.state.timeScale = 1.7
         }
@@ -185,16 +188,16 @@ class Battlefield extends BaseNode {
             this.friends.push(character)
             this.spines.addChild(character)
 
-            character.setAnimation('idle2', true)
+            character.setAnimation('idle', true)
         }
 
 
         for (let i = 0; i < 3; i++) {
-            const enemy = new Character('leonard')
+            const enemy = new Character('skeleton')
             this.enemies.push(enemy)
             this.spines.addChild(enemy)
 
-            enemy.setAnimation('idle2', true)
+            enemy.setAnimation('idle', true)
             enemy.spine.scale.x = -1
         }
 
@@ -219,7 +222,7 @@ class Battlefield extends BaseNode {
                 .start()
 
             this.set_timeout(1900, () => {
-                character.setAnimation('idle2', true)
+                character.setAnimation('idle', true)
             })
         }
     }
@@ -238,7 +241,7 @@ class Battlefield extends BaseNode {
 
                 const character: Character = this.friends[i]
                 character.setAnimation('attack', false)
-                character.addAnimation('idle2', true)
+                character.addAnimation('idle', true)
 
 
 
