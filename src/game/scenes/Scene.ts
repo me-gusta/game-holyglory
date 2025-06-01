@@ -13,7 +13,7 @@ export default class Scene extends SceneSwitch {
         ['location', S_Location],
         ['battle', S_Battle],
     ])
-    initial = 'battle'
+    initial = 'main'
 
     constructor() {
         super()

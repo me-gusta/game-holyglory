@@ -174,7 +174,7 @@ export const rad2sector = (radians: number): number => {
 export function chunk(array: any[], size: number) {
     if (!Array.isArray(array)) throw new TypeError('Input must be an array');
     if (size <= 0) throw new RangeError('Chunk size must be greater than 0');
-    const result = [];
+    const result: any[] = [];
     for (let i = 0; i < array.length; i += size) {
         result.push(array.slice(i, i + size));
     }
@@ -207,3 +207,7 @@ export const distance_between_points = (a: IPoint, b: IPoint): number => {
     const dy = b.y - a.y;
     return Math.sqrt(dx * dx + dy * dy);
 }; 
+
+export const sum = (numbers: number[]): number => {
+    return numbers.reduce((acc, curr) => acc + curr, 0);
+}

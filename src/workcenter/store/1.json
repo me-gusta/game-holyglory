@@ -1,0 +1,241 @@
+{
+  "friends": [
+    null,
+    {
+      "label": "leonard",
+      "level": 3
+    }
+  ],
+  "skills": [
+    {
+      "label": "sun_sneeze",
+      "level": 4
+    }
+  ],
+  "waves": [
+    [
+      null,
+      {
+        "label": "skeleton",
+        "level": 1
+      },
+      {
+        "label": "wolf",
+        "level": 2
+      }
+    ]
+  ],
+  "rng_key": "683caf997a03d422bf4205b8",
+  "grid": [
+    [
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      }
+    ]
+  ]
+}

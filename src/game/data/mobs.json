@@ -1,5 +1,36 @@
 {
     "68395e57298f277365397a39": {
-        "eid": "68395e57298f277365397a39"
+        "eid": "68395e57298f277365397a39",
+        "wave": "68395cefcd2552e4da31854a",
+        "label": "skeleton",
+        "hp_max": 70,
+        "damage_scale": [4, 6],
+        "place": 0
+    },
+    "683bfe6824919c6a7eb93035": {
+        "eid": "683bfe6824919c6a7eb93035",
+        "wave": "68395cefcd2552e4da31854a",
+        "label": "wolf",
+        "hp_max": 80,
+        "damage_scale": [4, 6],
+        "place": 1
+    },
+    "683bfe72625fab118a7a74a2": {
+        "eid": "683bfe72625fab118a7a74a2",
+        "wave": "68395cefcd2552e4da31854a",
+        "label": "skeleton",
+        "hp_max": 70,
+        "damage_scale": [4, 6],
+        "place": 2
+    },
+
+    
+    "683bfe79299869e50c78a983": {
+        "eid": "683bfe79299869e50c78a983",
+        "wave": "68395e0560f41bd2982c14c9",
+        "label": "skeleton",
+        "hp_max": 70,
+        "damage_scale": [4, 6],
+        "place": 1
     }
 }

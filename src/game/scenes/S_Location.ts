@@ -22,6 +22,7 @@ class MapMarker extends BaseNode {
 }
 
 type BattlePinEntity = {
+    eid: string
     number: number
     captured: boolean
 }
@@ -57,6 +58,9 @@ class MapPin extends BaseNode {
 
         this.set_active(isActive)
         this.set_marker(false)
+        this.interactive = true
+        
+        if (isActive) this.cursor = 'pointer'
     }
 
     set_marker(enable: boolean) {
@@ -109,21 +113,18 @@ class MapPiece extends BaseNode {
                     pin.set_marker(true)
                 }
             }
-        }
 
+            pin.on('pointerup', () => {
+                store.current_battle = e.eid
+                this.trigger('set_scene', 'battle')
+            })
+        }
     }
 
     resize() {
         const s = this.bw / (this.bg.width / this.bg.scale.x)
         this.scale.set(s)
     }
-}
-
-// const map_pins = new Map<number, MapPin>()
-
-type LocationContext = {
-    title: string
-    tile_label: string
 }
 
 export default class S_Location extends BaseNode {
@@ -133,9 +134,9 @@ export default class S_Location extends BaseNode {
 
     constructor() {
         super()
-        console.log(store.selected_location, store.locations[store.selected_location]);
+        console.log(store.current_location, store.locations[store.current_location]);
         
-        const { title, tile_images_folder } = store.locations[store.selected_location]
+        const { title, tile_images_folder } = store.locations[store.current_location]
         this.header = new WoodenHeader(title)
 
         const pieces = chunk(Object.values(store.battles), 3)
@@ -147,6 +148,8 @@ export default class S_Location extends BaseNode {
             const tile = new MapPiece(tile_images_folder, 1, es)
             
             this.vrow.add(tile)
+
+
         }
 
         this.vrow.gap = 0
@@ -162,15 +165,6 @@ export default class S_Location extends BaseNode {
 
     start() {
         this.vrow.scroll_to_bottom()
-
-        // const current_pn = 3
-
-        // const current_pin = map_pins.get(current_pn)!
-
-        // current_pin.set_marker(true)
-
-        // map_pins.get(1)!.set_active(true)
-        // map_pins.get(2)!.set_active(true)
     }
 
     resize() {

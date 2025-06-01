@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@esotericsoftware/spine-pixi-v8": "^4.2.82",
-    "pixi-filters": "^6.1.2"
+    "pixi-filters": "^6.1.2",
+    "seedrandom": "^3.0.5"
   }
 }

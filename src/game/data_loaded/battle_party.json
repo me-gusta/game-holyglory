@@ -1,0 +1,23 @@
+{
+    "683c72ab41f1da9a2056c74a" : {
+        "eid": "683c72ab41f1da9a2056c74a",
+        "label": "leonard",
+        "level": 3,
+        "place": 0,
+        "hp_max": 35
+    },
+    "683c72b33713a2cdd971c6e1": {
+        "eid": "683c72b33713a2cdd971c6e1",
+        "label": "leonard",
+        "level": 1,
+        "place": 2,
+        "hp_max": 55
+    },
+    "683c72b7c9097f73ad96ee83": {
+        "eid": "683c72b7c9097f73ad96ee83",
+        "label": "leonard",
+        "level": 5,
+        "place": 3,
+        "hp_max": 44
+    }
+}

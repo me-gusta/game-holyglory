@@ -16,6 +16,7 @@ type RuneSuit = 'fire' | 'water' | 'plant' | 'dark' | 'light'
 type RuneVariant = 'normal' | 'h' | 'v' | 'cross' | 'x' | 'bomb'
 
 class Rune extends Container {
+    sprite: Sprite
     suit: RuneSuit
     variant: RuneVariant
     constructor(suit: RuneSuit, variant: RuneVariant) {
@@ -24,10 +25,10 @@ class Rune extends Container {
         this.suit = suit
         this.variant = variant
 
-        const s = create_sprite(`runes/${suit}_${variant}`)
-        this.addChild(s)
+        this.sprite = create_sprite(`runes/${suit}_${variant}`)
+        this.addChild(this.sprite)
 
-        s.scale.set(0.8)
+        this.sprite.scale.set(0.8)
 
     }
 
@@ -36,6 +37,15 @@ class Rune extends Container {
         const variant = 'normal'
 
         return new this(suit, variant)
+    }
+
+    regenerate() {
+        const suit = random_choice(['fire', 'water', 'plant', 'dark', 'light'])
+        const variant = 'normal'
+
+        this.suit = suit
+        this.variant = variant
+        this.sprite.texture = Texture.from(`runes/${suit}_${variant}`)
     }
 
     set_variant(variant: RuneVariant) {
@@ -141,7 +151,7 @@ export default class Pole extends BaseNode {
     touchpad = create_graphics()
 
     can_match: boolean = true
-    can_swap: boolean = false
+    stat_destroys = {}
 
     constructor() {
         super()
@@ -149,7 +159,7 @@ export default class Pole extends BaseNode {
         this.border = create_sprite('battle/poleborder')
 
         for (let x = 0; x < 7; x++) {
-            const row = []
+            const row: any[] = []
             for (let y = 0; y < 7; y++) {
                 const s = create_sprite('battle/tile1')
                 this.tiles.addChild(s)
@@ -159,7 +169,7 @@ export default class Pole extends BaseNode {
         }
 
         for (let x = 0; x < 7; x++) {
-            const row = []
+            const row: any[] = []
             for (let y = 0; y < 7; y++) {
                 const rune = Rune.generate()
                 this.runes.addChild(rune)
@@ -179,7 +189,20 @@ export default class Pole extends BaseNode {
 
         this.runes.mask = this.msk
 
+        while (true) {
+            const matches = find_matches(this.runes_arr)
+            for (let group of matches) {
+                for (let i = 0; i < group.length-1; i++) {
+                    const gp = group[i]
+                    const rune = this.runes_arr[gp.x][gp.y]
+                    rune.regenerate()
+                }
+            }
+            if (matches.length === 0) break
+        }
 
+
+        // make draggable
         {
             make_draggable(this.touchpad, 2)
             const max_drag_length = 80
@@ -262,9 +285,7 @@ export default class Pole extends BaseNode {
     }
 
     swap(gp_from: IPoint, gp_to: IPoint) {
-        if (!this.can_swap) return
 
-        this.can_swap = false
         this.touchpad.interactive = false
 
         const tile_from = this.tiles_arr[gp_from.x][gp_from.y]
@@ -290,7 +311,6 @@ export default class Pole extends BaseNode {
 
         if (!dev.DISABLE_AUTOSWAP) this.set_timeout(150, this.match_all.bind(this))
         if (dev.DISABLE_AUTOSWAP) {
-            this.can_swap = true
             this.touchpad.interactive = true
         }
 
@@ -369,15 +389,20 @@ export default class Pole extends BaseNode {
             const [x, y] = key.split(';').map(Number)
             const rune = this.runes_arr[x][y]
 
-            create_fx('spin', this, this.runes.toGlobal(rune))
             if (score >= 2) {
+                create_fx('splash', this, this.runes.toGlobal(rune))
                 rune.set_variant('cross')
             } else if (variant_new != rune.variant && variant_new !== 'normal') {
+                create_fx('splash', this, this.runes.toGlobal(rune))
                 rune.set_variant(variant_new)
             } else {
+                create_fx('spin', this, this.runes.toGlobal(rune))
+                this.stat_destroys[rune.suit] = (this.stat_destroys[rune.suit] || 0) + 1
+
                 rune.destroy()
                 //@ts-ignore
                 this.runes_arr[x][y] = null
+
             }
         }
 
@@ -404,7 +429,6 @@ export default class Pole extends BaseNode {
     }
 
     match_all() {
-
         this.can_match = false
         const result = this.match()
 
@@ -412,9 +436,11 @@ export default class Pole extends BaseNode {
             this.match_all()
         })
         else {
+            console.log(this.stat_destroys)
             this.can_match = true
-            this.can_swap = true
             this.touchpad.interactive = true
+            this.emit('match_completed', this.stat_destroys)
+            this.stat_destroys = {}
         }
     }
 
@@ -424,6 +450,7 @@ export default class Pole extends BaseNode {
     }
 
     anim_intial_drop(instant = false) {
+        this.touchpad.interactive = false
         for (let x = 0; x < 7; x++) {
             for (let y = 0; y < 7; y++) {
                 const tile = this.tiles_arr[x][y]
@@ -435,12 +462,16 @@ export default class Pole extends BaseNode {
 
                 if (instant) {
                     rune.y = tile.y
+                    this.touchpad.interactive = true
                 } else {
                     this.tween(rune)
                         .to({ y: tile.y }, 400 + (y * 40))
                         .easing(Easing.Quadratic.In)
                         .delay(duration)
                         .start()
+                        .onComplete(() => {
+                            this.touchpad.interactive = true
+                        })
                 }
 
             }

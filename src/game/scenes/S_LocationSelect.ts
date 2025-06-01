@@ -81,14 +81,14 @@ export default class S_LocationSelect extends BaseNode {
             )
             console.log(e.card_image, e.title, e.is_unlocked);
 
-            loc.on('pointerdown', () => {
-                store.selected_location = e.eid
+            loc.on('pointerup', () => {
+                store.current_location = e.eid
                 this.trigger('set_scene', 'location')
             })
         }
 
         
-        this.button_back.on('pointerdown', () => this.trigger('set_scene', 'main'))
+        this.button_back.on('pointerup', () => this.trigger('set_scene', 'main'))
     }
 
     start() {

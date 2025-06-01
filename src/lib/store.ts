@@ -1,8 +1,13 @@
 class Store {
     locations: {[key: string]: any} = {}
     battles: {[key: string]: any} = {}
+    waves: {[key: string]: any} = {}
+    mobs: {[key: string]: any} = {}
+    battle_party: {[key: string]: any} = {}
 
-    selected_location: string = "68346741c2572db90139cc1a"
+    current_location: string = "68346741c2572db90139cc1a"
+    current_battle: string = "6834a9c247ba81fc9ff0c88b"
+    current_wave_number: number = 0
 
     constructor() {
         const files = import.meta.glob('../game/data/*.json', { eager: true })
@@ -28,15 +33,23 @@ class Store {
             console.log(`store loaded user data ${label}`);
             const obj = (files[path] as any).default
             // @ts-ignore
-            const scope = this[label]
+            let scope = this[label]
+            if (!scope) {
+                this[label] = ""
+                scope = this[label]
+            }
 
             for (let eid in obj) {
-                Object.assign(scope[eid], obj[eid])
+                if (scope[eid]) Object.assign(scope[eid], obj[eid])
+                else {
+                    scope[eid] = obj[eid]
+                }
             }
 
             console.log(this);
             
         }
+        console.log('----- </store> -----')
     }
 }
 
