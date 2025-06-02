@@ -6,7 +6,7 @@
       "hp_max": 60,
       "damage": 3,
       "is_dead": false,
-      "hp_current": 60
+      "hp_current": 59
     },
     {
       "label": "leonard",
@@ -14,7 +14,7 @@
       "hp_max": 73,
       "damage": 10,
       "is_dead": false,
-      "hp_current": 73
+      "hp_current": 66
     },
     null
   ],

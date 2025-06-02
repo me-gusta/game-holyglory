@@ -68,11 +68,7 @@
   "grid": [
     [
       {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
+        "suit": "light",
         "variant": "normal"
       },
       {
@@ -80,7 +76,11 @@
         "variant": "normal"
       },
       {
-        "suit": "water",
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
         "variant": "normal"
       },
       {
@@ -98,23 +98,23 @@
     ],
     [
       {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
         "suit": "fire",
         "variant": "normal"
       },
       {
         "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
         "variant": "normal"
       },
       {
@@ -128,11 +128,7 @@
     ],
     [
       {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
+        "suit": "light",
         "variant": "normal"
       },
       {
@@ -140,15 +136,19 @@
         "variant": "normal"
       },
       {
-        "suit": "dark",
+        "suit": "fire",
         "variant": "normal"
       },
       {
-        "suit": "plant",
-        "variant": "h"
+        "suit": "water",
+        "variant": "normal"
       },
       {
-        "suit": "water",
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
         "variant": "normal"
       },
       {
@@ -158,61 +158,31 @@
     ],
     [
       {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      }
-    ],
-    [
-      {
         "suit": "light",
         "variant": "normal"
       },
       {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
         "suit": "plant",
         "variant": "normal"
       },
       {
         "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      },
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
         "variant": "normal"
       }
     ],
@@ -230,7 +200,33 @@
         "variant": "normal"
       },
       {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
         "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
         "variant": "normal"
       },
       {
@@ -242,19 +238,15 @@
         "variant": "normal"
       },
       {
-        "suit": "fire",
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
         "variant": "normal"
       }
     ],
     [
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
       {
         "suit": "light",
         "variant": "normal"
@@ -268,11 +260,19 @@
         "variant": "normal"
       },
       {
-        "suit": "light",
+        "suit": "dark",
         "variant": "normal"
       },
       {
         "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
         "variant": "normal"
       }
     ]

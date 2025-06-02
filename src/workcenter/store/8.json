@@ -6,7 +6,7 @@
       "hp_max": 60,
       "damage": 3,
       "is_dead": false,
-      "hp_current": 60
+      "hp_current": 57
     },
     {
       "label": "leonard",
@@ -14,7 +14,7 @@
       "hp_max": 73,
       "damage": 10,
       "is_dead": false,
-      "hp_current": 73
+      "hp_current": 52
     },
     null
   ],
@@ -32,16 +32,16 @@
         "level": 1,
         "hp_max": 20,
         "damage": 1,
-        "is_dead": false,
-        "hp_current": 20
+        "is_dead": true,
+        "hp_current": 0
       },
       {
         "label": "wolf",
         "level": 2,
         "hp_max": 24,
         "damage": 7,
-        "is_dead": false,
-        "hp_current": 24
+        "is_dead": true,
+        "hp_current": 0
       }
     ],
     [
@@ -68,11 +68,7 @@
   "grid": [
     [
       {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
+        "suit": "light",
         "variant": "normal"
       },
       {
@@ -81,58 +77,6 @@
       },
       {
         "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      }
-    ],
-    [
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      }
-    ],
-    [
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
         "variant": "normal"
       },
       {
@@ -140,80 +84,106 @@
         "variant": "normal"
       },
       {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
         "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
         "variant": "normal"
       },
       {
         "suit": "plant",
         "variant": "h"
-      },
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "light",
-        "variant": "normal"
-      }
-    ],
-    [
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      }
-    ],
-    [
-      {
-        "suit": "light",
-        "variant": "normal"
-      },
-      {
-        "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
-      },
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "water",
-        "variant": "normal"
-      },
-      {
-        "suit": "dark",
-        "variant": "normal"
       }
     ],
     [
@@ -222,11 +192,49 @@
         "variant": "normal"
       },
       {
+        "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
+        "variant": "normal"
+      },
+      {
         "suit": "dark",
         "variant": "normal"
       },
       {
+        "suit": "fire",
+        "variant": "normal"
+      }
+    ],
+    [
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "dark",
+        "variant": "normal"
+      },
+      {
+        "suit": "light",
+        "variant": "normal"
+      },
+      {
         "suit": "water",
+        "variant": "normal"
+      },
+      {
+        "suit": "plant",
         "variant": "normal"
       },
       {
@@ -235,14 +243,6 @@
       },
       {
         "suit": "plant",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
-        "variant": "normal"
-      },
-      {
-        "suit": "fire",
         "variant": "normal"
       }
     ],
@@ -256,15 +256,15 @@
         "variant": "normal"
       },
       {
-        "suit": "light",
-        "variant": "normal"
-      },
-      {
         "suit": "dark",
         "variant": "normal"
       },
       {
-        "suit": "light",
+        "suit": "plant",
+        "variant": "normal"
+      },
+      {
+        "suit": "fire",
         "variant": "normal"
       },
       {
@@ -278,5 +278,5 @@
     ]
   ],
   "target": -1,
-  "current_wave": 0
+  "current_wave": 1
 }
