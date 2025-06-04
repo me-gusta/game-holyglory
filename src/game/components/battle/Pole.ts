@@ -139,6 +139,8 @@ const find_matches = (grid: Rune[][]): IPoint[][] => {
     return matches
 }
 
+// trigger swap(from, to)
+// event match_completed(stat_destroys)
 export default class Pole extends BaseNode {
     border: Sprite
     tiles_arr: Sprite[][] = []
@@ -259,6 +261,14 @@ export default class Pole extends BaseNode {
                 const diff = create_vector(this.toLocal(event.global)).substract(
                     drag_pos_start.copy()
                 )
+
+                if (diff.length < 30) {
+                    const tile = this.tiles_arr[x][y]
+                    rune.position.copyFrom(tile)
+                    dragged_grid_loc = null
+                    return
+                }
+
                 const sector = rad2sector(diff.angle())
                 if (sector === 1) {
                     const gp_to = { x: x - 1, y }
@@ -285,7 +295,6 @@ export default class Pole extends BaseNode {
     }
 
     swap(gp_from: IPoint, gp_to: IPoint) {
-
         this.touchpad.interactive = false
 
         const tile_from = this.tiles_arr[gp_from.x][gp_from.y]

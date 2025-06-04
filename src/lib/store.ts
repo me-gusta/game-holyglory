@@ -6,8 +6,7 @@ class Store {
     battle_party: {[key: string]: any} = {}
 
     current_location: string = "68346741c2572db90139cc1a"
-    current_battle: string = "6834a9c247ba81fc9ff0c88b"
-    current_wave_number: number = 0
+    current_battle: string = "6834a9eb20836408c0a75669"
 
     constructor() {
         const files = import.meta.glob('../game/data/*.json', { eager: true })

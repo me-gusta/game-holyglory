@@ -19,12 +19,22 @@ import Battlefield from "../components/battle/Battlefield"
 class ScrollHeader extends BaseNode {
     bg: Sprite
     lbl: Text
+    max_wave = 0
+    wave = 1
     constructor() {
         super()
         this.bg = create_sprite('battle/header')
-        this.lbl = create_text({ text: 'Wave 0/2', style: { fill: colors.dark, fontSize: 48 } })
+        this.lbl = create_text({ text: 'Wave 1/1', style: { fill: colors.dark, fontSize: 48 } })
         this.addChild(this.bg)
         this.addChild(this.lbl)
+    }
+    set_max_wave(n: number) {
+        this.max_wave = n
+        this.lbl.text = `Wave ${this.wave}/${this.max_wave}`
+    }
+    set_wave(n: number) {
+        this.wave = n
+        this.lbl.text = `Wave ${this.wave}/${this.max_wave}`
     }
 }
 
@@ -58,45 +68,8 @@ export default class S_Battle extends BaseNode {
 
     update_hook!: OmitThisParameter<any>
 
-    store = {
-        "friends": [
-            null,
-            {
-                "label": "leonard",
-                "level": 3,
-            }
-        ],
-        "skills": [
-            {
-                "label": "sun_sneeze",
-                "level": 4
-            }
-        ],
-        "waves": [
-            [
-                null,
-                {
-                    "label": "skeleton",
-                    "level": 1
-                },
-                {
-                    "label": "wolf",
-                    "level": 2
-                }
-            ]
-        ],
-        "rng_key": "683caf997a03d422bf4205b8",
-        "grid": null
-    }
-
-    // e_battle: E_Battle
-    // es_wave: E_Wave[]
-
     constructor() {
         super()
-
-
-        store.current_wave_number = 1
 
         this.pole = new Pole()
         this.battlefield = new Battlefield()
@@ -111,7 +84,7 @@ export default class S_Battle extends BaseNode {
             this.pole.match_all_manual()
         })
 
-        registerKeypress('z', () => this.battlefield.anim_friends_hit(1))
+        registerKeypress('z', () => this.battlefield.anim_hero_hit(1))
         registerKeypress('x', () => this.battlefield.anim_enemies_hit())
         registerKeypress('b', () => this.battlefield.anim_walk_in())
         registerKeypress('n', () => {
@@ -124,20 +97,32 @@ export default class S_Battle extends BaseNode {
             
             let delay = 0
             if (total > 0) {
-                this.battlefield.anim_friends_hit(total)
+                this.battlefield.anim_hero_hit(total)
                 delay = 1000
             }
 
             this.set_timeout(delay, () => {
-                const enemies = this.battlefield.enemies.filter(e => e !== null)
+                const enemies = this.battlefield.mobs.filter(e => e !== null)
 
                 if (enemies.length) {
                     this.battlefield.anim_enemies_hit()
                 } else {
+                    if (this.header.wave === this.header.max_wave) {
+                        console.log('battle completed')
+                        return
+                    }
                     this.battlefield.next_wave()
                     this.battlefield.anim_next_wave()
+                    this.header.set_wave(this.header.wave + 1)
                 }
+
+                this.battlefield.next_mob_turn()
+                console.log('turn', this.battlefield.mob_turn)
             })
+        })
+
+        this.button_settings.on('pointerup', () => {
+            this.trigger('set_scene', 'location')
         })
     }
 
@@ -146,8 +131,10 @@ export default class S_Battle extends BaseNode {
         window.app.ticker.add(this.update_hook)
 
         this.pole.anim_intial_drop(true)
-        this.battlefield.draw_friends()
         this.battlefield.draw_enemies()
+
+        const e_battle = store.battles[store.current_battle]
+        this.header.set_max_wave(e_battle.waves.length)
 
     }
 

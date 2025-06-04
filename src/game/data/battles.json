@@ -2,27 +2,102 @@
     "6834a9c247ba81fc9ff0c88b": {
         "eid": "6834a9c247ba81fc9ff0c88b",
         "location": "68346741c2572db90139cc1a",
-        "number": 1
+        "number": 1,
+        "waves": [
+            [
+                {"label": "wolf", "level": 1},
+                null,
+                null
+            ]
+        ]
     },
     "6834a9e6a48d909121977a2d": {
         "eid": "6834a9e6a48d909121977a2d",
         "location": "68346741c2572db90139cc1a",
-        "number": 2
+        "number": 2,
+        "waves": [
+            [
+                {"label": "wolf", "level": 1},
+                null,
+                null
+            ],
+            [
+                {"label": "wolf", "level": 1},
+                {"label": "wolf", "level": 1},
+                null
+            ]
+        ]
     },
     "6834a9eb20836408c0a75669": {
         "eid": "6834a9eb20836408c0a75669",
         "location": "68346741c2572db90139cc1a",
-        "number": 3
+        "number": 3,
+        "waves": [
+            [
+                {"label": "wolf", "level": 1},
+                {"label": "wolf", "level": 1},
+                {"label": "wolf", "level": 1}
+            ],
+            [
+                {"label": "wolf", "level": 2},
+                {"label": "wolf", "level": 2},
+                null
+            ],
+            [
+                {"label": "wolf", "level": 2},
+                null,
+                {"label": "wolf", "level": 2}
+            ]
+        ]
     },
     "6834a9f0dad10f79b6e9df50": {
         "eid": "6834a9f0dad10f79b6e9df50",
         "location": "68346741c2572db90139cc1a",
-        "number": 4
+        "number": 4,
+        "waves": [
+            [
+                {"label": "wolf", "level": 12},
+                {"label": "wolf", "level": 12},
+                {"label": "wolf", "level": 12}
+            ],
+            [
+                null,
+                {"label": "wolf", "level": 3},
+                {"label": "wolf", "level": 3}
+            ],
+            [
+                null,
+                {"label": "wolf", "level": 4},
+                {"label": "wolf", "level": 4}
+            ]
+        ]
     },
     "6834a9f4630f6cdf49e87f8e": {
         "eid": "6834a9f4630f6cdf49e87f8e",
         "location": "68346741c2572db90139cc1a",
-        "number": 5
+        "number": 5,
+        "waves": [
+            [
+                {"label": "wolf", "level": 4},
+                {"label": "wolf", "level": 4},
+                {"label": "wolf", "level": 4}
+            ],
+            [
+                {"label": "wolf", "level": 4},
+                null,
+                {"label": "wolf", "level": 4}
+            ],
+            [
+                {"label": "wolf", "level": 4},
+                {"label": "wolf", "level": 4},
+                {"label": "wolf", "level": 4}
+            ],
+            [
+                {"label": "wolf", "level": 4},
+                {"label": "wolf", "level": 4},
+                {"label": "wolf", "level": 4}
+            ]
+        ]
     },
     "6834a9fae98b5d7b0cb22fcc": {
         "eid": "6834a9fae98b5d7b0cb22fcc",
