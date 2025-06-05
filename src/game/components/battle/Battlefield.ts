@@ -113,6 +113,7 @@ class Character extends BaseNode {
     hp_current = 100
     hp_max = 100
     attack = 0
+    rune?: string
 
     constructor(spine_name: string) {
         super()
@@ -253,7 +254,7 @@ export default class Battlefield extends BaseNode {
         })
     }
 
-    anim_hero_hit(power_points) {
+    anim_hero_hit(power_points: number, stats: any) {
         const time_scale = 1
         const places = this.place_mobs
 
@@ -274,13 +275,24 @@ export default class Battlefield extends BaseNode {
             const mob = this.mobs[target]
             if (!mob) return
 
-            // console.log('hp', mob.hp_current)
-            mob.hp_current = (mob.hp_current) -
-                this.hero.attack * 1000 - Math.floor((power_points - 3) * this.hero.attack / 10)
+            let suit_bonus = 0
+            console.log('stats', stats, mob.rune)
+            if (mob.rune === 'fire') suit_bonus += stats["water"] || 0
+            if (mob.rune === 'water') suit_bonus += stats["plant"] || 0
+            if (mob.rune === 'plant') suit_bonus += stats["fire"] || 0
+            if (mob.rune === 'light') suit_bonus += stats["dark"] || 0
+            if (mob.rune === 'dark') suit_bonus += stats["light"] || 0
+            
+            mob.hp_current = (mob.hp_current) 
+                - this.hero.attack
+                - Math.floor((power_points - 3) * this.hero.attack / 10)
+                - Math.floor(suit_bonus * (power_points * 0.3))
 
-            // console.log('hp new', mob.hp_current)
-            // console.log('damage dealt', this.hero.attack)
-            // console.log('damage bonus', power_points, this.hero.attack / 10, (power_points - 3) * this.hero.attack / 10)
+
+            console.log('hp new', mob.hp_current)
+            console.log('damage dealt', this.hero.attack)
+            console.log('damage rune bonus', power_points, this.hero.attack / 10, (power_points - 3) * this.hero.attack / 10)
+            console.log('damage suit bonus', suit_bonus, suit_bonus * (power_points * 0.3))
 
             if (mob.hp_current < 0) {
                 mob.hp_current = 0
@@ -424,15 +436,17 @@ export default class Battlefield extends BaseNode {
                 if (!mob_shortdata) continue
                 const { label, level } = mob_shortdata
                 const mob_data = store.mobs[label]
+                const {rune} = mob_data
                 const { hp_max, attack } = mob_data.levels[level]
                 console.log(
                     'load mob as wave', wi,
-                    label, `level=${level}`, `hp_max=${hp_max}`, `attack=${attack}`,)
+                    label, `level=${level}`, `hp_max=${hp_max}`, `attack=${attack}`,`rune=${rune}`,)
 
                 const character = new Character(label)
                 character.hp_current = hp_max
                 character.hp_max = hp_max
                 character.attack = attack
+                character.rune = rune
                 // enemy.eid = e_mob.eid
 
                 const place = this.place_mobs.get(mobi)

@@ -1,6 +1,6 @@
 import { IPoint } from '$lib/Vector'
 import { random_choice } from '$lib/random'
-import { Container, Matrix, Point, RenderTexture } from 'pixi.js'
+import { Container, Graphics, Matrix, Point, RenderTexture } from 'pixi.js'
 
 export const renderToTexture = (() => {
     const tParent = new Container()
@@ -114,13 +114,6 @@ export function isPointInCircle(circlePosition: IPoint, radius: number, pointPos
     return distanceSquared <= radius * radius;
 }
 
-export function calculate_bumper_level(stats: any) {
-    if (Object.keys(stats).length === 0) {
-        return 1
-    }
-
-    return Number(random_choice(Object.keys(stats)))
-}
 
 export const detect_circle_intersection = (pos_a: { x: number, y: number }, radius_a: number, pos_b: { x: number, y: number }, radius_b: number): boolean => {
     const distance = Math.sqrt((pos_b.x - pos_a.x) ** 2 + (pos_b.y - pos_a.y) ** 2)
@@ -190,14 +183,14 @@ export function push_until(arr: any[], value: any, size: number) {
 
 export const mutable_filter = <T>(array: T[], predicate: (value: T, index: number, array: T[]) => boolean): T[] => {
     let writeIndex = 0;
-    
+
     for (let readIndex = 0; readIndex < array.length; readIndex++) {
         if (predicate(array[readIndex], readIndex, array)) {
             array[writeIndex] = array[readIndex];
             writeIndex++;
         }
     }
-    
+
     array.length = writeIndex;
     return array;
 };
@@ -206,8 +199,30 @@ export const distance_between_points = (a: IPoint, b: IPoint): number => {
     const dx = b.x - a.x;
     const dy = b.y - a.y;
     return Math.sqrt(dx * dx + dy * dy);
-}; 
+};
 
 export const sum = (numbers: number[]): number => {
     return numbers.reduce((acc, curr) => acc + curr, 0);
 }
+
+export const map_interval = (a1: number, b1: number, a2: number, b2: number, x1: number): number => {
+    return a2 + ((x1 - a1) * (b2 - a2)) / (b1 - a1);
+}
+
+
+export const loading_circle = (percent: number, circle: Graphics = new Graphics()): Graphics => {
+    circle.clear()
+    const centerX = 0
+    const centerY = 0
+    const radius = 100
+    const clamped = Math.max(0, Math.min(1, percent))
+    const endAngle = clamped * Math.PI * 2
+
+    circle.moveTo(centerX, centerY)
+    circle.arc(centerX, centerY, radius, 0, endAngle)
+    circle.lineTo(centerX, centerY)
+    circle.fill(0x00FF00)
+
+    return circle
+}
+

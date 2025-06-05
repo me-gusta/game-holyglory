@@ -2,10 +2,10 @@ import BaseNode from "$lib/BaseNode"
 import { create_fx, create_graphics, create_point, create_sprite, create_text, create_vector } from "$lib/create_things"
 import make_draggable from "$lib/make_draggable"
 import { random_choice, random_int } from "$lib/random"
-import { isPointInCircle, rad2sector, sum } from "$lib/utility"
+import { isPointInCircle, loading_circle, map_interval, rad2sector, sum } from "$lib/utility"
 import { IPoint } from "$lib/Vector"
 import { Easing } from "@tweenjs/tween.js"
-import { Container, DestroyOptions, FederatedEvent, FederatedPointerEvent, Graphics, Sprite, Text, Ticker } from "pixi.js"
+import { Container, DestroyOptions, FederatedEvent, FederatedPointerEvent, Graphics, Sprite, Text, Texture, Ticker } from "pixi.js"
 import Pole from "../components/battle/Pole"
 import registerKeypress from "$lib/dev/registerKeypress"
 import microManage from "$lib/dev/microManage"
@@ -17,6 +17,7 @@ import Battlefield from "../components/battle/Battlefield"
 import ModalVictory from "../components/battle/ModalVictory"
 import ModalDefeat from "../components/battle/ModalDefeat"
 import ModalPause from "../components/battle/ModalPause"
+import { GlowFilter } from "pixi-filters"
 
 
 class ScrollHeader extends BaseNode {
@@ -42,12 +43,83 @@ class ScrollHeader extends BaseNode {
 }
 
 
+
+class Spellbox extends BaseNode {
+    img: Sprite
+    border: Sprite
+    border_loaded: Sprite
+    overlay = create_graphics().rect(-80, -80, 160, 160).fill({ color: 0, alpha: 0.2 })
+    msk = loading_circle(0)
+    skill_label: string
+    level = 1
+    rune: string
+    runes_current = 0
+    runes_needed = 0
+
+    constructor(skill_label: string, rune: string) {
+        super()
+        this.img = skill_label ? create_sprite('spells/' + skill_label) : create_sprite()
+        this.border = create_sprite('battle/skill_border')
+        this.border_loaded = rune ? create_sprite('battle/skill_loaded_' + rune) : create_sprite()
+        this.rune = rune
+        this.skill_label = skill_label
+        this.addChild(this.img)
+        this.addChild(this.overlay)
+        this.addChild(this.border)
+        this.addChild(this.border_loaded)
+        this.addChild(this.msk)
+
+        this.msk.scale.set(1.3)
+        this.msk.scale.y = -1.3
+        this.msk.rotation = Math.PI - Math.PI / 4
+
+        this.border_loaded.mask = this.msk
+
+        this.img.scale.set(0.3)
+
+
+        this.set_load(0.25)
+    }
+
+    set_load(n: number) {
+        console.log(n)
+        loading_circle(n, this.msk)
+        const n2 = map_interval(0, 1, 0.25, 1, n)
+
+        if (n2 >= 1) {
+            this.border.filters = [new GlowFilter({ distance: 5, outerStrength: 2, color: 0xbbeafd })]
+            this.overlay.visible = false
+        } else {
+            this.border.filters = []
+            this.overlay.visible = true
+        }
+    }
+
+    add_runes(amount: number) {
+        for (let i = 0; i < amount; i++) {
+            if (this.runes_current < this.runes_needed) this.set_timeout(i * 150, () => {
+                this.runes_current = this.runes_current + 1
+
+                if (this.runes_current > this.runes_needed) this.runes_current = this.runes_needed
+
+                this.set_load(this.runes_current / this.runes_needed)
+            })
+        }
+    }
+
+    resize() {
+
+    }
+}
+
+
 export default class S_Battle extends BaseNode {
     button_settings = new ButtonSettings()
     rune_helper = create_sprite('battle/runehelp')
     header = new ScrollHeader()
     pole: Pole
     battlefield: Battlefield
+    spells = new Container<Spellbox>()
 
     update_hook!: OmitThisParameter<any>
     modal?: BaseNode
@@ -63,12 +135,27 @@ export default class S_Battle extends BaseNode {
         this.addChild(this.header)
         this.addChild(this.rune_helper)
         this.addChild(this.button_settings)
+        this.addChild(this.spells)
+
+        for (let spell_data of store.spells_equipped) {
+            if (!spell_data) {
+                const spell = new Spellbox('', '')
+                this.spells.addChild(spell)
+                spell.visible = false
+            } else {
+                const spell = new Spellbox(spell_data.label, spell_data.rune)
+                this.spells.addChild(spell)
+                spell.level = spell_data.level
+                spell.runes_needed = spell_data.runes_needed
+            }
+        }
+
 
         registerKeypress('e', () => {
             this.pole.match_all_manual()
         })
 
-        registerKeypress('z', () => this.battlefield.anim_hero_hit(1))
+        registerKeypress('z', () => this.battlefield.anim_hero_hit(1, {}))
         registerKeypress('x', () => this.battlefield.anim_enemies_hit())
         registerKeypress('b', () => this.battlefield.anim_walk_in())
         registerKeypress('n', () => {
@@ -76,12 +163,25 @@ export default class S_Battle extends BaseNode {
             this.battlefield.anim_next_wave()
         })
 
+        this.pole.on('runes_destroyed', (stats) => {
+            for (let [key, value] of Object.entries(stats)) {
+                store.battle.runes[key] += value
+
+                for (let spell of this.spells.children) {
+                    if (spell.rune !== key) continue
+                    spell.add_runes(value as any)
+                }
+            }
+        })
+
         this.pole.on('match_completed', (stats) => {
-            const total = sum(Object.values(stats))
             
+
+            const total = sum(Object.values(stats))
+
             let delay = 0
             if (total > 0) {
-                this.battlefield.anim_hero_hit(total)
+                this.battlefield.anim_hero_hit(total, stats)
                 delay = 1000
             }
 
@@ -128,6 +228,8 @@ export default class S_Battle extends BaseNode {
 
             this.trigger('set_scene', 'main')
         })
+
+        store.init_battle()
     }
 
     show_victory() {
@@ -137,11 +239,11 @@ export default class S_Battle extends BaseNode {
         this.modal.resize()
 
         this.tween(this.modal)
-            .to({alpha: 1}, 400)
+            .to({ alpha: 1 }, 400)
             .start()
     }
 
-    
+
     show_defeat() {
         this.modal = new ModalDefeat()
         this.modal.alpha = 0
@@ -149,7 +251,7 @@ export default class S_Battle extends BaseNode {
         this.modal.resize()
 
         this.tween(this.modal)
-            .to({alpha: 1}, 400)
+            .to({ alpha: 1 }, 400)
             .start()
     }
 
@@ -160,7 +262,7 @@ export default class S_Battle extends BaseNode {
         this.modal.resize()
 
         this.tween(this.modal)
-            .to({alpha: 1}, 400)
+            .to({ alpha: 1 }, 400)
             .start()
     }
 
@@ -220,5 +322,22 @@ export default class S_Battle extends BaseNode {
         this.button_settings.position.x = this.bw / 2 - this.button_settings.width / 2 - 5
 
         if (this.modal) this.modal.resize()
+
+        for (let i = 0; i < this.spells.children.length; i++) {
+            const spell = this.spells.children[i]
+
+            spell.scale.set(
+                (this.bw * 0.25) / (spell.width / spell.scale.x)
+            )
+
+            if (i == 1) {
+                spell.position.x = -this.bw / 3
+            }
+            if (i == 2) {
+                spell.position.x = this.bw / 3
+            }
+        }
+
+        this.spells.position.y = this.pole.position.y - this.pole.height / 2 - this.spells.height / 2 + this.spells.height * 0.28
     }
 }

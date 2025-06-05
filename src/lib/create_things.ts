@@ -3,8 +3,8 @@ import colors from '$src/game/colors'
 import { IPoint, Vector } from '$lib/Vector'
 import AssetManager from '$lib/AssetManager'
 
-export const create_sprite = (name: string) => {
-    const x = Sprite.from(name)
+export const create_sprite = (name?: string) => {
+    const x = name ? Sprite.from(name) : new Sprite()
     x.anchor.set(0.5, 0.5)
     return x
 }

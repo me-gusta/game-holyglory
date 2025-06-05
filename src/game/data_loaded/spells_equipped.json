@@ -1,0 +1,15 @@
+[
+    {
+        "label": "sun_sneeze",
+        "rune": "light",
+        "level": 1,
+        "runes_needed": 2
+    },
+    {
+        "label": "throw_the_fish",
+        "rune": "water",
+        "level": 1,
+        "runes_needed": 2
+    },
+    null
+]

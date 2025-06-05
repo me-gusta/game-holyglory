@@ -1,10 +1,11 @@
 {
     "wolf": {
         "label": "wolf",
+        "rune": null,
         "levels": {
             "1": {
                 "hp_max": 43,
-                "attack": 1121
+                "attack": 21
             },
             "2": {
                 "hp_max": 65,
@@ -206,6 +207,7 @@
     },
     "skeleton": {
         "label": "skeleton",
+        "rune": "fire",
         "levels": {
             "1": {
                 "hp_max": 61,
@@ -411,10 +413,11 @@
     },
     "leonard": {
         "label": "leonard",
+        "rune": null,
         "levels": {
             "1": {
-                "hp_max": 213,
-                "attack": 14
+                "hp_max": 1213,
+                "attack": 4
             },
             "2": {
                 "hp_max": 219,

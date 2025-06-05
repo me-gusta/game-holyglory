@@ -392,7 +392,7 @@ export default class Pole extends BaseNode {
             }
         }
 
-
+        const this_destroys: any = {}
         // destroy all runes that need to be destroyed && convert special runes
         for (let [key, { score, variant_new }] of runes_affected.entries()) {
             const [x, y] = key.split(';').map(Number)
@@ -407,6 +407,7 @@ export default class Pole extends BaseNode {
             } else {
                 create_fx('spin', this, this.runes.toGlobal(rune))
                 this.stat_destroys[rune.suit] = (this.stat_destroys[rune.suit] || 0) + 1
+                this_destroys[rune.suit] = (this_destroys[rune.suit] || 0) + 1
 
                 rune.destroy()
                 //@ts-ignore
@@ -414,6 +415,8 @@ export default class Pole extends BaseNode {
 
             }
         }
+
+        this.emit('runes_destroyed', this_destroys)
 
 
         for (let x = 0; x < this.runes_arr.length; x++) {
