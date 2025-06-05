@@ -515,7 +515,7 @@ export default class Battlefield extends BaseNode {
         }
 
         this.current_wave += 1
-
+        this.mob_turn = 2
     }
 
     resize() {

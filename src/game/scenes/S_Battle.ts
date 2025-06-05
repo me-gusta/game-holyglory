@@ -173,8 +173,6 @@ export default class S_Battle extends BaseNode {
 
         const e_battle = store.battles[store.current_battle]
         this.header.set_max_wave(e_battle.waves.length)
-        
-        this.set_timeout(300, () => this.show_pause())
     }
 
     update(ticker: Ticker) {
