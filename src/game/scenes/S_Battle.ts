@@ -14,6 +14,7 @@ import colors from "../colors"
 import ButtonSettings from "../components/ButtonSettings"
 import store from "$lib/store"
 import Battlefield from "../components/battle/Battlefield"
+import ModalVictory from "../components/battle/ModalVictory"
 
 
 class ScrollHeader extends BaseNode {
@@ -39,26 +40,6 @@ class ScrollHeader extends BaseNode {
 }
 
 
-type E_Battle = {
-    eid: string
-    location: string
-    number: string
-}
-
-type E_Wave = {
-    eid: string
-    location: string
-    number: string
-}
-
-type E_Mob = {
-    eid: string
-    wave: string,
-    label: string,
-    max_hp: number,
-    damage_scale: [number, number]
-}
-
 export default class S_Battle extends BaseNode {
     button_settings = new ButtonSettings()
     rune_helper = create_sprite('battle/runehelp')
@@ -67,6 +48,7 @@ export default class S_Battle extends BaseNode {
     battlefield: Battlefield
 
     update_hook!: OmitThisParameter<any>
+    modal?: BaseNode
 
     constructor() {
         super()
@@ -108,7 +90,7 @@ export default class S_Battle extends BaseNode {
                     this.battlefield.anim_enemies_hit()
                 } else {
                     if (this.header.wave === this.header.max_wave) {
-                        console.log('battle completed')
+                        this.show_victory()
                         return
                     }
                     this.battlefield.next_wave()
@@ -126,6 +108,17 @@ export default class S_Battle extends BaseNode {
         })
     }
 
+    show_victory() {
+        this.modal = new ModalVictory()
+        this.modal.alpha = 0
+        this.addChild(this.modal)
+        this.modal.resize()
+
+        this.tween(this.modal)
+            .to({alpha: 1}, 400)
+            .start()
+    }
+
     start() {
         this.update_hook = this.update.bind(this)
         window.app.ticker.add(this.update_hook)
@@ -135,7 +128,8 @@ export default class S_Battle extends BaseNode {
 
         const e_battle = store.battles[store.current_battle]
         this.header.set_max_wave(e_battle.waves.length)
-
+        
+        this.set_timeout(300, () => this.show_victory())
     }
 
     update(ticker: Ticker) {
