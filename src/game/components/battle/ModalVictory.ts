@@ -54,8 +54,6 @@ class Grid extends BaseNode {
             const rowi = Math.floor(i / this.wsize)
             const coli = i % this.wsize
 
-            console.log('item', rowi, coli)
-
             child.bw = itemw
             child.bh = itemw
             child.resize()
@@ -119,6 +117,8 @@ export default class ModalVictory extends BaseNode {
         this.addChild(this.bg)
         this.addChild(this.header)
         this.addChild(this.card)
+
+        this.bg.interactive = true
     }
 
     resize() {

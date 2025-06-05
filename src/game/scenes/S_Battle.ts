@@ -15,6 +15,8 @@ import ButtonSettings from "../components/ButtonSettings"
 import store from "$lib/store"
 import Battlefield from "../components/battle/Battlefield"
 import ModalVictory from "../components/battle/ModalVictory"
+import ModalDefeat from "../components/battle/ModalDefeat"
+import ModalPause from "../components/battle/ModalPause"
 
 
 class ScrollHeader extends BaseNode {
@@ -104,12 +106,55 @@ export default class S_Battle extends BaseNode {
         })
 
         this.button_settings.on('pointerup', () => {
-            this.trigger('set_scene', 'location')
+            this.show_pause()
+        })
+
+        this.battlefield.on('lost', () => {
+            this.show_defeat()
+        })
+
+        this.on('pause_off', () => {
+            if (!this.modal) return
+
+            this.modal.destroy()
+            this.modal = undefined
+        })
+
+        this.on('surrender', () => {
+            if (!this.modal) return
+
+            this.modal.destroy()
+            this.modal = undefined
+
+            this.trigger('set_scene', 'main')
         })
     }
 
     show_victory() {
         this.modal = new ModalVictory()
+        this.modal.alpha = 0
+        this.addChild(this.modal)
+        this.modal.resize()
+
+        this.tween(this.modal)
+            .to({alpha: 1}, 400)
+            .start()
+    }
+
+    
+    show_defeat() {
+        this.modal = new ModalDefeat()
+        this.modal.alpha = 0
+        this.addChild(this.modal)
+        this.modal.resize()
+
+        this.tween(this.modal)
+            .to({alpha: 1}, 400)
+            .start()
+    }
+
+    show_pause() {
+        this.modal = new ModalPause()
         this.modal.alpha = 0
         this.addChild(this.modal)
         this.modal.resize()
@@ -129,7 +174,7 @@ export default class S_Battle extends BaseNode {
         const e_battle = store.battles[store.current_battle]
         this.header.set_max_wave(e_battle.waves.length)
         
-        this.set_timeout(300, () => this.show_victory())
+        this.set_timeout(300, () => this.show_pause())
     }
 
     update(ticker: Ticker) {
@@ -175,5 +220,7 @@ export default class S_Battle extends BaseNode {
         )
         this.button_settings.position.y = -this.bh / 2 + this.button_settings.height / 2 + 5
         this.button_settings.position.x = this.bw / 2 - this.button_settings.width / 2 - 5
+
+        if (this.modal) this.modal.resize()
     }
 }

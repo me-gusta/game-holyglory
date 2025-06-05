@@ -165,7 +165,6 @@ export default class Battlefield extends BaseNode {
     spines: Container<Character> = new Container()
     hero: Character
     mobs: (Character | null)[] = [null, null, null]
-    // enemies: Container<Spine> = new Container()
     next_waves: (Character | null)[][] = []
 
     current_wave = 0
@@ -275,13 +274,13 @@ export default class Battlefield extends BaseNode {
             const mob = this.mobs[target]
             if (!mob) return
 
-            console.log('hp', mob.hp_current)
+            // console.log('hp', mob.hp_current)
             mob.hp_current = (mob.hp_current) -
                 this.hero.attack * 1000 - Math.floor((power_points - 3) * this.hero.attack / 10)
 
-            console.log('hp new', mob.hp_current)
-            console.log('damage dealt', this.hero.attack)
-            console.log('damage bonus', power_points, this.hero.attack / 10, (power_points - 3) * this.hero.attack / 10)
+            // console.log('hp new', mob.hp_current)
+            // console.log('damage dealt', this.hero.attack)
+            // console.log('damage bonus', power_points, this.hero.attack / 10, (power_points - 3) * this.hero.attack / 10)
 
             if (mob.hp_current < 0) {
                 mob.hp_current = 0
