@@ -2,7 +2,7 @@ import BaseNode from "$lib/BaseNode"
 import { create_fx, create_graphics, create_point, create_sprite, create_text, create_vector } from "$lib/create_things"
 import make_draggable from "$lib/make_draggable"
 import { random_choice, random_int } from "$lib/random"
-import { isPointInCircle, loading_circle, map_interval, rad2sector, sum } from "$lib/utility"
+import { isPointInCircle, loading_circle, map_interval, rad2sector, random_points_on_a_grid, sum } from "$lib/utility"
 import { IPoint } from "$lib/Vector"
 import { Easing } from "@tweenjs/tween.js"
 import { Container, DestroyOptions, FederatedEvent, FederatedPointerEvent, Graphics, Sprite, Text, Texture, Ticker } from "pixi.js"
@@ -44,7 +44,7 @@ class ScrollHeader extends BaseNode {
 
 
 
-class Spellbox extends BaseNode {
+class Spell extends BaseNode {
     img: Sprite
     border: Sprite
     border_loaded: Sprite
@@ -78,20 +78,29 @@ class Spellbox extends BaseNode {
         this.img.scale.set(0.3)
 
 
-        this.set_load(0.25)
+        this.set_load(0)
+
+        this.on('pointerdown', () => {
+            this.runes_current = 0
+            this.set_load(0)
+        })
     }
 
     set_load(n: number) {
         console.log(n)
-        loading_circle(n, this.msk)
         const n2 = map_interval(0, 1, 0.25, 1, n)
+        loading_circle(n2, this.msk)
 
         if (n2 >= 1) {
             this.border.filters = [new GlowFilter({ distance: 5, outerStrength: 2, color: 0xbbeafd })]
             this.overlay.visible = false
+            this.interactive = true
+            this.cursor = 'pointer'
         } else {
             this.border.filters = []
             this.overlay.visible = true
+            this.interactive = false
+            this.cursor = 'default'
         }
     }
 
@@ -119,7 +128,7 @@ export default class S_Battle extends BaseNode {
     header = new ScrollHeader()
     pole: Pole
     battlefield: Battlefield
-    spells = new Container<Spellbox>()
+    spells = new Container<Spell>()
 
     update_hook!: OmitThisParameter<any>
     modal?: BaseNode
@@ -137,16 +146,226 @@ export default class S_Battle extends BaseNode {
         this.addChild(this.button_settings)
         this.addChild(this.spells)
 
+        let extra_turns = 0
+
+        const spell_actions = {
+            fireball: (level) => {
+                const target = this.battlefield.mob_selected
+                const mob = this.battlefield.mobs[target]
+                if (!mob) return
+
+                const p = create_point().copyFrom(
+                    this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
+                )
+                p.y -= 60
+                const fx = create_fx('spin', this.battlefield, p)
+                fx.scale.set(12)
+
+                mob.hp_current -= level * 4
+                if (mob.rune === 'plant') mob.hp_current -= Math.floor(level * 4 * 0.3)
+
+                if (mob.hp_current < 0) {
+                    mob.hp_current = 0
+                }
+
+                console.log(mob.hp_current)
+    
+                mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
+    
+                if (mob.hp_current === 0) {
+                    mob!.destroy()
+                    this.battlefield.mobs[target] = null
+                    this.battlefield.select_mob(target)
+                }
+
+            },
+            throw_the_fish: (level) => {
+                const target = this.battlefield.mob_selected
+                const mob = this.battlefield.mobs[target]
+                if (!mob) return
+
+                const p = create_point().copyFrom(
+                    this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
+                )
+                p.y -= 60
+                const fx = create_fx('spin', this.battlefield, p)
+                fx.scale.set(12)
+
+                mob.hp_current -= level * 4
+                if (mob.rune === 'fire') mob.hp_current -= Math.floor(level * 4 * 0.3)
+
+                if (mob.hp_current < 0) {
+                    mob.hp_current = 0
+                }
+
+                console.log(mob.hp_current)
+    
+                mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
+    
+                if (mob.hp_current === 0) {
+                    mob!.destroy()
+                    this.battlefield.mobs[target] = null
+                    this.battlefield.select_mob(target)
+                }
+
+            },
+            call_batgoblin: (level) => {
+                const target = this.battlefield.mob_selected
+                const mob = this.battlefield.mobs[target]
+                if (!mob) return
+
+                const p = create_point().copyFrom(
+                    this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
+                )
+                p.y -= 60
+                const fx = create_fx('spin', this.battlefield, p)
+                fx.scale.set(12)
+
+                mob.hp_current -= level * 4
+                if (mob.rune === 'light') mob.hp_current -= Math.floor(level * 4 * 0.3)
+
+                if (mob.hp_current < 0) {
+                    mob.hp_current = 0
+                }
+
+                console.log(mob.hp_current)
+    
+                mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
+    
+                if (mob.hp_current === 0) {
+                    mob!.destroy()
+                    this.battlefield.mobs[target] = null
+                    this.battlefield.select_mob(target)
+                }
+
+            },
+            sun_sneeze: (level) => {
+                for (let i= 0;i<3;i++) {
+                    const target = i
+                    const mob = this.battlefield.mobs[target]
+                    if (!mob) return
+
+                    const p = create_point().copyFrom(
+                        this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
+                    )
+                    p.y -= 60
+                    const fx = create_fx('spin', this.battlefield, p)
+                    fx.scale.set(12)
+
+                    mob.hp_current -= level * 4
+                    if (mob.rune === 'dark') mob.hp_current -= Math.floor(level * 4 * 0.3)
+
+                    if (mob.hp_current < 0) {
+                        mob.hp_current = 0
+                    }
+
+                    console.log(mob.hp_current)
+        
+                    mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
+        
+                    if (mob.hp_current === 0) {
+                        mob!.destroy()
+                        this.battlefield.mobs[target] = null
+                        this.battlefield.select_mob(target)
+                    }
+                }
+
+            },
+            fairys_kiss: (level) => {
+                const hero = this.battlefield.hero
+
+                hero.hp_current = (hero.hp_current) + level * 4
+
+                if (hero.hp_current > hero.hp_max) {
+                    hero.hp_current = hero.hp_max
+                }
+
+                hero!.hp_pb.setValue(hero.hp_current / hero.hp_max)
+
+                const p = create_point().copyFrom(
+                    this.battlefield.toGlobal(this.battlefield.place_hero)
+                )
+                p.y -= 60
+                const fx = create_fx('spin', this.battlefield, p)
+                fx.scale.set(12)
+            },
+            sun_sweat: (level) => {
+                const points = random_points_on_a_grid(12, 7)
+                for (let gp of points) {
+                    const rune = this.pole.runes_arr[gp.x][gp.y]
+                    rune.set_suit('light')
+                    const p = this.pole.runes.toGlobal(rune)
+                    create_fx('spin', this, p)
+                }
+                this.set_timeout(400, () => this.pole.match_all())
+            },
+            poseidons_party: (level) => {
+                const points = random_points_on_a_grid(12, 7)
+                for (let gp of points) {
+                    const rune = this.pole.runes_arr[gp.x][gp.y]
+                    rune.set_suit('water')
+                    const p = this.pole.runes.toGlobal(rune)
+                    create_fx('spin', this, p)
+                }
+
+                this.set_timeout(400, () => this.pole.match_all())
+            },
+            time_juice: (level) => {
+                extra_turns = 2
+            },
+            booooooom: (level) => {
+                const points = random_points_on_a_grid(16, 7)
+                for (let gp of points) {
+                    const rune = this.pole.runes_arr[gp.x][gp.y]
+                    // const p = create_point().copyFrom(this.pole.runes.toGlobal(rune))
+                    // create_fx('spin', this, p)
+
+                    rune.is_marked = true
+                    // this.pole.runes_arr[gp.x][gp.y] = null
+                }
+                this.pole.match_all()
+            },
+        }
+
+        const if_next_turn = () => {
+            const enemies = this.battlefield.mobs.filter(e => e !== null)
+
+            if (enemies.length) {
+                this.battlefield.anim_enemies_hit()
+            } else {
+                if (this.header.wave === this.header.max_wave) {
+                    this.show_victory()
+                    return
+                }
+                this.battlefield.next_wave()
+                this.battlefield.anim_next_wave()
+                this.header.set_wave(this.header.wave + 1)
+            }
+
+            this.battlefield.next_mob_turn()
+            console.log('turn', this.battlefield.mob_turn)
+        }
+
         for (let spell_data of store.spells_equipped) {
             if (!spell_data) {
-                const spell = new Spellbox('', '')
+                const spell = new Spell('', '')
                 this.spells.addChild(spell)
                 spell.visible = false
             } else {
-                const spell = new Spellbox(spell_data.label, spell_data.rune)
+                const spell = new Spell(spell_data.label, spell_data.rune)
                 this.spells.addChild(spell)
                 spell.level = spell_data.level
                 spell.runes_needed = spell_data.runes_needed
+                spell.runes_current = spell_data.runes_needed
+                spell.set_load(1)
+                spell.on('pointerdown', () => {
+                    spell_actions[spell_data.label] ? spell_actions[spell_data.label](spell_data.level*100) : null
+
+                    this.set_timeout(700, () => {
+                        const enemies = this.battlefield.mobs.filter(e => e !== null)
+                        if (!enemies.length) if_next_turn()
+                    }) 
+                })
             }
         }
 
@@ -185,24 +404,13 @@ export default class S_Battle extends BaseNode {
                 delay = 1000
             }
 
-            this.set_timeout(delay, () => {
-                const enemies = this.battlefield.mobs.filter(e => e !== null)
+            if (extra_turns > 0) {
+                extra_turns -= 1
+                console.log('extra_turns', extra_turns)
+                return
+            }
 
-                if (enemies.length) {
-                    this.battlefield.anim_enemies_hit()
-                } else {
-                    if (this.header.wave === this.header.max_wave) {
-                        this.show_victory()
-                        return
-                    }
-                    this.battlefield.next_wave()
-                    this.battlefield.anim_next_wave()
-                    this.header.set_wave(this.header.wave + 1)
-                }
-
-                this.battlefield.next_mob_turn()
-                console.log('turn', this.battlefield.mob_turn)
-            })
+            this.set_timeout(delay, () => if_next_turn())
         })
 
         this.button_settings.on('pointerup', () => {

@@ -19,6 +19,7 @@ class Rune extends Container {
     sprite: Sprite
     suit: RuneSuit
     variant: RuneVariant
+    is_marked = false
     constructor(suit: RuneSuit, variant: RuneVariant) {
         super()
 
@@ -53,6 +54,13 @@ class Rune extends Container {
         s.texture = Texture.from(`runes/${this.suit}_${variant}`)
 
         this.variant = variant
+    }
+
+    set_suit(suit: RuneSuit) {
+        const s: Sprite = this.getChildAt(0)
+        this.suit = suit
+
+        s.texture = Texture.from(`runes/${this.suit}_${this.variant}`)
     }
 }
 
@@ -194,7 +202,7 @@ export default class Pole extends BaseNode {
         while (true) {
             const matches = find_matches(this.runes_arr)
             for (let group of matches) {
-                for (let i = 0; i < group.length-1; i++) {
+                for (let i = 0; i < group.length - 1; i++) {
                     const gp = group[i]
                     const rune = this.runes_arr[gp.x][gp.y]
                     rune.regenerate()
@@ -328,10 +336,24 @@ export default class Pole extends BaseNode {
 
     match(): number {
         const matches = find_matches(this.runes_arr)
-        if (matches.length === 0) return 0
+        const runes_marked = new Map()
+
+        for (let x = 0; x < 7; x++) {
+            for (let y = 0; y < 7; y++) {
+                const rune = this.runes_arr[x][y]
+                console.log('rune', rune.is_marked)
+                if (rune.is_marked) {
+                    const key = `${x};${y}`
+                    runes_marked.set(key, { score: 1, variant_new: 'normal' })
+                }
+            }
+        }
+
+        const amount_marked = runes_marked.size
+        if (matches.length === 0 && amount_marked === 0) return 0
 
         // identify conversion to special runes
-        const runes_affected = new Map()
+        const runes_affected = runes_marked
 
         for (let group of matches) {
             for (let i = 0; i < group.length; i++) {
@@ -437,12 +459,14 @@ export default class Pole extends BaseNode {
         }
 
         this.anim_drop()
-        return matches.length
+        return matches.length + amount_marked
     }
 
     match_all() {
         this.can_match = false
         const result = this.match()
+
+        console.log('matche result', result)
 
         if (result > 0) this.set_timeout(650, () => {
             this.match_all()
@@ -515,7 +539,7 @@ export default class Pole extends BaseNode {
         this.scale.set(s)
 
 
-        this.bh = (this.border.height)* s
+        this.bh = (this.border.height) * s
 
 
         for (let x = 0; x < 7; x++) {

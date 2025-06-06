@@ -226,3 +226,17 @@ export const loading_circle = (percent: number, circle: Graphics = new Graphics(
     return circle
 }
 
+export const random_points_on_a_grid = (amount: number, grid_size: number): IPoint[] => {
+    const set = new Set<string>()
+    const points: IPoint[] = []
+    while (points.length < amount) {
+      const x = Math.floor(Math.random() * grid_size)
+      const y = Math.floor(Math.random() * grid_size)
+      const key = x + ',' + y
+      if (!set.has(key)) {
+        set.add(key)
+        points.push({ x, y })
+      }
+    }
+    return points
+  }
