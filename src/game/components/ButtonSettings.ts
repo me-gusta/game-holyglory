@@ -23,5 +23,6 @@ export default class ButtonSettings extends BaseNode {
         this.addChild(this.icon)
         this.addChild(this.area)
         this.interactive = true
+        this.cursor = 'pointer'
     }
 }

@@ -13,6 +13,7 @@ import colors from '../colors'
 import microManage from '$lib/dev/microManage'
 import { GlowFilter } from 'pixi-filters'
 import Header from '../components/main/Header'
+import ModalSettings from '$src/game/components/main/ModalSettings.ts'
 
 
 class ButtonStory extends BaseNode {
@@ -64,8 +65,6 @@ class ButtonDockSide extends BaseNode {
             }
         })
 
-
-
         this.addChild(this.icon)
         this.addChild(this.lbl)
 
@@ -81,8 +80,8 @@ class ButtonDockSide extends BaseNode {
 
         this.area.position.y += 30
 
-
         this.interactive = true
+        this.cursor = 'pointer'
     }
 }
 
@@ -106,7 +105,6 @@ class ButtonSummon extends BaseNode {
         this.addChild(this.lbl)
 
         this.lbl.position.set(0, 41)
-
     }
 }
 
@@ -148,7 +146,7 @@ class SideButton extends BaseNode {
         this.icon.position.y = -this.bg.height / 2 + 10
         this.lbl.position.y += 20
 
-        
+
     }
 }
 
@@ -168,6 +166,8 @@ export default class S_Room extends BaseNode {
     button_quests = new SideButton('icons/scroll', 'Quests')
     button_dungeons = new SideButton('icons/lock', 'Dungeons', true)
 
+    modal?: BaseNode
+
     constructor() {
         super()
         this.addChild(this.dock)
@@ -182,12 +182,32 @@ export default class S_Room extends BaseNode {
         this.addChild(this.button_quests)
         this.addChild(this.button_dungeons)
 
+        this.button_spin.on('pointerup', () => {
+            this.trigger('set_scene', 'daily_spin')
+        })
+
         this.button_quests.on('pointerup', () => {
             this.trigger('set_scene', 'quests')
         })
 
         this.button_story.on('pointerup', () => {
             this.trigger('set_scene', 'location_select')
+        })
+
+        this.header.button_settings.on('pointerup', () => {
+            this.modal = new ModalSettings()
+            this.modal.alpha = 0
+            this.addChild(this.modal)
+            this.modal.resize()
+
+            this.tween(this.modal)
+                .to({ alpha: 1 }, 400)
+                .start()
+        })
+
+        this.on('pause_off', () => {
+            this.modal?.destroy()
+            this.modal = undefined
         })
     }
 
@@ -209,7 +229,6 @@ export default class S_Room extends BaseNode {
         this.bw = window.screen_size.width
         this.bh = window.screen_size.height
 
-
         // dock
         this.dock.bw = this.bw
         this.dock.resize()
@@ -220,7 +239,7 @@ export default class S_Room extends BaseNode {
         this.header.bw = this.bw
         this.header.resize()
         this.header.position.x = -this.bw / 2
-        this.header.position.y = - this.bh / 2 
+        this.header.position.y = - this.bh / 2
 
         // button_story
         this.button_story.scale.set(
