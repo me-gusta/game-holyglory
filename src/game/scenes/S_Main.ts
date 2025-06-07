@@ -40,6 +40,7 @@ class ButtonStory extends BaseNode {
         this.interactive = true
         this.lbl.position.set(0, -20)
         this.bg.filters = [new GlowFilter({ distance: 5, outerStrength: 1, color: 0xbbeafd })]
+        this.cursor = 'pointer'
     }
 }
 
@@ -133,6 +134,9 @@ class SideButton extends BaseNode {
             this.bg = create_sprite('main/BtnTemplateBW')
             this.lbl.style.fill = colors.dark
             this.lbl.style.stroke = {width: 0}
+        } else {
+            this.interactive = true
+            this.cursor = 'pointer'
         }
 
         this.icon.scale.set(0.6)
@@ -143,6 +147,8 @@ class SideButton extends BaseNode {
 
         this.icon.position.y = -this.bg.height / 2 + 10
         this.lbl.position.y += 20
+
+        
     }
 }
 
@@ -175,6 +181,10 @@ export default class S_Room extends BaseNode {
         this.addChild(this.button_events)
         this.addChild(this.button_quests)
         this.addChild(this.button_dungeons)
+
+        this.button_quests.on('pointerup', () => {
+            this.trigger('set_scene', 'quests')
+        })
 
         this.button_story.on('pointerup', () => {
             this.trigger('set_scene', 'location_select')
