@@ -71,6 +71,8 @@ class ButtonLarge extends BaseNode {
         this.lbl = create_text({ text: lbl_text, style: { fontSize: 94, fill: colors.dark } })
         this.addChild(this.bg)
         this.addChild(this.lbl)
+        this.interactive = true
+        this.cursor = 'pointer'
     }
 }
 
@@ -146,9 +148,6 @@ export default class ModalVictory extends BaseNode {
 
         this.bg.position.x = -this.bw / 2
         this.bg.position.y = -this.bh / 2
-
-
-
     }
 
 }
