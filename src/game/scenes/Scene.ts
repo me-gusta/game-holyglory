@@ -5,6 +5,8 @@ import S_Location from '$src/game/scenes/S_Location'
 import S_Battle from '$src/game/scenes/S_Battle'
 import S_Quests from './S_Quests'
 import S_DailySpin from '$src/game/scenes/S_DailySpin.ts'
+import S_FreeGems from '$src/game/scenes/S_FreeGems.ts'
+import S_Summon from '$src/game/scenes/S_Summon.ts'
 
 
 export default class Scene extends SceneSwitch {
@@ -16,8 +18,10 @@ export default class Scene extends SceneSwitch {
         ['battle', S_Battle],
         ['quests', S_Quests],
         ['daily_spin', S_DailySpin],
+        ['free_gems', S_FreeGems],
+        ['summon', S_Summon],
     ])
-    initial = 'daily_spin'
+    initial = 'summon'
 
     constructor() {
         super()

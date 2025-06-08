@@ -105,6 +105,9 @@ class ButtonSummon extends BaseNode {
         this.addChild(this.lbl)
 
         this.lbl.position.set(0, 41)
+
+        this.interactive = true
+        this.cursor = 'pointer'
     }
 }
 
@@ -188,6 +191,14 @@ export default class S_Room extends BaseNode {
 
         this.button_quests.on('pointerup', () => {
             this.trigger('set_scene', 'quests')
+        })
+
+        this.button_reward.on('pointerup', () => {
+            this.trigger('set_scene', 'free_gems')
+        })
+
+        this.button_summon.on('pointerup', () => {
+            this.trigger('set_scene', 'summon')
         })
 
         this.button_story.on('pointerup', () => {

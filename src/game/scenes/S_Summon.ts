@@ -19,8 +19,8 @@ type Quest = {
     }
 }
 
-class ButtonQuest extends BaseNode {
-    bg = create_sprite('button_card')
+class ButtonSummon extends BaseNode {
+    bg = create_sprite('button_large')
     lbl: Text
     constructor(lbl_text: string) {
         super()
@@ -33,74 +33,56 @@ class ButtonQuest extends BaseNode {
 
         this.addChild(this.bg)
         this.addChild(this.lbl)
-
         this.interactive = true
         this.cursor = 'pointer'
-    }
-
-    set_completed() {
-        this.bg.texture = Texture.from('button_card_on')
-        this.lbl.text = 'Claim'
     }
 }
 
-class CardQuest extends BaseNode {
-    item: Item
-    lbl: Text
+class CardSummon extends BaseNode {
     bg: Sprite
-    button: ButtonQuest
-    constructor(q: Quest, is_purple = false) {
+    img: Sprite
+    lbl: Text
+    button: ButtonSummon
+    constructor() {
         super()
 
-        const { task, amount_max, amount_current, reward } = q
-
-        this.bg = create_sprite(is_purple ? 'card_small_purple' : 'card_small')
+        this.bg = create_sprite('card_large')
         this.lbl = create_text({
-            text: task, style: {
+            text: "Summon a New Character.\n Can be any of: Elf, Gnome..." ,
+            style: {
                 fontSize: 48,
                 fill: colors.dark,
+                align: 'center',
             }
         })
-        this.lbl.anchor.x = 0
-        this.item = new Item(reward.icon, reward.amount)
+        this.img = create_sprite('summon/merlin')
 
-        this.interactive = true
-        this.cursor = 'pointer'
-
-        const percents = Math.floor(amount_current / amount_max * 100)
-        const btn_text = percents + '%'
-        this.button = new ButtonQuest(btn_text)
+        this.button = new ButtonSummon('Summon')
 
         this.addChild(this.bg)
         this.addChild(this.lbl)
-        this.addChild(this.item)
+        this.addChild(this.img)
         this.addChild(this.button)
-
-        if (percents >= 100) {
-            this.button.set_completed()
-        }
     }
 
     resize() {
         const s = this.bw / (this.bg.width / this.bg.scale.x)
         this.scale.set(s)
 
-        this.item.bw = this.bg.height * 0.6
-        this.item.bh = this.bg.height * 0.6
-        this.item.resize()
-        this.item.position.x = -this.bg.width / 2 + this.item.width / 2 + 30
+        this.img.position.y = -this.bg.height/2 + this.img.height/2 + 60
 
-        this.lbl.position.x = this.item.position.x + this.item.width / 2 + 30
+        this.lbl.position.y = this.img.position.y + this.img.height / 2 + this.lbl.height/2
 
         this.button.position.x = this.bg.width / 2 - this.button.width / 2 - 30
+        this.button.position.y = this.bg.height/2 - this.button.height/2 - 60
     }
 }
 
 
 
-export default class S_Quests extends BaseNode {
+export default class S_Summon extends BaseNode {
     bg: TilingSprite
-    header = new WoodenHeader('Quests')
+    header = new WoodenHeader('Merlin\'s Lab')
     vrow = new VRow()
     button_back = new ButtonBack()
 
@@ -112,51 +94,9 @@ export default class S_Quests extends BaseNode {
         this.addChild(this.vrow)
         this.addChild(this.button_back)
 
-        const quests = [
-            {
-                task: 'Match 100 runes',
-                amount_max: 100,
-                amount_current: 33,
-                reward: {
-                    item: 'coins',
-                    icon: 'icons/coin',
-                    amount: 1
-                }
-            },
-            {
-                task: 'Match 100 runes',
-                amount_max: 100,
-                amount_current: 133,
-                reward: {
-                    item: 'coins',
-                    icon: 'icons/coin',
-                    amount: 100
-                }
-            }
-        ]
-
         this.vrow.add(
-            new CardQuest(
-                {
-                    task: 'Complete 5 quests',
-                    amount_max: 5,
-                    amount_current: 1,
-                    reward: {
-                        item: 'gems',
-                        icon: 'icons/gem',
-                        amount: 1000
-                    }
-                },
-                true
-            )
+            new CardSummon()
         )
-
-        for (let e of quests) {
-            const quest = new CardQuest(e)
-            this.vrow.add(quest)
-
-        }
-
 
         this.button_back.on('pointerup', () => this.trigger('set_scene', 'main'))
     }

@@ -59,7 +59,7 @@ class MapPin extends BaseNode {
         this.set_active(isActive)
         this.set_marker(false)
         this.interactive = true
-        
+
         if (isActive) this.cursor = 'pointer'
     }
 
@@ -135,7 +135,7 @@ export default class S_Location extends BaseNode {
     constructor() {
         super()
         console.log(store.current_location, store.locations[store.current_location]);
-        
+
         const { title, tile_images_folder } = store.locations[store.current_location]
         this.header = new WoodenHeader(title)
 
@@ -146,7 +146,7 @@ export default class S_Location extends BaseNode {
             // console.log(numbers);
 
             const tile = new MapPiece(tile_images_folder, 1, es)
-            
+
             this.vrow.add(tile)
 
 
@@ -159,7 +159,7 @@ export default class S_Location extends BaseNode {
         this.addChild(this.button_back)
         this.addChild(this.header)
 
-        this.button_back.on('pointerdown', () => this.trigger('set_scene', 'location_select'))
+        this.button_back.on('pointerup', () => this.trigger('set_scene', 'location_select'))
 
     }
 

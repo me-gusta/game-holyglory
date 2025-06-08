@@ -33,7 +33,6 @@ class ButtonQuest extends BaseNode {
 
         this.addChild(this.bg)
         this.addChild(this.lbl)
-
         this.interactive = true
         this.cursor = 'pointer'
     }
@@ -64,8 +63,6 @@ class CardQuest extends BaseNode {
         this.lbl.anchor.x = 0
         this.item = new Item(reward.icon, reward.amount)
 
-        this.interactive = true
-        this.cursor = 'pointer'
 
         const percents = Math.floor(amount_current / amount_max * 100)
         const btn_text = percents + '%'
@@ -98,9 +95,9 @@ class CardQuest extends BaseNode {
 
 
 
-export default class S_Quests extends BaseNode {
+export default class S_FreeGems extends BaseNode {
     bg: TilingSprite
-    header = new WoodenHeader('Quests')
+    header = new WoodenHeader('Special Quests')
     vrow = new VRow()
     button_back = new ButtonBack()
 
@@ -114,7 +111,7 @@ export default class S_Quests extends BaseNode {
 
         const quests = [
             {
-                task: 'Match 100 runes',
+                task: 'Subscribe to TG\nchannel',
                 amount_max: 100,
                 amount_current: 33,
                 reward: {
@@ -124,7 +121,7 @@ export default class S_Quests extends BaseNode {
                 }
             },
             {
-                task: 'Match 100 runes',
+                task: 'Invite 5 friends',
                 amount_max: 100,
                 amount_current: 133,
                 reward: {

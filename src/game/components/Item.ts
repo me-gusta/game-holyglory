@@ -36,9 +36,15 @@ export default class Item extends BaseNode {
             (this.bw * 0.9) / (this.icon.width / this.icon.scale.x),
         )
 
-        this.lbl.scale.set(
-            (this.bw * 0.5) / (this.lbl.width / this.lbl.scale.x),
-        )
+        if (this.lbl.text.length > 4) {
+            this.lbl.scale.set(
+                (this.bw * 0.8) / (this.lbl.width / this.lbl.scale.x),
+            )
+        } else {
+            this.lbl.scale.set(
+                (this.bh * 0.4) / (this.lbl.height / this.lbl.scale.y),
+            )
+        }
 
         this.lbl.position.x = this.bw / 2 - this.bw * 0.02
         this.lbl.position.y = this.bh / 2 - this.lbl.height / 2 - this.bw * 0.02
