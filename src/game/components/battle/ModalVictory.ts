@@ -4,6 +4,7 @@ import WoodenHeader from "../WoodenHeader"
 import VRow from "../VRow"
 import { create_graphics, create_sprite, create_text } from "$lib/create_things"
 import colors from "$src/game/colors"
+import Grid from '$src/game/components/Grid.ts'
 
 class GILoot extends BaseNode {
     icon: Sprite
@@ -27,41 +28,6 @@ class GILoot extends BaseNode {
     }
 }
 
-class Grid extends BaseNode {
-    cover = create_graphics()
-    container = new Container<BaseNode>()
-    wsize: number
-
-    constructor(wsize: number) {
-        super()
-        this.wsize = wsize
-
-        this.addChild(this.cover)
-        this.addChild(this.container)
-    }
-
-    add(node: BaseNode) {
-        this.container.addChild(node)
-    }
-
-    resize(): void {
-        // this.cover.clear().rect(0, 0, this.bw, this.bh).fill({ color: 0xe322f4, alpha: 0.3 })
-
-        const itemw = this.bw / this.wsize
-
-        for (let i = 0; i < this.container.children.length; i++) {
-            const child = this.container.children[i]
-            const rowi = Math.floor(i / this.wsize)
-            const coli = i % this.wsize
-
-            child.bw = itemw
-            child.bh = itemw
-            child.resize()
-            child.position.x = itemw * coli
-            child.position.y = itemw * rowi
-        }
-    }
-}
 
 class ButtonLarge extends BaseNode {
     bg = create_sprite('button_large')

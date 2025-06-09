@@ -64,9 +64,6 @@ class CardQuest extends BaseNode {
         this.lbl.anchor.x = 0
         this.item = new Item(reward.icon, reward.amount)
 
-        this.interactive = true
-        this.cursor = 'pointer'
-
         const percents = Math.floor(amount_current / amount_max * 100)
         const btn_text = percents + '%'
         this.button = new ButtonQuest(btn_text)
