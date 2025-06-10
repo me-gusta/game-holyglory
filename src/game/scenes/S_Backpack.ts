@@ -13,16 +13,10 @@ import make_draggable from '$lib/make_draggable.ts'
 import {rad2sector} from '$lib/utility.ts'
 import {Easing} from '@tweenjs/tween.js'
 import ScrollableContainer from '$src/game/components/ScrollableContainer.ts'
+import ModalHero from "$src/game/components/backpack/ModalHero.ts";
+import {Hero, Spell} from "$src/game/types.ts";
 
-type Hero = {
-    label: string
-    is_unlocked: boolean
-}
 
-type Spell = {
-    label: string
-    is_unlocked: boolean
-}
 
 class GI_Hero extends BaseNode {
     bg: Sprite
@@ -37,6 +31,9 @@ class GI_Hero extends BaseNode {
         this.addChild(this.bg)
         this.addChild(this.selected)
         this.selected.visible = false
+
+        this.interactive = true
+        this.cursor = 'pointer'
     }
 
     resize() {
@@ -186,6 +183,7 @@ export default class S_Backpack extends BaseNode {
     grid_spells_equipped = new Grid(3)
     grid_spells = new Grid(4)
     dock = new DockSmall()
+    modal?: BaseNode
 
     constructor() {
         super()
@@ -238,8 +236,23 @@ export default class S_Backpack extends BaseNode {
             {label: 'yaga', is_unlocked: true},
             {label: 'maiden', is_unlocked: false},
         ]
-        for (let hero of heroes) {
-            this.grid_heroes.add(new GI_Hero(hero))
+        for (let e of heroes) {
+            const gi = new GI_Hero(e)
+            this.grid_heroes.add(gi)
+
+            gi.on('pointerup', () => {
+                this.modal = new ModalHero(e)
+                this.addChild(this.modal)
+                this.modal.resize()
+            })
+
+            if (e.label === 'maximus') {
+                this.set_timeout(300, () => {
+                    this.modal = new ModalHero(e)
+                    this.addChild(this.modal)
+                    this.modal.resize()
+                })
+            }
         }
 
         const spells = [
