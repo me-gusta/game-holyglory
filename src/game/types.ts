@@ -1,6 +1,9 @@
 export type Hero = {
     label: string
     is_unlocked: boolean
+    name: string
+    class: string
+    bio: string
 }
 
 export type Spell = {

@@ -171,6 +171,8 @@ class GI_SpellEquipped extends BaseNode {
     }
 }
 
+const lorem = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum'
+
 export default class S_Backpack extends BaseNode {
     bg: TilingSprite
     scrollable = new ScrollableContainer()
@@ -228,13 +230,13 @@ export default class S_Backpack extends BaseNode {
         this.grid_spells_equipped.gap = 5
 
         const heroes = [
-            {label: 'maximus', is_unlocked: true},
-            {label: 'leonard', is_unlocked: true},
-            {label: 'eleodor', is_unlocked: true},
-            {label: 'shrederella', is_unlocked: true},
-            {label: 'goatberg', is_unlocked: true},
-            {label: 'yaga', is_unlocked: true},
-            {label: 'maiden', is_unlocked: false},
+            {label: 'maximus', is_unlocked: true, class: 'Young Hero', name: 'Maximus', bio: lorem},
+            {label: 'leonard', is_unlocked: true, class: 'Yes', name: 'Sir Leonard', bio: lorem},
+            {label: 'eleodor', is_unlocked: true, class: '¡¡¡Elf!!!', name: 'Eleodor', bio: lorem},
+            {label: 'shrederella', is_unlocked: true, class: 'Fu@%$#* Bi#@*', name: 'Princess Shrederella', bio: lorem},
+            {label: 'goatberg', is_unlocked: true, class: 'Mage', name: 'Goatberg', bio: lorem},
+            {label: 'yaga', is_unlocked: true, class: 'Unclassified', name: 'Lady Yaga', bio: lorem},
+            {label: 'maiden', is_unlocked: false, class: 'Gunner', name: 'Pistol Maiden', bio: lorem},
         ]
         for (let e of heroes) {
             const gi = new GI_Hero(e)
@@ -245,14 +247,6 @@ export default class S_Backpack extends BaseNode {
                 this.addChild(this.modal)
                 this.modal.resize()
             })
-
-            if (e.label === 'maximus') {
-                this.set_timeout(300, () => {
-                    this.modal = new ModalHero(e)
-                    this.addChild(this.modal)
-                    this.modal.resize()
-                })
-            }
         }
 
         const spells = [
@@ -284,6 +278,14 @@ export default class S_Backpack extends BaseNode {
 
         this.dock.button2.setActive()
 
+        this.on('close_modal', () => {
+            this.modal?.destroy()
+            this.modal = undefined
+        })
+
+        this.dock.button3.on('pointerdown', () => {
+            this.trigger('set_scene', 'main')
+        })
     }
 
     start() {

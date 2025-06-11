@@ -39,7 +39,7 @@ class ButtonDock extends BaseNode {
     }
 
     toggleState() {
-        
+
         if (this.isActive) this.setInactive()
         else this.setActive()
     }
@@ -68,11 +68,11 @@ export default class Dock extends BaseNode {
         this.addChild(this.button5)
         this.button3.setActive()
 
-        this.button1.on('pointerup', () => this.button1.toggleState())
-        this.button2.on('pointerup', () => this.button2.toggleState())
-        this.button3.on('pointerup', () => this.button3.toggleState())
-        this.button4.on('pointerup', () => this.button4.toggleState())
-        this.button5.on('pointerup', () => this.button5.toggleState())
+        // this.button1.on('pointerup', () => this.button1.toggleState())
+        // this.button2.on('pointerup', () => this.button2.toggleState())
+        // this.button3.on('pointerup', () => this.button3.toggleState())
+        // this.button4.on('pointerup', () => this.button4.toggleState())
+        // this.button5.on('pointerup', () => this.button5.toggleState())
     }
 
     resize(): void {
@@ -88,22 +88,22 @@ export default class Dock extends BaseNode {
         this.button1.position.y = this.bh - this.button1.height
         this.button1.resize()
 
-        
+
         // button2
         this.button2.position.x = 203
         this.button2.position.y = this.bh - this.button1.height
         this.button2.resize()
-        
+
         // button3
         this.button3.position.x = 405
         this.button3.position.y = this.bh - this.button1.height
         this.button3.resize()
-        
+
         // button4
         this.button4.position.x = 721
         this.button4.position.y = this.bh - this.button1.height
         this.button4.resize()
-        
+
         // button5
         this.button5.position.x = this.bg.width - this.button5.width
         this.button5.position.y = this.bh - this.button1.height

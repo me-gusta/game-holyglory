@@ -220,6 +220,10 @@ export default class S_Room extends BaseNode {
             this.modal?.destroy()
             this.modal = undefined
         })
+
+        this.dock.button2.on('pointerdown', () => {
+            this.trigger('set_scene', 'backpack')
+        })
     }
 
     start() {

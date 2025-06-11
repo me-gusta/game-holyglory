@@ -8,21 +8,69 @@ import {Easing} from "@tweenjs/tween.js"
 import {Hero} from "$src/game/types.ts";
 import ScrollableContainer from "$src/game/components/ScrollableContainer.ts";
 
-const lorem = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum'
 
-class ButtonLarge extends BaseNode {
-    bg = create_sprite('button_large')
+type ButtonWithPriceInfo = {
+    color:string,
+    amount: number,
+    icon: string,
+    text: string,
+}
+
+class ButtonWithPrice extends BaseNode {
+    bg: Sprite
+    lbl: Text
+    lbl2: Text
+    icon: Sprite
+
+    constructor(e: ButtonWithPriceInfo) {
+        super()
+        this.bg  = create_sprite('button_md_' + e.color)
+        this.lbl = create_text({text: e.text, style: {fontSize: 44, fill: colors.dark}})
+        this.lbl2 = create_text({text: e.amount, style: {fontSize: 44, fill: colors.dark}})
+        this.icon = create_sprite(e.icon)
+
+        this.addChild(this.bg)
+        this.addChild(this.lbl)
+        this.addChild(this.lbl2)
+        this.addChild(this.icon)
+
+        this.lbl.position.y = -30
+        this.lbl2.position.y = 25
+
+        this.icon.scale.set(
+            (this.lbl2.height * 0.8) / (this.icon.height / this.icon.scale.y)
+        )
+        this.lbl2.position.x = - this.icon.width / 2
+
+        this.icon.position.y = this.lbl2.position.y
+        this.icon.position.x =  this.icon.width + 20
+
+
+        this.interactive = true
+        this.cursor = 'pointer'
+    }
+}
+
+
+class Button extends BaseNode {
+    bg: Sprite
     lbl: Text
 
-    constructor(lbl_text: string) {
+    constructor(color: string, text: string) {
         super()
-        this.lbl = create_text({text: lbl_text, style: {fontSize: 94, fill: colors.dark}})
+        this.bg  = create_sprite('button_md_' + color)
+        this.lbl = create_text({text: text, style: {fontSize: 44, fill: colors.dark}})
+
         this.addChild(this.bg)
         this.addChild(this.lbl)
 
+        this.lbl.position.y = -5
+
         this.interactive = true
+        this.cursor = 'pointer'
     }
 }
+
 
 class Card extends BaseNode {
     bg = create_sprite('card_large')
@@ -35,31 +83,51 @@ class Card extends BaseNode {
     scrollable = new ScrollableContainer()
     text6: Text
     text7: Text
-    button = new ButtonLarge('OK')
+    button1: ButtonWithPrice
+    button2: ButtonWithPrice|Button
 
     constructor(e: Hero) {
         super()
-        this.avatar = create_sprite('character_icons/' + e.label)
 
         const text_style = {
             fill: colors.dark,
-            fontSize: 52
+            fontSize: 52,
         }
-        this.text1 = create_text({
-            text: 'Les Annals',
-            style: {
-                fill: colors.dark,
-                fontSize: 86
-            }
-        })
+        this.text1 = create_text({text: 'Les Annals', style: {fill: colors.dark, fontSize: 86}})
         this.text2 = create_text({text: 'Name:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
-        this.text3 = create_text({text: 'Maximus', style: text_style})
-        this.text4 = create_text({text: 'Born:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
-        this.text5 = create_text({text: 'Nether Wallop Village', style: text_style})
+        this.text3 = create_text({text: e.name, style: text_style})
+        this.text4 = create_text({text: 'Class:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
+        this.text5 = create_text({text: e.class, style: text_style})
         this.text6 = create_text({text: 'Bio:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
-        this.text7 = create_text({text: lorem, style: {...text_style,fontSize: 36, wordWrap: true, wordWrapWidth: 1000}})
+        this.text7 = create_text({text: e.bio, style: {...text_style, fontSize: 36, wordWrap: true, wordWrapWidth: 10}})
+
+        this.button1 = new ButtonWithPrice({
+            color: 'yellow',
+            amount: 7000,
+            icon: 'icons/coin',
+            text: 'Upgrade'
+        })
+
+        if (e.is_unlocked) {
+            this.avatar = create_sprite('character_icons/' + e.label)
+            this.button2 = new Button('green', 'Select')
+        } else {
+            this.button1.visible = false
+            this.avatar = create_sprite('character_icons_hidden/' + e.label)
+            this.button2 = new ButtonWithPrice({
+                color: 'blue',
+                amount: 700,
+                icon: 'icons/gem',
+                text: 'Buy'
+            })
+            this.text3.text = 'UNKNOWN'
+            this.text5.text = 'UNKNOWN'
+            this.text7.text = '? '.repeat(1000)
+        }
+
         this.addChild(this.bg)
-        this.addChild(this.button)
+        this.addChild(this.button1)
+        this.addChild(this.button2)
         this.addChild(this.avatar)
         this.addChild(this.text1)
         this.addChild(this.text2)
@@ -69,15 +137,18 @@ class Card extends BaseNode {
         this.addChild(this.scrollable)
         this.scrollable.add(this.text6)
         this.scrollable.add(this.text7)
-        // this.addChild(this.text7)
 
-        this.button.on('pointerup', () => {
+        this.button1.on('pointerup', () => {
             this.trigger('set_scene', 'main')
         })
     }
 
     resize() {
-        this.button.position.y = this.bg.height / 2 - this.button.height / 2 - 20
+        this.button1.position.x = - this.button1.width / 2 - 20
+        this.button1.position.y = this.bg.height / 2 - this.button1.height / 2 - 20
+
+        this.button2.position.x = this.button1.width / 2 + 20
+        this.button2.position.y = this.bg.height / 2 - this.button1.height / 2 - 20
 
         this.avatar.position.x = -this.bg.width / 2 + this.avatar.width / 2 + 20
         this.avatar.position.y = -this.bg.height / 2 + this.avatar.height / 2 + 20
@@ -112,7 +183,7 @@ class Card extends BaseNode {
         // "Bio"
         this.text6.anchor.y = 0
         this.text6.anchor.x = 0
-        this.text6.position.x = - this.bg.width / 2 + 40
+        this.text6.position.x = -this.bg.width / 2 + 40
         this.text6.position.y = 0
 
 
@@ -123,7 +194,7 @@ class Card extends BaseNode {
 
         // scrollable
         this.scrollable.bw = this.bg.width - 40
-        this.scrollable.bh = this.bg.height - 60 - this.avatar.height - this.button.height
+        this.scrollable.bh = this.bg.height - 75 - this.avatar.height - this.button1.height
         this.scrollable.position.y = -this.bg.height / 2 + 40 + this.avatar.height
         this.scrollable.resize()
     }
@@ -143,6 +214,9 @@ export default class ModalHero extends BaseNode {
         this.addChild(this.card)
 
         this.bg.interactive = true
+        this.bg.on('pointerup', () => {
+            this.trigger('close_modal')
+        })
     }
 
     resize() {
@@ -152,7 +226,7 @@ export default class ModalHero extends BaseNode {
 
         // card
         this.card.scale.set(
-            (this.bw * 0.9) / (this.card.width / this.card.scale.x)
+            (this.bw * 0.9) / (this.card.width / this.card.scale.x),
         )
         this.card.resize()
 
