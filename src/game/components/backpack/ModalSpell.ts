@@ -5,7 +5,7 @@ import VRow from "../VRow"
 import {create_graphics, create_sprite, create_text} from "$lib/create_things"
 import colors from "$src/game/colors"
 import {Easing} from "@tweenjs/tween.js"
-import {Hero} from "$src/game/types.ts";
+import {Hero, Spell} from "$src/game/types.ts";
 import ScrollableContainer from "$src/game/components/ScrollableContainer.ts";
 
 
@@ -71,10 +71,64 @@ class Button extends BaseNode {
     }
 }
 
+class SpellAvatar extends BaseNode {
+    container = new Container()
+    bg: Sprite = create_sprite('square')
+    border: Sprite = create_sprite('square_border')
+    spell: Sprite
+    msk = create_graphics()
+    lbl = create_text({
+        text: '?',
+        style: {
+            fill: colors.bright,
+            fontSize: 138,
+            stroke: {color: colors.dark, width: 8},
+        },
+    })
+
+    constructor(e: Spell) {
+        super()
+        this.spell = create_sprite(`spells/${e.label}`)
+        this.bg.anchor.set(0)
+        this.spell.anchor.set(0)
+        this.border.anchor.set(0)
+        this.addChild(this.container)
+        this.container.addChild(this.bg)
+        this.container.addChild(this.spell)
+        this.container.addChild(this.msk)
+        this.container.addChild(this.border)
+        this.container.addChild(this.lbl)
+        this.spell.mask = this.msk
+
+        if (e.is_unlocked) {
+            this.lbl.visible = false
+        } else {
+            this.spell.alpha = 0.05
+        }
+    }
+
+    resize() {
+        this.msk
+            .clear()
+            .roundRect(0, 0, this.bg.width, this.bg.height, 35)
+            .fill(0xe3a043)
+        this.spell.scale.set(
+            (this.bg.width) / (this.spell.width / this.spell.scale.x),
+        )
+
+        this.lbl.position.x = this.bg.width / 2
+        this.lbl.position.y = this.bg.height / 2
+
+        this.container.scale.set(
+            (this.bw) / (this.container.width / this.container.scale.x),
+        )
+    }
+}
+
 
 class Card extends BaseNode {
     bg = create_sprite('card_large')
-    avatar: Sprite
+    avatar: SpellAvatar
     text1: Text
     text2: Text
     text3: Text
@@ -86,7 +140,7 @@ class Card extends BaseNode {
     button1: ButtonWithPrice
     button2: ButtonWithPrice|Button
 
-    constructor(e: Hero) {
+    constructor(e: Spell) {
         super()
 
         const text_style = {
@@ -98,8 +152,8 @@ class Card extends BaseNode {
         this.text3 = create_text({text: e.name, style: text_style})
         this.text4 = create_text({text: 'Level:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
         this.text5 = create_text({text: e.level, style: text_style})
-        this.text6 = create_text({text: 'Bio:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
-        this.text7 = create_text({text: e.bio, style: {...text_style, fontSize: 36, wordWrap: true, wordWrapWidth: 10}})
+        this.text6 = create_text({text: 'About:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
+        this.text7 = create_text({text: e.about, style: {...text_style, fontSize: 36, wordWrap: true, wordWrapWidth: 10}})
 
         this.button1 = new ButtonWithPrice({
             color: 'yellow',
@@ -109,11 +163,9 @@ class Card extends BaseNode {
         })
 
         if (e.is_unlocked) {
-            this.avatar = create_sprite('character_icons/' + e.label)
             this.button2 = new Button('green', 'Select')
         } else {
             this.button1.visible = false
-            this.avatar = create_sprite('character_icons_hidden/' + e.label)
             this.button2 = new ButtonWithPrice({
                 color: 'blue',
                 amount: 700,
@@ -124,6 +176,8 @@ class Card extends BaseNode {
             this.text5.text = 'UNKNOWN'
             this.text7.text = '? '.repeat(1000)
         }
+
+        this.avatar = new SpellAvatar(e)
 
         this.addChild(this.bg)
         this.addChild(this.button1)
@@ -152,6 +206,10 @@ class Card extends BaseNode {
 
         this.avatar.position.x = -this.bg.width / 2 + this.avatar.width / 2 + 20
         this.avatar.position.y = -this.bg.height / 2 + this.avatar.height / 2 + 20
+
+        this.avatar.bw = this.bg.width * 0.4
+        this.avatar.bh = this.bg.width * 0.4
+        this.avatar.resize()
 
         const space = this.bg.width - (this.avatar.width + 40)
 
@@ -200,13 +258,13 @@ class Card extends BaseNode {
     }
 }
 
-export default class ModalHero extends BaseNode {
+export default class ModalSpell extends BaseNode {
     bg = create_graphics()
         .rect(0, 0, 100, 100)
         .fill({color: 'black', alpha: 0.6})
     card: Card
 
-    constructor(e: Hero) {
+    constructor(e: Spell) {
         super()
 
         this.card = new Card(e)

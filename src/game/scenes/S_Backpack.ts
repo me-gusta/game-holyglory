@@ -15,6 +15,7 @@ import {Easing} from '@tweenjs/tween.js'
 import ScrollableContainer from '$src/game/components/ScrollableContainer.ts'
 import ModalHero from "$src/game/components/backpack/ModalHero.ts";
 import {Hero, Spell} from "$src/game/types.ts";
+import ModalSpell from '$src/game/components/backpack/ModalSpell.ts'
 
 
 
@@ -85,6 +86,9 @@ class GI_Spell extends BaseNode {
         } else {
             this.spell.alpha = 0.05
         }
+
+        this.interactive = true
+        this.cursor = 'pointer'
     }
 
     resize() {
@@ -230,13 +234,13 @@ export default class S_Backpack extends BaseNode {
         this.grid_spells_equipped.gap = 5
 
         const heroes = [
-            {label: 'maximus', is_unlocked: true, class: 'Young Hero', name: 'Maximus', bio: lorem},
-            {label: 'leonard', is_unlocked: true, class: 'Yes', name: 'Sir Leonard', bio: lorem},
-            {label: 'eleodor', is_unlocked: true, class: '¡¡¡Elf!!!', name: 'Eleodor', bio: lorem},
-            {label: 'shrederella', is_unlocked: true, class: 'Fu@%$#* Bi#@*', name: 'Princess Shrederella', bio: lorem},
-            {label: 'goatberg', is_unlocked: true, class: 'Mage', name: 'Goatberg', bio: lorem},
-            {label: 'yaga', is_unlocked: true, class: 'Unclassified', name: 'Lady Yaga', bio: lorem},
-            {label: 'maiden', is_unlocked: false, class: 'Gunner', name: 'Pistol Maiden', bio: lorem},
+            {label: 'maximus', is_unlocked: true, level: 5, name: 'Maximus', bio: lorem},
+            {label: 'leonard', is_unlocked: true, level: 5, name: 'Sir Leonard', bio: lorem},
+            {label: 'eleodor', is_unlocked: true, level: 5, name: 'Eleodor', bio: lorem},
+            {label: 'shrederella', is_unlocked: true, level: 5, name: 'Princess Shrederella', bio: lorem},
+            {label: 'goatberg', is_unlocked: true, level: 5, name: 'Goatberg', bio: lorem},
+            {label: 'yaga', is_unlocked: true, level: 5, name: 'Lady Yaga', bio: lorem},
+            {label: 'maiden', is_unlocked: false, level: 5, name: 'Pistol Maiden', bio: lorem},
         ]
         for (let e of heroes) {
             const gi = new GI_Hero(e)
@@ -250,7 +254,7 @@ export default class S_Backpack extends BaseNode {
         }
 
         const spells = [
-            {label: "sun_sneeze", is_unlocked: true},
+            {label: "sun_sneeze", is_unlocked: true, level: 5, name: 'Sun Sneeze', bio: lorem},
             {label: "booooooom", is_unlocked: true},
             {label: "call_batgoblin", is_unlocked: true},
             {label: "fairys_kiss", is_unlocked: true},
@@ -262,7 +266,14 @@ export default class S_Backpack extends BaseNode {
         ]
 
         for (let e of spells) {
-            this.grid_spells.add(new GI_Spell(e))
+            const gi = new GI_Spell(e)
+            this.grid_spells.add(gi)
+
+            gi.on('pointerup', () => {
+                this.modal = new ModalSpell(e)
+                this.addChild(this.modal)
+                this.modal.resize()
+            })
         }
 
         const spells_equipped = [
