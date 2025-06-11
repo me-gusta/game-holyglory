@@ -1,7 +1,7 @@
 import BaseNode from "$lib/BaseNode"
 import { Container, Sprite, Text, Texture, TilingSprite } from "pixi.js"
 import WoodenHeader from "../WoodenHeader"
-import VRow from "../VRow"
+import VRowScrollable from "../VRowScrollable.ts"
 import { create_graphics, create_sprite, create_text } from "$lib/create_things"
 import colors from "$src/game/colors"
 import { Easing } from "@tweenjs/tween.js"
@@ -126,7 +126,7 @@ class CardSurrender extends BaseNode {
 export default class ModalPause extends BaseNode {
     bg: TilingSprite
     header = new WoodenHeader('Settings')
-    vrow = new VRow()
+    vrow = new VRowScrollable()
     card_sound = new CardToggle('icons/sound', 'Sound')
     card_music = new CardToggle('icons/music', 'Music')
     card_surrender = new CardSurrender()

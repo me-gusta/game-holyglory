@@ -13,3 +13,14 @@ export type Spell = {
     level: number
     about: string
 }
+
+export type BuyPack = {
+    label: string
+    amount: number
+    item: string
+    icon: string
+    text: string
+    price: {
+        text: string
+    }
+}

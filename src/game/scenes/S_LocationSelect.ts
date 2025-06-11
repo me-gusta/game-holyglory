@@ -3,7 +3,7 @@ import { create_graphics, create_point, create_sprite, create_text, create_vecto
 import { Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite } from "pixi.js"
 import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
-import VRow from "../components/VRow"
+import VRowScrollable from "../components/VRowScrollable.ts"
 import ButtonBack from "../components/ButtonBack"
 import store from "$lib/store"
 
@@ -62,7 +62,7 @@ class CardLocation extends BaseNode {
 export default class S_LocationSelect extends BaseNode {
     bg: TilingSprite
     header = new WoodenHeader('World')
-    vrow = new VRow()
+    vrow = new VRowScrollable()
     button_back = new ButtonBack()
 
     constructor() {

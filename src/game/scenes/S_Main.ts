@@ -224,6 +224,9 @@ export default class S_Room extends BaseNode {
         this.dock.button2.on('pointerup', () => {
             this.trigger('set_scene', 'backpack')
         })
+        this.dock.button1.on('pointerup', () => {
+            this.trigger('set_scene', 'shop')
+        })
     }
 
     start() {

@@ -1,6 +1,6 @@
 import BaseNode from "$lib/BaseNode"
 import { Container, DestroyOptions, Sprite, Text, Texture, Ticker } from "pixi.js"
-import VRow from "../components/VRow"
+import VRowScrollable from "../components/VRowScrollable.ts"
 import { create_sprite, create_text } from "$lib/create_things"
 import colors from "../colors"
 import microManage from "$lib/dev/microManage"
@@ -129,7 +129,7 @@ class MapPiece extends BaseNode {
 
 export default class S_Location extends BaseNode {
     header: WoodenHeader
-    vrow = new VRow()
+    vrow = new VRowScrollable()
     button_back = new ButtonBack()
 
     constructor() {

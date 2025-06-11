@@ -1,7 +1,7 @@
 import BaseNode from "$lib/BaseNode"
 import { Container, Sprite, Text, Texture, TilingSprite } from "pixi.js"
 import WoodenHeader from "../WoodenHeader"
-import VRow from "../VRow"
+import VRowScrollable from "../VRowScrollable.ts"
 import { create_graphics, create_sprite, create_text } from "$lib/create_things"
 import colors from "$src/game/colors"
 import Grid from '$src/game/components/Grid.ts'

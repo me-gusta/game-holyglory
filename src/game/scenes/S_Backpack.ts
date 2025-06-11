@@ -3,7 +3,7 @@ import {create_graphics, create_point, create_sprite, create_text, create_vector
 import {Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite} from "pixi.js"
 import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
-import VRow from "../components/VRow"
+import VRowScrollable from "../components/VRowScrollable.ts"
 import ButtonBack from "../components/ButtonBack"
 import store from "$lib/store"
 import Item from '$src/game/components/Item.ts'
@@ -296,6 +296,10 @@ export default class S_Backpack extends BaseNode {
         this.on('close_modal', () => {
             this.modal?.destroy()
             this.modal = undefined
+        })
+
+        this.dock.button1.on('pointerup', () => {
+            this.trigger('set_scene', 'shop')
         })
 
         this.dock.button3.on('pointerup', () => {
