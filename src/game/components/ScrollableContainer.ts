@@ -23,6 +23,18 @@ export default class ScrollableContainer extends BaseNode {
 
         this.toucharea.alpha = 0
 
+        this.on('dragstart', (event: FederatedPointerEvent) => {
+            const max_offset = this.container_height - this.bh
+            if (max_offset < 0) return
+            prev_postion.x = 0
+            prev_postion.y = 0
+
+            // console.log('dragstart')
+            event.stopPropagation()
+
+            this.container.interactiveChildren = false
+        })
+
         let prev_postion = create_vector()
 
         this.on('dragmove', (event: FederatedPointerEvent) => {

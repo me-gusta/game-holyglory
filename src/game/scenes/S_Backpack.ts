@@ -17,6 +17,7 @@ import ModalHero from "$src/game/components/backpack/ModalHero.ts";
 import {Hero, Spell} from "$src/game/types.ts";
 import ModalSpell from '$src/game/components/backpack/ModalSpell.ts'
 import {set_timeout} from '$lib/time.ts'
+import HeaderTop from "$src/game/components/HeaderTop.ts";
 
 
 
@@ -180,6 +181,7 @@ const lorem = 'Lorem Ipsum is simply dummy text of the printing and typesetting 
 
 export default class S_Backpack extends BaseNode {
     bg: TilingSprite
+    header = new HeaderTop()
     scrollable = new ScrollableContainer()
     header1 = new WoodenHeader('Heroes')
     description1: Text
@@ -218,6 +220,7 @@ export default class S_Backpack extends BaseNode {
         })
 
         this.addChild(this.bg)
+        this.addChild(this.header)
         this.addChild(this.scrollable)
         this.addChild(this.dock)
 
@@ -256,14 +259,14 @@ export default class S_Backpack extends BaseNode {
 
         const spells = [
             {label: "sun_sneeze", is_unlocked: true, level: 5, name: 'Sun Sneeze', about: lorem},
-            {label: "booooooom", is_unlocked: true},
-            {label: "call_batgoblin", is_unlocked: true},
-            {label: "fairys_kiss", is_unlocked: true},
-            {label: "fireball", is_unlocked: true},
-            {label: "poseidons_party", is_unlocked: true},
-            {label: "sun_sweat", is_unlocked: true},
-            {label: "throw_the_fish", is_unlocked: true},
-            {label: "time_juice", is_unlocked: true},
+            {label: "booooooom", is_unlocked: true, level: 5, name: 'Booooooom', about: lorem},
+            {label: "call_batgoblin", is_unlocked: true, level: 5, name: 'Call Batgoblin', about: lorem},
+            {label: "fairys_kiss", is_unlocked: true, level: 5, name: 'Fairy\'s kiss', about: lorem},
+            {label: "fireball", is_unlocked: true, level: 5, name: 'Fireball', about: lorem},
+            {label: "poseidons_party", is_unlocked: true, level: 5, name: 'Poseidon\'s Party', about: lorem},
+            {label: "sun_sweat", is_unlocked: true, level: 5, name: 'Sun Sweat', about: lorem},
+            {label: "throw_the_fish", is_unlocked: true, level: 5, name: 'Throw the Fish', about: lorem},
+            {label: "time_juice", is_unlocked: true, level: 5, name: 'Time Juice', about: lorem},
         ]
 
         for (let e of spells) {
@@ -275,18 +278,12 @@ export default class S_Backpack extends BaseNode {
                 this.addChild(this.modal)
                 this.modal.resize()
             })
-
-            if (e.label === 'sun_sneeze') this.set_timeout(100, () => {
-                this.modal = new ModalSpell(e)
-                this.addChild(this.modal)
-                this.modal.resize()
-            })
         }
 
         const spells_equipped = [
             null,
             null,
-            {label: "sun_sneeze", is_unlocked: true},
+            {label: "sun_sneeze", is_unlocked: true, level: 5, name: 'Sun Sneeze', about: lorem},
         ]
 
         for (let e of spells_equipped) {
@@ -314,6 +311,12 @@ export default class S_Backpack extends BaseNode {
         super.resize()
         this.bw = window.screen_size.width
         this.bh = window.screen_size.height
+
+        // header
+        this.header.bw = this.bw
+        this.header.resize()
+        this.header.position.x = -this.bw / 2
+        this.header.position.y = - this.bh / 2
 
         // header1
         this.header1.bw = this.bw * 0.75
@@ -355,7 +358,6 @@ export default class S_Backpack extends BaseNode {
         this.grid_spells.position.y = this.description3.position.y + this.description3.height/2 + 10
         this.grid_spells.resize()
 
-
         // dock
         this.dock.bw = this.bw
         this.dock.resize()
@@ -364,9 +366,9 @@ export default class S_Backpack extends BaseNode {
 
         // scrollable
         this.scrollable.bw = this.bw
-        this.scrollable.bh = this.bh - this.dock.height
+        this.scrollable.bh = this.bh - this.dock.height - this.header.height
         this.scrollable.resize()
-        this.scrollable.y = -this.bh / 2
+        this.scrollable.y = -this.bh / 2 + this.header.height
 
         // bg
         this.bg.width = this.bw
@@ -377,6 +379,5 @@ export default class S_Backpack extends BaseNode {
 
         const bg_scale = (this.bw / 256) / 5
         this.bg.tileScale.set(bg_scale)
-
     }
 }

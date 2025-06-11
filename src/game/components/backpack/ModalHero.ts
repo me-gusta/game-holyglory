@@ -93,7 +93,7 @@ class Card extends BaseNode {
             fill: colors.dark,
             fontSize: 52,
         }
-        this.text1 = create_text({text: 'Les Annals', style: {fill: colors.dark, fontSize: 86}})
+        this.text1 = create_text({text: 'Codex', style: {fill: colors.dark, fontSize: 86}})
         this.text2 = create_text({text: 'Name:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
         this.text3 = create_text({text: e.name, style: text_style})
         this.text4 = create_text({text: 'Level:', style: {...text_style, stroke: {width: 5, color: colors.bright}}})
@@ -168,6 +168,13 @@ class Card extends BaseNode {
         this.text3.anchor.x = 1
         this.text3.position.x = this.bg.width / 2 - 20
         this.text3.position.y = this.text2.position.y
+
+        if (this.text3.width >= space - this.text2.width - 40) {
+            const w = Math.abs(space - this.text2.width - 40)
+            this.text3.scale.set(
+                w / (this.text3.width / this.text3.scale.x)
+            )
+        }
 
         // "Born"
         this.text4.anchor.x = 0
