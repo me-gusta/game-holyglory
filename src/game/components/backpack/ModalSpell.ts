@@ -89,9 +89,6 @@ class SpellAvatar extends BaseNode {
     constructor(e: Spell) {
         super()
         this.spell = create_sprite(`spells/${e.label}`)
-        this.bg.anchor.set(0)
-        this.spell.anchor.set(0)
-        this.border.anchor.set(0)
         this.addChild(this.container)
         this.container.addChild(this.bg)
         this.container.addChild(this.spell)
@@ -110,7 +107,7 @@ class SpellAvatar extends BaseNode {
     resize() {
         this.msk
             .clear()
-            .roundRect(0, 0, this.bg.width, this.bg.height, 35)
+            .roundRect(-this.bg.width/2, -this.bg.height/2, this.bg.width, this.bg.height, 35)
             .fill(0xe3a043)
         this.spell.scale.set(
             (this.bg.width) / (this.spell.width / this.spell.scale.x),
@@ -204,12 +201,13 @@ class Card extends BaseNode {
         this.button2.position.x = this.button1.width / 2 + 20
         this.button2.position.y = this.bg.height / 2 - this.button1.height / 2 - 20
 
-        this.avatar.position.x = -this.bg.width / 2 + this.avatar.width / 2 + 20
-        this.avatar.position.y = -this.bg.height / 2 + this.avatar.height / 2 + 20
 
         this.avatar.bw = this.bg.width * 0.4
         this.avatar.bh = this.bg.width * 0.4
         this.avatar.resize()
+
+        this.avatar.position.x = -this.bg.width / 2 + this.avatar.width / 2 + 20
+        this.avatar.position.y = -this.bg.height / 2 + this.avatar.height / 2 + 20
 
         const space = this.bg.width - (this.avatar.width + 40)
 
@@ -268,6 +266,7 @@ export default class ModalSpell extends BaseNode {
         super()
 
         this.card = new Card(e)
+        this.card.interactive = true
         this.addChild(this.bg)
         this.addChild(this.card)
 
@@ -287,7 +286,6 @@ export default class ModalSpell extends BaseNode {
             (this.bw * 0.9) / (this.card.width / this.card.scale.x),
         )
         this.card.resize()
-
 
         // bg
         this.bg.width = this.bw

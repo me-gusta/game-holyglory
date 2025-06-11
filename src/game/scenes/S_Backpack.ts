@@ -16,6 +16,7 @@ import ScrollableContainer from '$src/game/components/ScrollableContainer.ts'
 import ModalHero from "$src/game/components/backpack/ModalHero.ts";
 import {Hero, Spell} from "$src/game/types.ts";
 import ModalSpell from '$src/game/components/backpack/ModalSpell.ts'
+import {set_timeout} from '$lib/time.ts'
 
 
 
@@ -254,7 +255,7 @@ export default class S_Backpack extends BaseNode {
         }
 
         const spells = [
-            {label: "sun_sneeze", is_unlocked: true, level: 5, name: 'Sun Sneeze', bio: lorem},
+            {label: "sun_sneeze", is_unlocked: true, level: 5, name: 'Sun Sneeze', about: lorem},
             {label: "booooooom", is_unlocked: true},
             {label: "call_batgoblin", is_unlocked: true},
             {label: "fairys_kiss", is_unlocked: true},
@@ -270,6 +271,12 @@ export default class S_Backpack extends BaseNode {
             this.grid_spells.add(gi)
 
             gi.on('pointerup', () => {
+                this.modal = new ModalSpell(e)
+                this.addChild(this.modal)
+                this.modal.resize()
+            })
+
+            if (e.label === 'sun_sneeze') this.set_timeout(100, () => {
                 this.modal = new ModalSpell(e)
                 this.addChild(this.modal)
                 this.modal.resize()
@@ -294,7 +301,7 @@ export default class S_Backpack extends BaseNode {
             this.modal = undefined
         })
 
-        this.dock.button3.on('pointerdown', () => {
+        this.dock.button3.on('pointerup', () => {
             this.trigger('set_scene', 'main')
         })
     }

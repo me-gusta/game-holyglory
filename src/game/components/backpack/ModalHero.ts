@@ -210,6 +210,7 @@ export default class ModalHero extends BaseNode {
         super()
 
         this.card = new Card(e)
+        this.card.interactive = true
         this.addChild(this.bg)
         this.addChild(this.card)
 

@@ -221,7 +221,7 @@ export default class S_Room extends BaseNode {
             this.modal = undefined
         })
 
-        this.dock.button2.on('pointerdown', () => {
+        this.dock.button2.on('pointerup', () => {
             this.trigger('set_scene', 'backpack')
         })
     }
