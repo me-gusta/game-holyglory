@@ -120,6 +120,15 @@ export default class S_Shop extends BaseNode {
             this.trigger('set_scene', 'main')
         })
 
+        this.dock.button4.on('pointerup', () => {
+            store.soon_triggered = 'town'
+            this.trigger('set_scene', 'soon')
+        })
+        this.dock.button5.on('pointerup', () => {
+            store.soon_triggered = 'guild'
+            this.trigger('set_scene', 'soon')
+        })
+
         const es_buypacks = [
             {
                 label: 'coins100',

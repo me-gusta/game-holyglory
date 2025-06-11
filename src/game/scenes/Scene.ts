@@ -9,6 +9,7 @@ import S_FreeGems from '$src/game/scenes/S_FreeGems.ts'
 import S_Summon from '$src/game/scenes/S_Summon.ts'
 import S_Backpack from '$src/game/scenes/S_Backpack.ts'
 import S_Shop from "$src/game/scenes/S_Shop.ts";
+import S_Soon from "$src/game/scenes/S_Soon.ts";
 
 
 export default class Scene extends SceneSwitch {
@@ -24,8 +25,9 @@ export default class Scene extends SceneSwitch {
         ['summon', S_Summon],
         ['backpack', S_Backpack],
         ['shop', S_Shop],
+        ['soon', S_Soon],
     ])
-    initial = 'shop'
+    initial = 'soon'
 
     constructor() {
         super()

@@ -14,6 +14,8 @@ import microManage from '$lib/dev/microManage'
 import { GlowFilter } from 'pixi-filters'
 import Header from '../components/main/Header'
 import ModalSettings from '$src/game/components/main/ModalSettings.ts'
+import S_Soon from "$src/game/scenes/S_Soon.ts";
+import store from "$lib/store.ts";
 
 
 class ButtonStory extends BaseNode {
@@ -221,11 +223,20 @@ export default class S_Room extends BaseNode {
             this.modal = undefined
         })
 
+        this.dock.button1.on('pointerup', () => {
+            this.trigger('set_scene', 'shop')
+        })
         this.dock.button2.on('pointerup', () => {
             this.trigger('set_scene', 'backpack')
         })
-        this.dock.button1.on('pointerup', () => {
-            this.trigger('set_scene', 'shop')
+
+        this.dock.button4.on('pointerup', () => {
+            store.soon_triggered = 'town'
+            this.trigger('set_scene', 'soon')
+        })
+        this.dock.button5.on('pointerup', () => {
+            store.soon_triggered = 'guild'
+            this.trigger('set_scene', 'soon')
         })
     }
 

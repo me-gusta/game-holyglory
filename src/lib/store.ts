@@ -8,6 +8,7 @@ class Store {
     current_location: string = "68346741c2572db90139cc1a"
     current_battle: string = "6834a9eb20836408c0a75669"
     battle: any = {}
+    soon_triggered = ''
 
     constructor() {
         const files = import.meta.glob('../game/data/*.json', { eager: true })
