@@ -16,6 +16,7 @@ import Header from '../components/main/Header'
 import ModalSettings from '$src/game/components/main/ModalSettings.ts'
 import S_Soon from "$src/game/scenes/S_Soon.ts";
 import store from "$lib/store.ts";
+import BattleAnimation from '$src/game/components/main/BattleAnimation.ts'
 
 
 class ButtonStory extends BaseNode {
@@ -150,15 +151,14 @@ class SideButton extends BaseNode {
 
         this.icon.position.y = -this.bg.height / 2 + 10
         this.lbl.position.y += 20
-
-
     }
 }
 
 
 
-export default class S_Room extends BaseNode {
+export default class S_Main extends BaseNode {
     update_hook!: OmitThisParameter<any>
+    battle = new BattleAnimation()
     dock = new Dock()
     button_story = new ButtonStory()
     button_spin = new ButtonDockSide(`icons/spin`, 'Daily Spin')
@@ -175,6 +175,7 @@ export default class S_Room extends BaseNode {
 
     constructor() {
         super()
+        this.addChild(this.battle)
         this.addChild(this.dock)
         this.addChild(this.button_story)
         this.addChild(this.button_spin)
@@ -269,6 +270,12 @@ export default class S_Room extends BaseNode {
         this.header.resize()
         this.header.position.x = -this.bw / 2
         this.header.position.y = - this.bh / 2
+
+        // battle
+        this.battle.scale.set(
+            (this.bh - this.dock.height - this.header.height + 60) / (this.battle.height / this.battle.scale.y)
+        )
+
 
         // button_story
         this.button_story.scale.set(

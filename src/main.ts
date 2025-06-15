@@ -9,20 +9,22 @@ import {Howl} from 'howler'
 import store from '$lib/store'
 
 const preload = async () => {
-    await load_assets();
-    await store.load_user_data();
-
     // Load fonts in parallel
     await Promise.all([
         Assets.load({
             alias: 'flame',
-            src: 'assets/fonts/Flame-Regular.otf',
+            src: 'assets/fonts/Flame-Regular.woff2',
         }),
         Assets.load({
             alias: 'flame-bold',
-            src: 'assets/fonts/Flame-Bold.otf',
+            src: 'assets/fonts/Flame-Bold.woff2',
         })
     ]);
+
+    await load_assets();
+    await store.load_user_data();
+
+
 
     // Load spritesheets in parallel
     await Promise.all([

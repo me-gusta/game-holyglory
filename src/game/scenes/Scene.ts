@@ -27,7 +27,7 @@ export default class Scene extends SceneSwitch {
         ['shop', S_Shop],
         ['soon', S_Soon],
     ])
-    initial = 'soon'
+    initial = 'main'
 
     constructor() {
         super()
