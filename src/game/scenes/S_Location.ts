@@ -24,7 +24,7 @@ class MapMarker extends BaseNode {
 type BattlePinEntity = {
     eid: string
     number: number
-    captured: boolean
+    is_captured: boolean
 }
 
 class MapPin extends BaseNode {
@@ -94,7 +94,7 @@ class MapPiece extends BaseNode {
             if (!e) continue
 
             const pn = e.number
-            const pin = new MapPin(pn, e.captured)
+            const pin = new MapPin(pn, e.is_captured)
             this.addChild(pin)
 
             if (i === 0) {
@@ -109,7 +109,7 @@ class MapPiece extends BaseNode {
 
             if (i > 0) {
                 const prev = es[i-1]
-                if (prev?.captured && !e.captured) {
+                if (prev?.is_captured && !e.is_captured) {
                     pin.set_marker(true)
                 }
             }

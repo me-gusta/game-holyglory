@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "firebase deploy",
-    "calc": "tsx ./src/workcenter/battle_time_calc.ts"
+    "tsx": "tsx ./src/workcenter/awe_system.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

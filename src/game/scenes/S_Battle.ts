@@ -87,7 +87,6 @@ class Spell extends BaseNode {
     }
 
     set_load(n: number) {
-        console.log(n)
         const n2 = map_interval(0, 1, 0.25, 1, n)
         loading_circle(n2, this.msk)
 
@@ -168,10 +167,8 @@ export default class S_Battle extends BaseNode {
                     mob.hp_current = 0
                 }
 
-                console.log(mob.hp_current)
-    
                 mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
-    
+
                 if (mob.hp_current === 0) {
                     mob!.destroy()
                     this.battlefield.mobs[target] = null
@@ -198,10 +195,8 @@ export default class S_Battle extends BaseNode {
                     mob.hp_current = 0
                 }
 
-                console.log(mob.hp_current)
-    
                 mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
-    
+
                 if (mob.hp_current === 0) {
                     mob!.destroy()
                     this.battlefield.mobs[target] = null
@@ -228,10 +223,8 @@ export default class S_Battle extends BaseNode {
                     mob.hp_current = 0
                 }
 
-                console.log(mob.hp_current)
-    
                 mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
-    
+
                 if (mob.hp_current === 0) {
                     mob!.destroy()
                     this.battlefield.mobs[target] = null
@@ -259,10 +252,8 @@ export default class S_Battle extends BaseNode {
                         mob.hp_current = 0
                     }
 
-                    console.log(mob.hp_current)
-        
                     mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
-        
+
                     if (mob.hp_current === 0) {
                         mob!.destroy()
                         this.battlefield.mobs[target] = null
@@ -343,7 +334,6 @@ export default class S_Battle extends BaseNode {
             }
 
             this.battlefield.next_mob_turn()
-            console.log('turn', this.battlefield.mob_turn)
         }
 
         for (let spell_data of store.spells_equipped) {
@@ -364,7 +354,7 @@ export default class S_Battle extends BaseNode {
                     this.set_timeout(700, () => {
                         const enemies = this.battlefield.mobs.filter(e => e !== null)
                         if (!enemies.length) if_next_turn()
-                    }) 
+                    })
                 })
             }
         }
@@ -394,7 +384,7 @@ export default class S_Battle extends BaseNode {
         })
 
         this.pole.on('match_completed', (stats) => {
-            
+
 
             const total = sum(Object.values(stats))
 
@@ -406,7 +396,6 @@ export default class S_Battle extends BaseNode {
 
             if (extra_turns > 0) {
                 extra_turns -= 1
-                console.log('extra_turns', extra_turns)
                 return
             }
 
