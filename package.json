@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "firebase deploy",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@esotericsoftware/spine-pixi-v8": "^4.2.82",
+    "@types/telegram-web-app": "^7.10.1",
     "pixi-filters": "^6.1.2",
     "seedrandom": "^3.0.5",
     "tsx": "^4.19.4"

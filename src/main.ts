@@ -9,6 +9,7 @@ import {Howl} from 'howler'
 import store from '$lib/store'
 
 const preload = async () => {
+    console.log(window.Telegram)
     // Load fonts in parallel
     await Promise.all([
         Assets.load({
@@ -173,5 +174,6 @@ declare global {
     interface Window {
         screen_size: { width: number; height: number, ratio: number, vertical: boolean }
         app: Application
+        Telegram: Telegram
     }
 }
