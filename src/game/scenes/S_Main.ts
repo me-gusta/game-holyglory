@@ -13,7 +13,6 @@ import colors from '../colors'
 import microManage from '$lib/dev/microManage'
 import { GlowFilter } from 'pixi-filters'
 import Header from '../components/main/Header'
-import ModalSettings from '$src/game/components/main/ModalSettings.ts'
 import S_Soon from "$src/game/scenes/S_Soon.ts";
 import store from "$lib/store.ts";
 import BattleAnimation from '$src/game/components/main/BattleAnimation.ts'
@@ -209,14 +208,7 @@ export default class S_Main extends BaseNode {
         })
 
         this.header.button_settings.on('pointerup', () => {
-            this.modal = new ModalSettings()
-            this.modal.alpha = 0
-            this.addChild(this.modal)
-            this.modal.resize()
-
-            this.tween(this.modal)
-                .to({ alpha: 1 }, 400)
-                .start()
+            this.trigger('set_scene', 'settings')
         })
 
         this.on('pause_off', () => {
@@ -320,5 +312,9 @@ export default class S_Main extends BaseNode {
         this.button_dungeons.position.x = -this.bw / 2 + this.button_dungeons.width / 2 + 5
         this.button_dungeons.position.y = this.button_quests.position.y + this.button_quests.height + 10
 
+        // battle
+        this.battle.position.y = - this.battle.height/ 2
+        this.battle.position.x = - this.bw / 2
+        this.battle.resize()
     }
 }

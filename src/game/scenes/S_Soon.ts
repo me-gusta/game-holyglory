@@ -85,6 +85,10 @@ export default class S_Soon extends BaseNode {
             store.soon_triggered = 'guild'
             this.trigger('set_scene', 'soon')
         })
+
+        this.header.button_settings.on('pointerup', () => {
+            this.trigger('set_scene', 'settings')
+        })
     }
 
     start() {}

@@ -134,22 +134,17 @@ export default class S_Location extends BaseNode {
 
     constructor() {
         super()
-        console.log(store.current_location, store.locations[store.current_location]);
 
         const { title, tile_images_folder } = store.locations[store.current_location]
         this.header = new WoodenHeader(title)
 
         const pieces = chunk(Object.values(store.battles), 3)
         for (let es of pieces.reverse()) {
-            // const numbers = e.map(el => el.number)
             push_until(es, null, 3)
-            // console.log(numbers);
 
             const tile = new MapPiece(tile_images_folder, 1, es)
 
             this.vrow.add(tile)
-
-
         }
 
         this.vrow.gap = 0

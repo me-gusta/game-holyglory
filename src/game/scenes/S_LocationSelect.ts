@@ -42,10 +42,6 @@ class CardLocation extends BaseNode {
         this.addChild(this.icon)
 
         this.icon.alpha = isUnlocked ?  0 : 0.7
-
-        this.on('pointerup', () => {
-            console.log('location selected')
-        })
     }
 
     resize() {
@@ -79,8 +75,6 @@ export default class S_LocationSelect extends BaseNode {
             this.vrow.add(
                 loc
             )
-            console.log(e.card_image, e.title, e.is_unlocked);
-
             loc.on('pointerup', () => {
                 store.current_location = e.eid
                 this.trigger('set_scene', 'location')

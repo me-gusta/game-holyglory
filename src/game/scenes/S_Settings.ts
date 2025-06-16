@@ -1,11 +1,11 @@
 import BaseNode from "$lib/BaseNode"
 import { Container, Sprite, Text, Texture, TilingSprite } from "pixi.js"
-import WoodenHeader from "../WoodenHeader"
-import VRowScrollable from "../VRowScrollable.ts"
 import { create_graphics, create_sprite, create_text } from "$lib/create_things"
 import colors from "$src/game/colors"
 import { Easing } from "@tweenjs/tween.js"
-import ButtonBack from "../ButtonBack"
+import ButtonBack from "$src/game/components/ButtonBack.ts";
+import WoodenHeader from "$src/game/components/WoodenHeader.ts";
+import VRowScrollable from "$src/game/components/VRowScrollable.ts";
 
 class ButtonToggle extends BaseNode {
     bg = create_sprite('button_card_on')
@@ -73,7 +73,7 @@ class CardToggle extends BaseNode {
     }
 }
 
-export default class ModalSettings extends BaseNode {
+export default class S_Settings extends BaseNode {
     bg: TilingSprite
     header = new WoodenHeader('Settings')
     vrow = new VRowScrollable()
@@ -97,8 +97,12 @@ export default class ModalSettings extends BaseNode {
         this.bg.interactive = true
 
         this.button_back.on('pointerup', () => {
-            this.trigger('pause_off')
+            this.trigger('set_scene', 'main')
         })
+    }
+
+    start() {
+
     }
 
     resize() {

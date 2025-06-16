@@ -10,6 +10,7 @@ import S_Summon from '$src/game/scenes/S_Summon.ts'
 import S_Backpack from '$src/game/scenes/S_Backpack.ts'
 import S_Shop from "$src/game/scenes/S_Shop.ts";
 import S_Soon from "$src/game/scenes/S_Soon.ts";
+import S_Settings from "$src/game/scenes/S_Settings.ts";
 
 
 export default class Scene extends SceneSwitch {
@@ -26,6 +27,7 @@ export default class Scene extends SceneSwitch {
         ['backpack', S_Backpack],
         ['shop', S_Shop],
         ['soon', S_Soon],
+        ['settings', S_Settings],
     ])
     initial = 'main'
 

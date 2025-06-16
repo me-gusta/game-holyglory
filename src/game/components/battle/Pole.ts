@@ -341,7 +341,6 @@ export default class Pole extends BaseNode {
         for (let x = 0; x < 7; x++) {
             for (let y = 0; y < 7; y++) {
                 const rune = this.runes_arr[x][y]
-                console.log('rune', rune.is_marked)
                 if (rune.is_marked) {
                     const key = `${x};${y}`
                     runes_marked.set(key, { score: 1, variant_new: 'normal' })
@@ -466,13 +465,10 @@ export default class Pole extends BaseNode {
         this.can_match = false
         const result = this.match()
 
-        console.log('matche result', result)
-
         if (result > 0) this.set_timeout(650, () => {
             this.match_all()
         })
         else {
-            console.log(this.stat_destroys)
             this.can_match = true
             this.touchpad.interactive = true
             this.emit('match_completed', this.stat_destroys)

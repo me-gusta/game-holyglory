@@ -276,7 +276,6 @@ export default class Battlefield extends BaseNode {
             if (!mob) return
 
             let suit_bonus = 0
-            console.log('stats', stats, mob.rune)
             if (mob.rune === 'fire') suit_bonus += stats["water"] || 0
             if (mob.rune === 'water') suit_bonus += stats["plant"] || 0
             if (mob.rune === 'plant') suit_bonus += stats["fire"] || 0
@@ -287,12 +286,6 @@ export default class Battlefield extends BaseNode {
                 - this.hero.attack
                 - Math.floor((power_points - 3) * this.hero.attack / 10)
                 - Math.floor(suit_bonus * (power_points * 0.3))
-
-
-            console.log('hp new', mob.hp_current)
-            console.log('damage dealt', this.hero.attack)
-            console.log('damage rune bonus', power_points, this.hero.attack / 10, (power_points - 3) * this.hero.attack / 10)
-            console.log('damage suit bonus', suit_bonus, suit_bonus * (power_points * 0.3))
 
             if (mob.hp_current < 0) {
                 mob.hp_current = 0
@@ -376,7 +369,6 @@ export default class Battlefield extends BaseNode {
             hero!.hp_pb.setValue(hero.hp_current / hero.hp_max)
 
             if (hero.hp_current === 0) {
-                console.log('battle lost')
                 this.emit('lost')
             }
         }
@@ -438,9 +430,6 @@ export default class Battlefield extends BaseNode {
                 const mob_data = store.mobs[label]
                 const {rune} = mob_data
                 const { hp_max, attack } = mob_data.levels[level]
-                console.log(
-                    'load mob as wave', wi,
-                    label, `level=${level}`, `hp_max=${hp_max}`, `attack=${attack}`,`rune=${rune}`,)
 
                 const character = new Character(label)
                 character.hp_current = hp_max

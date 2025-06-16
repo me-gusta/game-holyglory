@@ -129,6 +129,10 @@ export default class S_Shop extends BaseNode {
             this.trigger('set_scene', 'soon')
         })
 
+        this.header.button_settings.on('pointerup', () => {
+            this.trigger('set_scene', 'settings')
+        })
+
         const es_buypacks = [
             {
                 label: 'coins100',
