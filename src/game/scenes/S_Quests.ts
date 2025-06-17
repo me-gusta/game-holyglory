@@ -1,13 +1,13 @@
 import BaseNode from "$lib/BaseNode"
-import { create_graphics, create_point, create_sprite, create_text, create_vector } from "$lib/create_things"
-import { Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite } from "pixi.js"
+import {create_graphics, create_point, create_sprite, create_text, create_vector} from "$lib/create_things"
+import {Container, FederatedPointerEvent, Point, Sprite, Text, Texture, TilingSprite} from "pixi.js"
 import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
 import VRowScrollable from "../components/VRowScrollable.ts"
 import ButtonBack from "../components/ButtonBack"
 import store, {Quest, save} from "$src/game/data/store"
 import Item from '$src/game/components/Item.ts'
-import {get_reward_icon} from "$src/game/other.ts";
+import {get_reward_icon, set_up_drop_items} from "$src/game/other.ts";
 import HeaderTop from "$src/game/components/HeaderTop.ts";
 import {IPoint} from "$lib/Vector.ts";
 import {random_float, random_int} from "$lib/random.ts";
@@ -19,13 +19,14 @@ import awe from "$src/game/data/awe.ts";
 class ButtonQuest extends BaseNode {
     bg = create_sprite('button_card')
     lbl: Text
+
     constructor(lbl_text: string) {
         super()
         this.lbl = create_text({
             text: lbl_text, style: {
                 fontSize: 48,
                 fill: colors.dark,
-            }
+            },
         })
 
         this.addChild(this.bg)
@@ -39,6 +40,13 @@ class ButtonQuest extends BaseNode {
         this.interactive = true
         this.cursor = 'pointer'
     }
+
+    set_claimed() {
+        this.bg.texture = Texture.from('button_card')
+        this.lbl.text = 'Claimed'
+        this.interactive = false
+        this.cursor = 'default'
+    }
 }
 
 class CardQuest extends BaseNode {
@@ -46,17 +54,18 @@ class CardQuest extends BaseNode {
     lbl: Text
     bg: Sprite
     button: ButtonQuest
+
     constructor(q: Quest, is_purple = false) {
         super()
 
-        const { task, task_needed: amount_max, task_current: amount_current, reward } = q
+        const {task, task_needed: amount_max, task_current: amount_current, reward} = q
 
         this.bg = create_sprite(is_purple ? 'card_small_purple' : 'card_small')
         this.lbl = create_text({
             text: task, style: {
                 fontSize: 48,
                 fill: colors.dark,
-            }
+            },
         })
         this.lbl.anchor.x = 0
 
@@ -73,14 +82,19 @@ class CardQuest extends BaseNode {
         this.addChild(this.button)
 
         this.button.on('pointerup', () => {
-            this.trigger('drop_coins', this.toGlobal(this.button))
+            if (q.is_claimed) return
+            this.trigger('drop_items', {label: q.reward.label, global: this.toGlobal(this.button)})
             awe.add('stats.coins', reward.amount)
             q.is_claimed = true
+            this.button.set_claimed()
             save()
         })
 
         if (percents >= 100) {
             this.button.set_completed()
+        }
+        if (q.is_claimed) {
+            this.button.set_claimed()
         }
     }
 
@@ -100,7 +114,6 @@ class CardQuest extends BaseNode {
 }
 
 
-
 export default class S_Quests extends BaseNode {
     bg: TilingSprite
     header_top = new HeaderTop()
@@ -110,7 +123,7 @@ export default class S_Quests extends BaseNode {
 
     constructor() {
         super()
-        this.bg = new TilingSprite({ texture: Texture.from('seamlessbg') })
+        this.bg = new TilingSprite({texture: Texture.from('seamlessbg')})
         this.addChild(this.bg)
         this.addChild(this.header_top)
         this.addChild(this.header)
@@ -119,20 +132,22 @@ export default class S_Quests extends BaseNode {
 
         const quests = store.quest_list
 
+        let amount_completed = quests.filter(el=> el.task_current / el.task_needed >= 1).length
+
         this.vrow.add(
             new CardQuest(
                 {
                     task: 'complete_5',
                     task_needed: 5,
-                    task_current: 1,
+                    task_current: amount_completed,
                     reward: {
                         label: 'gems',
-                        amount: 10
+                        amount: 10,
                     },
-                    is_claimed: false
+                    is_claimed: false,
                 },
-                true
-            )
+                true,
+            ),
         )
 
         for (let e of quests) {
@@ -140,45 +155,11 @@ export default class S_Quests extends BaseNode {
         }
 
         this.button_back.on('pointerup', () => this.trigger('set_scene', 'main'))
-
-        this.on('drop_coins', (global_pos: IPoint) => {
-            const p1 = this.toLocal(global_pos)
-
-            const p2 = this.toLocal(
-                this.header_top.stat_coins.toGlobal(this.header_top.stat_coins.icon)
-            )
-
-            const coins = random_int(8, 15)
-
-            for (let i =0; i < coins; i++) {
-                const p1i = randomPointInCircle(p1, 30)
-                const icon = create_sprite('icons/coin')
-                icon.position.copyFrom(p1i)
-                this.addChild(icon)
-                const scale = random_float(0.1, 0.3)
-                icon.scale.set(0.1)
-
-                this.tween(icon.scale)
-                    .to({x:scale, y:scale}, 200)
-                    .easing(Easing.Quadratic.Out)
-                    .start()
-
-                this.tween(icon.position)
-                    .to(p2, 400 + i * 10)
-                    .easing(Easing.Quadratic.In)
-                    .delay(450 + i * 10)
-                    .start()
-                    .onComplete(() => {
-                        icon.destroy()
-                    })
-
-                this.tween(icon)
-                    .to({alpha: 0}, 130 + i * 10)
-                    .easing(Easing.Quadratic.In)
-                    .delay(750 + i * 10)
-                    .start()
-            }
+        this.header_top.button_settings.on('pointerup', () => {
+            this.trigger('set_scene', 'settings')
         })
+
+        set_up_drop_items(this, this.header_top)
     }
 
     start() {
@@ -209,7 +190,7 @@ export default class S_Quests extends BaseNode {
 
         // button_back
         this.button_back.scale.set(
-            (this.bw / 10) / (this.button_back.width / this.button_back.scale.x)
+            (this.bw / 10) / (this.button_back.width / this.button_back.scale.x),
         )
         this.button_back.position.x = -this.bw / 2 + this.button_back.width / 2 + this.bw * 0.02
         this.button_back.position.y = this.bh / 2 - this.button_back.height / 2 - this.bw * 0.02

@@ -1,4 +1,5 @@
 import store_json from './store.json'
+import dev from '$src/game/dev.ts'
 
 export type Reward = {
     label: string
@@ -142,6 +143,8 @@ type Mob = {
 let store: Store
 
 export const save = () => {
+    if (dev.PREVENT_SAVE) return
+
     localStorage.setItem('hogl-store', JSON.stringify(store))
 }
 

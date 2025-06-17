@@ -1,7 +1,8 @@
 // @ts-nocheck
 
 const dev = {
-    DISABLE_AUTOSWAP: false
+    DISABLE_AUTOSWAP: false,
+    PREVENT_SAVE: true
 }
 
 window.dev = (key: any, value: any) => {
