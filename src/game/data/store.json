@@ -5,7 +5,7 @@
         "exp_next": 200,
         "crowns": 652,
         "username": "Pablo Bar",
-        "avatar": "https://avatars.dzeninfra.ru/get-zen_doc/3373796/pub_5fb17ce11064d30b6c96280d_5fb180eb8d19932be14a90cf/scale_1200"
+        "avatar": "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=Putin"
     },
     "stats": {
         "coins": 150,
@@ -219,5 +219,10 @@
             ],
             "is_unlocked": 0
         }
-    ]
+    ],
+
+
+    "current_location": 0,
+    "current_battle": 0,
+    "soon_triggered":  ""
 }

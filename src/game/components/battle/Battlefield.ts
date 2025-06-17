@@ -10,7 +10,7 @@ import { Container, DestroyOptions, FederatedEvent, FederatedPointerEvent, Graph
 import registerKeypress from "$lib/dev/registerKeypress"
 import microManage from "$lib/dev/microManage"
 import { Spine } from "@esotericsoftware/spine-pixi-v8"
-import store from "$lib/store"
+import store from "$src/game/data/store"
 
 
 const char_z = [30, 10, 20]

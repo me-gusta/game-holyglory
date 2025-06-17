@@ -1,4 +1,5 @@
-import store from './store.json'
+import store_json from './store.json'
+import store from "$src/game/data/store.json";
 
 type Reward = {
     label: string
@@ -28,6 +29,9 @@ type Store = {
 
     shop_item_list: ShopItemList
     location_list: LocationList
+    current_location: number
+    current_battle: number
+    soon_triggered: string
 }
 
 type Player = {
@@ -135,4 +139,17 @@ type Mob = {
     level: number
 }
 
-export default (store as Store)
+export const save = () => {
+    localStorage.setItem('hogl-store', JSON.stringify(store))
+}
+
+export const load = () => {
+    const store_string = localStorage.getItem('hogl-store')
+    if (store_string) return JSON.parse(store_string) as Store
+    save()
+    return (store as Store)
+}
+
+
+
+export default load()

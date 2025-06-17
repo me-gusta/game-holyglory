@@ -5,7 +5,7 @@ import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
 import VRowScrollable from "../components/VRowScrollable.ts"
 import ButtonBack from "../components/ButtonBack"
-import store from "$lib/store"
+import store from "$src/game/data/store"
 import Item from '$src/game/components/Item.ts'
 import DockSmall from '$src/game/components/DockSmall.ts'
 import Grid from '$src/game/components/Grid.ts'

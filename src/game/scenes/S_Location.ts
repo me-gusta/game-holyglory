@@ -6,7 +6,7 @@ import colors from "../colors"
 import microManage from "$lib/dev/microManage"
 import ButtonBack from "../components/ButtonBack"
 import WoodenHeader from "../components/WoodenHeader"
-import store from "$lib/store"
+import store from "$src/game/data/store"
 import { chunk, push_until } from "$lib/utility"
 
 

@@ -4,11 +4,17 @@ import Scene from '$src/game/scenes/Scene'
 import {process_timers} from '$lib/time'
 import {time_groups} from '$lib/BaseNode'
 import AssetManager from '$lib/AssetManager'
-import {sleep} from '$lib/utility'
 import {Howl} from 'howler'
+import store from "$src/game/data/store.ts";
+import preload_avatar from "$lib/preload_avatar.ts";
 
 const preload = async () => {
-    console.log(window.Telegram)
+    // await preload_avatar(store.player.avatar)
+    Assets.load({
+        alias: 'player_avatar',
+        src: store.player.avatar,
+        loadParser: "loadSVG"
+    })
     // Load fonts in parallel
     await Promise.all([
         Assets.load({
@@ -22,9 +28,6 @@ const preload = async () => {
     ]);
 
     await load_assets();
-    // await store.load_user_data();
-
-
 
     // Load spritesheets in parallel
     await Promise.all([

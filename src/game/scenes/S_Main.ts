@@ -13,8 +13,7 @@ import colors from '../colors'
 import microManage from '$lib/dev/microManage'
 import { GlowFilter } from 'pixi-filters'
 import Header from '../components/main/Header'
-import S_Soon from "$src/game/scenes/S_Soon.ts";
-import store from "$lib/store.ts";
+import store from "$src/game/data/store.ts";
 import BattleAnimation from '$src/game/components/main/BattleAnimation.ts'
 
 

@@ -1,7 +1,7 @@
 import BaseNode from "$lib/BaseNode.ts"
 import {create_graphics, create_point, create_sprite, create_text, create_vector} from "$lib/create_things.ts"
 import {Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite} from "pixi.js"
-import store from "$lib/store.ts"
+import store from "$src/game/data/store.ts"
 import Item from '$src/game/components/Item.ts'
 import HeaderTop from "$src/game/components/HeaderTop.ts";
 import DockSmall from "$src/game/components/DockSmall.ts";

@@ -1,8 +1,9 @@
 import BaseNode from "$lib/BaseNode"
-import { create_graphics, create_sprite, create_text } from "$lib/create_things"
+import {create_graphics, create_sprite, create_text} from "$lib/create_things"
 import colors from "$src/game/colors"
-import { Graphics, Sprite, Text } from "pixi.js"
+import {Assets, Graphics, Sprite, Text, Texture} from "pixi.js"
 import ButtonSettings from "../ButtonSettings"
+import store from "$src/game/data/store.ts";
 
 class Stat extends BaseNode {
     bg: Sprite
@@ -17,7 +18,7 @@ class Stat extends BaseNode {
             text: 1000, style: {
                 fill: colors.bright,
                 fontSize: 36,
-                stroke: { width: 2, color: colors.dark },
+                stroke: {width: 2, color: colors.dark},
                 // align: 'right'
             }
         })
@@ -41,6 +42,19 @@ class PlayerAvatar extends BaseNode {
     constructor() {
         super()
         this.addChild(this.bg)
+        if (Assets.get('player_avatar')) {
+            const avatar = create_sprite('player_avatar')
+            this.addChild(avatar)
+            avatar.scale.set(
+                this.bg.height / (avatar.height / avatar.scale.y)
+            )
+
+            const border = create_sprite('main/PlayerAvatar_border')
+            this.addChild(border)
+            const mask = create_sprite('main/PlayerAvatar_mask')
+            this.addChild(mask)
+            avatar.mask = mask
+        }
     }
 }
 
@@ -83,9 +97,10 @@ class LevelProgressBar extends BaseNode {
 
 class PlayerName extends BaseNode {
     lbl: Text
+
     constructor() {
         super()
-        this.lbl = create_text({ text: 'Player', style: { fill: colors.dark, fontSize: 58 } })
+        this.lbl = create_text({text: 'Player', style: {fill: colors.dark, fontSize: 58}})
         this.lbl.anchor.x = 0
         this.addChild(this.lbl)
     }
@@ -95,16 +110,17 @@ class PlayerName extends BaseNode {
 class PlayerLevel extends BaseNode {
     lbl: Text
     lbl2: Text
+
     constructor() {
         super()
-        this.lbl = create_text({ text: 'lv.', style: { fill: colors.dark, fontSize: 48 } })
+        this.lbl = create_text({text: 'lv.', style: {fill: colors.dark, fontSize: 48}})
 
 
         this.lbl2 = create_text({
             text: '2', style: {
                 fill: colors.bright,
                 fontSize: 86,
-                stroke: { width: 8, color: colors.dark }
+                stroke: {width: 8, color: colors.dark}
             }
         })
         this.lbl2.anchor.x = 1
@@ -122,10 +138,11 @@ class PlayerLevel extends BaseNode {
 class PlayerCrowns extends BaseNode {
     icon = create_sprite('icons/crown')
     lbl: Text
+
     constructor() {
         super()
 
-        this.lbl = create_text({ text: '4000', style: { fill: colors.dark, fontSize: 32 } })
+        this.lbl = create_text({text: '4000', style: {fill: colors.dark, fontSize: 32}})
         this.lbl.anchor.x = 0
         this.addChild(this.icon)
         this.addChild(this.lbl)
@@ -138,16 +155,16 @@ class PlayerCrowns extends BaseNode {
 
 class PlayerExperience extends BaseNode {
     lbl: Text
+
     constructor() {
         super()
 
-        this.lbl = create_text({ text: '480/600', style: { fill: colors.dark, fontSize: 32 } })
+        this.lbl = create_text({text: '480/600', style: {fill: colors.dark, fontSize: 32}})
         this.lbl.anchor.x = 1
         this.addChild(this.lbl)
 
     }
 }
-
 
 
 export default class Header extends BaseNode {
@@ -186,6 +203,18 @@ export default class Header extends BaseNode {
         this.addChild(this.player_experience)
         this.addChild(this.button_settings)
 
+        this.stat_coins.lbl.text = store.stats.coins
+        this.stat_gems.lbl.text = store.stats.coins
+        this.stat_energy.lbl.text = store.stats.energy
+
+        this.player_crowns.lbl.text = store.player.crowns
+        this.player_level.lbl2.text = store.player.level
+        this.player_name.lbl.text = store.player.username
+
+        this.player_experience.lbl.text = store.player.exp_current + "/" + store.player.exp_next
+        this.level_progressbar.setValue(
+            store.player.exp_current / store.player.exp_next
+        )
     }
 
     resize(): void {

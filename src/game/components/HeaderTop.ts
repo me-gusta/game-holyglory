@@ -3,6 +3,7 @@ import { create_graphics, create_sprite, create_text } from "$lib/create_things"
 import colors from "$src/game/colors"
 import { Graphics, Sprite, Text } from "pixi.js"
 import ButtonSettings from "./ButtonSettings"
+import store from "$src/game/data/store.ts";
 
 class Stat extends BaseNode {
     bg: Sprite
@@ -58,6 +59,10 @@ export default class HeaderTop extends BaseNode {
 
 
         this.addChild(this.button_settings)
+
+        this.stat_coins.lbl.text = store.stats.coins
+        this.stat_gems.lbl.text = store.stats.coins
+        this.stat_energy.lbl.text = store.stats.energy
 
     }
 
