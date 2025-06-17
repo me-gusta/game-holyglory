@@ -84,10 +84,14 @@ class CardQuest extends BaseNode {
         this.button.on('pointerup', () => {
             if (q.is_claimed) return
             this.trigger('drop_items', {label: q.reward.label, global: this.toGlobal(this.button)})
-            awe.add('stats.coins', reward.amount)
-            q.is_claimed = true
             this.button.set_claimed()
-            save()
+            this.set_timeout(500, () => {
+                if (q.reward.label === 'coins') awe.add('stats.coins', reward.amount)
+                if (q.reward.label === 'gems') awe.add('stats.gems', reward.amount)
+                if (q.reward.label === 'energy') awe.add('stats.energy', reward.amount)
+                q.is_claimed = true
+                save()
+            })
         })
 
         if (percents >= 100) {
@@ -155,9 +159,7 @@ export default class S_Quests extends BaseNode {
         }
 
         this.button_back.on('pointerup', () => this.trigger('set_scene', 'main'))
-        this.header_top.button_settings.on('pointerup', () => {
-            this.trigger('set_scene', 'settings')
-        })
+
 
         set_up_drop_items(this, this.header_top)
     }

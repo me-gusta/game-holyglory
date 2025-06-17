@@ -47,7 +47,9 @@
                 "amount": 15
             },
             "task": "subscribe_tg_channel",
-            "link": "https://t.me/durov"
+            "link": "https://t.me/durov",
+            "is_claimed": false,
+            "is_visited": false
         }
     ],
 

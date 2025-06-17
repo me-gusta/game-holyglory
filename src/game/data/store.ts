@@ -78,10 +78,12 @@ export type Quest = {
 
 
 type QuestPartnerList = QuestPartner[]
-type QuestPartner = {
+export type QuestPartner = {
     reward: Reward
     task: 'subscribe_tg_channel' | 'subscribe_tiktok'
     link: string
+    is_claimed: boolean
+    is_visited: boolean
 }
 
 type SpinData = {

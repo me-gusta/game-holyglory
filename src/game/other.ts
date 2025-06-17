@@ -14,9 +14,18 @@ export const get_reward_icon = (r: Reward) => {
 }
 
 export const set_up_drop_items = (node: BaseNode, header_top: any) => {
-    node.on('drop_items', (e: {label: string, global: IPoint}) => {
+    node.on('drop_items', (e: {label: string, global: IPoint, amount?: number[], radius?: number}) => {
         const p1 = node.toLocal(e.global)
         const icon_label = get_reward_icon({label: e.label, amount: 1})
+        const amount_from = e.amount ? e.amount[0] : 8
+        let amount_to: number
+
+        if (e.amount) {
+            if (e.amount.length > 1) amount_to = e.amount[1]
+            else amount_to = amount_from
+        } else amount_to = 15
+
+        const radius = e.radius ? e.radius : 30
 
         let p2: Point
         if (e.label === 'coins') {
@@ -33,10 +42,10 @@ export const set_up_drop_items = (node: BaseNode, header_top: any) => {
             )
         }
 
-        const coins = random_int(8, 15)
+        const coins = random_int(amount_from, amount_to)
 
         for (let i = 0; i < coins; i++) {
-            const p1i = randomPointInCircle(p1, 30)
+            const p1i = randomPointInCircle(p1, radius)
             const icon = create_sprite(icon_label)
             icon.position.copyFrom(p1i)
             node.addChild(icon)

@@ -15,6 +15,7 @@ import { GlowFilter } from 'pixi-filters'
 import Header from '../components/main/Header'
 import store from "$src/game/data/store.ts";
 import BattleAnimation from '$src/game/components/main/BattleAnimation.ts'
+import {set_up_drop_items} from '$src/game/other.ts'
 
 
 class ButtonStory extends BaseNode {
@@ -230,6 +231,8 @@ export default class S_Main extends BaseNode {
             store.soon_triggered = 'guild'
             this.trigger('set_scene', 'soon')
         })
+
+        set_up_drop_items(this, this.header)
     }
 
     start() {

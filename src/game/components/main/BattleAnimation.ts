@@ -1,9 +1,12 @@
 import BaseNode from '$lib/BaseNode.ts'
 import {create_fx, create_point, create_sprite} from '$lib/create_things.ts'
-import {Container, Texture, TilingSprite} from 'pixi.js'
+import {Container, FederatedPointerEvent, Texture, TilingSprite} from 'pixi.js'
 import {Spine} from "@esotericsoftware/spine-pixi-v8";
 import {Easing} from "@tweenjs/tween.js";
 import registerKeypress from "$lib/dev/registerKeypress.ts";
+import awe from '$src/game/data/awe.ts'
+import {random_int} from '$lib/random.ts'
+import {save} from '$src/game/data/store.ts'
 
 export default class BattleAnimation extends BaseNode {
     bg: TilingSprite
@@ -29,9 +32,28 @@ export default class BattleAnimation extends BaseNode {
         this.hero.state.setAnimation(0, 'idle', true)
         this.hero.state.timeScale = 0.6
 
-        this.on('pointerup', () => {
+        this.on('pointerup', (e: FederatedPointerEvent) => {
             this.interactive = false
             this.kill()
+            this.set_timeout(400, () => {
+                if (!this.mob) return
+
+                const pos = this.toGlobal(create_point().copyFrom(this.mob))
+                pos.y += 50
+
+                const amount = random_int(2, 5)
+                this.trigger('drop_items', {
+                    label: 'coins',
+                    global: pos,
+                    amount: [amount],
+                    radius: 60
+                })
+
+                this.set_timeout(500, () => {
+                    awe.add('stats.coins', amount)
+                    save()
+                })
+            })
 
             this.set_timeout(900, () => {
                 this.next()

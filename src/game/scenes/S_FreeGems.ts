@@ -5,19 +5,11 @@ import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
 import VRowScrollable from "../components/VRowScrollable.ts"
 import ButtonBack from "../components/ButtonBack"
-import store from "$src/game/data/store"
+import store, {Quest, QuestPartner, save} from "$src/game/data/store"
 import Item from '$src/game/components/Item.ts'
-
-type Quest = {
-    task: string
-    amount_max: number
-    amount_current: number
-    reward: {
-        item: string
-        icon: string
-        amount: number
-    }
-}
+import HeaderTop from '$src/game/components/HeaderTop.ts'
+import {get_reward_icon, set_up_drop_items} from '$src/game/other.ts'
+import awe from '$src/game/data/awe.ts'
 
 class ButtonQuest extends BaseNode {
     bg = create_sprite('button_card')
@@ -37,9 +29,19 @@ class ButtonQuest extends BaseNode {
         this.cursor = 'pointer'
     }
 
+
     set_completed() {
         this.bg.texture = Texture.from('button_card_on')
         this.lbl.text = 'Claim'
+        this.interactive = true
+        this.cursor = 'pointer'
+    }
+
+    set_claimed() {
+        this.bg.texture = Texture.from('button_card')
+        this.lbl.text = 'Claimed'
+        this.interactive = false
+        this.cursor = 'default'
     }
 }
 
@@ -48,10 +50,10 @@ class CardQuest extends BaseNode {
     lbl: Text
     bg: Sprite
     button: ButtonQuest
-    constructor(q: Quest, is_purple = false) {
+    constructor(q: QuestPartner, is_purple = false) {
         super()
 
-        const { task, amount_max, amount_current, reward } = q
+        const {task, link, reward} = q
 
         this.bg = create_sprite(is_purple ? 'card_small_purple' : 'card_small')
         this.lbl = create_text({
@@ -61,11 +63,12 @@ class CardQuest extends BaseNode {
             }
         })
         this.lbl.anchor.x = 0
-        this.item = new Item(reward.icon, reward.amount)
+
+        const reward_icon = get_reward_icon(reward)
+        this.item = new Item(reward_icon, reward.amount)
 
 
-        const percents = Math.floor(amount_current / amount_max * 100)
-        const btn_text = percents + '%'
+        const btn_text = 'GO'
         this.button = new ButtonQuest(btn_text)
 
         this.addChild(this.bg)
@@ -73,7 +76,31 @@ class CardQuest extends BaseNode {
         this.addChild(this.item)
         this.addChild(this.button)
 
-        if (percents >= 100) {
+        this.button.on('pointerup', () => {
+            if (q.is_visited) {
+                this.trigger('drop_items', {label: q.reward.label, global: this.toGlobal(this.button)})
+                this.button.set_claimed()
+                this.set_timeout(500, () => {
+                    if (q.reward.label === 'coins') awe.add('stats.coins', reward.amount)
+                    if (q.reward.label === 'gems') awe.add('stats.gems', reward.amount)
+                    if (q.reward.label === 'energy') awe.add('stats.energy', reward.amount)
+                    q.is_claimed = true
+                    save()
+                })
+            } else if (q.is_claimed) {
+                return
+            } else {
+                window.open(link, '_blank')
+                q.is_visited = true
+                this.button.set_completed()
+                save()
+            }
+        })
+
+        if (q.is_claimed) {
+            this.button.set_claimed()
+        }
+        if (q.is_visited) {
             this.button.set_completed()
         }
     }
@@ -97,6 +124,7 @@ class CardQuest extends BaseNode {
 
 export default class S_FreeGems extends BaseNode {
     bg: TilingSprite
+    header_top = new HeaderTop()
     header = new WoodenHeader('Special Quests')
     vrow = new VRowScrollable()
     button_back = new ButtonBack()
@@ -105,57 +133,19 @@ export default class S_FreeGems extends BaseNode {
         super()
         this.bg = new TilingSprite({ texture: Texture.from('seamlessbg') })
         this.addChild(this.bg)
+        this.addChild(this.header_top)
         this.addChild(this.header)
         this.addChild(this.vrow)
         this.addChild(this.button_back)
 
-        const quests = [
-            {
-                task: 'Subscribe to TG\nchannel',
-                amount_max: 100,
-                amount_current: 33,
-                reward: {
-                    item: 'coins',
-                    icon: 'icons/coin',
-                    amount: 1
-                }
-            },
-            {
-                task: 'Invite 5 friends',
-                amount_max: 100,
-                amount_current: 133,
-                reward: {
-                    item: 'coins',
-                    icon: 'icons/coin',
-                    amount: 100
-                }
-            }
-        ]
-
-        this.vrow.add(
-            new CardQuest(
-                {
-                    task: 'Complete 5 quests',
-                    amount_max: 5,
-                    amount_current: 1,
-                    reward: {
-                        item: 'gems',
-                        icon: 'icons/gem',
-                        amount: 1000
-                    }
-                },
-                true
-            )
-        )
-
+        const quests = store.quest_partner_list
         for (let e of quests) {
             const quest = new CardQuest(e)
             this.vrow.add(quest)
-
         }
-
-
         this.button_back.on('pointerup', () => this.trigger('set_scene', 'main'))
+
+        set_up_drop_items(this, this.header_top)
     }
 
     start() {
@@ -167,14 +157,20 @@ export default class S_FreeGems extends BaseNode {
         this.bw = window.screen_size.width
         this.bh = window.screen_size.height
 
+        // header_top
+        this.header_top.bw = this.bw
+        this.header_top.resize()
+        this.header_top.position.x = -this.bw / 2
+        this.header_top.position.y = -this.bh / 2
+
         // header
         this.header.bw = this.bw * 0.75
         this.header.resize()
-        this.header.position.y = -this.bh / 2 + this.header.height / 2 + this.bh * 0.01
+        this.header.position.y = -this.bh / 2 + this.header.height / 2 + this.bh * 0.01 + this.header_top.height
 
         // vrow
         this.vrow.bw = this.bw * 0.9
-        this.vrow.bh = this.bh - (this.header.height + this.bh * 0.04)
+        this.vrow.bh = this.bh - (this.header.height + this.header_top.height + this.bh * 0.04)
         this.vrow.resize()
         this.vrow.position.y = -this.bh / 2 + (this.bh - this.vrow.bh)
 

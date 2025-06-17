@@ -62,12 +62,21 @@ export default class HeaderTop extends BaseNode {
         this.addChild(this.button_settings)
 
         this.stat_coins.lbl.text = store.stats.coins
-        this.stat_gems.lbl.text = store.stats.coins
+        this.stat_gems.lbl.text = store.stats.gems
         this.stat_energy.lbl.text = store.stats.energy
 
         awe.listen('stats.coins', (upd) => {
-            // this.stat_coins.lbl.text = upd.current
             this.anim_count(this.stat_coins.lbl, upd.current)
+        })
+        awe.listen('stats.gems', (upd) => {
+            this.anim_count(this.stat_gems.lbl, upd.current)
+        })
+        awe.listen('stats.energy', (upd) => {
+            this.anim_count(this.stat_energy.lbl, upd.current)
+        })
+
+        this.button_settings.on('pointerup', () => {
+            this.trigger('set_scene', 'settings')
         })
     }
 

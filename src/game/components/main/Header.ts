@@ -4,6 +4,7 @@ import colors from "$src/game/colors"
 import {Assets, Graphics, Sprite, Text, Texture} from "pixi.js"
 import ButtonSettings from "../ButtonSettings"
 import store from "$src/game/data/store.ts";
+import awe from '$src/game/data/awe.ts'
 
 class Stat extends BaseNode {
     bg: Sprite
@@ -204,7 +205,7 @@ export default class Header extends BaseNode {
         this.addChild(this.button_settings)
 
         this.stat_coins.lbl.text = store.stats.coins
-        this.stat_gems.lbl.text = store.stats.coins
+        this.stat_gems.lbl.text = store.stats.gems
         this.stat_energy.lbl.text = store.stats.energy
 
         this.player_crowns.lbl.text = store.player.crowns
@@ -215,6 +216,43 @@ export default class Header extends BaseNode {
         this.level_progressbar.setValue(
             store.player.exp_current / store.player.exp_next
         )
+
+        awe.listen('stats.coins', (upd) => {
+            this.anim_count(this.stat_coins.lbl, upd.current)
+        })
+        awe.listen('stats.gems', (upd) => {
+            this.anim_count(this.stat_gems.lbl, upd.current)
+        })
+        awe.listen('stats.energy', (upd) => {
+            this.anim_count(this.stat_energy.lbl, upd.current)
+        })
+    }
+
+
+    anim_count(lbl, new_value) {
+        const current = Number(lbl.text)
+        const max_steps = 12
+
+        const difference = new_value - current
+        if (difference === 0) return
+
+        const steps = Math.min(Math.abs(difference), max_steps)
+        const increment = difference / steps
+        const duration = 500
+        const delay = duration / steps
+
+        let i = 0
+        const step = () => {
+            i++
+            const updatedValue = Math.round(current + increment * i)
+            lbl.text = updatedValue
+
+            if (i < steps) {
+                this.set_timeout(delay, step)
+            }
+        }
+
+        this.set_timeout(delay, step)
     }
 
     resize(): void {
