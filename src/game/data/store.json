@@ -64,7 +64,7 @@
             {"label": "gems", "amount": 150},
             {"label": "coins", "amount": 5}
         ],
-        "spins": 3
+        "spins": 1
     },
 
     "hero_selected": "leonard",
