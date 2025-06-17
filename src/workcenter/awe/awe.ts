@@ -74,7 +74,7 @@ type Player = {
     children: { name: string, age: number }[]
 }
 
-const store: Store = {
+export const store: Store = {
     player: {
         level: 1,
         username: 'player.username',
@@ -86,7 +86,7 @@ const store: Store = {
     },
 }
 
-const store_real: Store = {
+export const world: Store = {
     player: {
         level: 4,
         username: 'Jessica',
@@ -101,13 +101,13 @@ const store_real: Store = {
 const map_numbers_to_path: { [key: number]: string } = {
     1: 'player.level',
     101: 'player.children[0].age',
-    102: 'player.children[0].age',
-    103: 'player.children[0].age',
+    102: 'player.children[1].age',
+    103: 'player.children[2].age',
 }
 
-type AWEListener = <T>(upd: { current: T, prev: T }) => void
+type AWEListener = <T>(upd: { current: T, previous: T }) => void
 
-class AWE {
+export class AWE {
     listeners = new Map<string, AWEListener[]>()
 
     get<T extends string | number>(where: T) {
@@ -115,7 +115,7 @@ class AWE {
         if (typeof where === 'number') path = map_numbers_to_path[where]
         else path = where
 
-        return getValueByPath(store_real, path)
+        return getValueByPath(world, path)
     }
 
     set<T extends string | number>(where: T, value: T) {
@@ -123,15 +123,15 @@ class AWE {
         if (typeof where === 'number') path = map_numbers_to_path[where]
         else path = where
 
-        const prev = getValueByPath(store_real, path)
-        setValueByPath(store_real, path, value)
+        const prev = getValueByPath(world, path)
+        setValueByPath(world, path, value)
         const listeners = this.listeners.get(path)
         if (!listeners) return
 
         for (let i = 0; i < listeners.length; i++) {
             listeners[i]({
                 current: value,
-                prev: prev,
+                previous: prev,
             })
         }
     }
@@ -139,15 +139,15 @@ class AWE {
     add(where: number, value: number) {
         let path: string = map_numbers_to_path[where]
 
-        const prev = getValueByPath(store_real, path)
-        setValueByPath(store_real, path, prev + value)
+        const prev = getValueByPath(world, path)
+        setValueByPath(world, path, prev + value)
         const listeners = this.listeners.get(path)
         if (!listeners) return
 
         for (let i = 0; i < listeners.length; i++) {
             listeners[i]({
                 current: prev + value,
-                prev: prev,
+                previous: prev,
             })
         }
     }
@@ -155,15 +155,15 @@ class AWE {
     sub(where: number, value: number) {
         let path: string = map_numbers_to_path[where]
 
-        const prev = getValueByPath(store_real, path)
-        setValueByPath(store_real, path, prev - value)
+        const prev = getValueByPath(world, path)
+        setValueByPath(world, path, prev - value)
         const listeners = this.listeners.get(path)
         if (!listeners) return
 
         for (let i = 0; i < listeners.length; i++) {
             listeners[i]({
                 current: prev - value,
-                prev: prev,
+                previous: prev,
             })
         }
     }
@@ -198,8 +198,8 @@ class AWE {
 const test_deep_array = () => {
     const awe = new AWE()
 
-    console.log(store_real)
-    console.log(store_real.player.children[2].age)
+    console.log(world)
+    console.log(world.player.children[2].age)
 
     awe.listen(store.player.children[2].age, (upd) => {
         console.log('upd', upd)
@@ -207,24 +207,8 @@ const test_deep_array = () => {
 
     awe.add(store.player.children[2].age, 2)
 
-    console.log(store_real)
-    console.log(store_real.player.children[2].age)
+    console.log(world)
+    console.log(world.player.children[2].age)
 }
 
-const test = () => {
-    const awe = new AWE()
 
-    console.log(store_real)
-    console.log(store_real.player.children[2].age)
-
-    awe.listen(store.player.children[2].age, (upd) => {
-        console.log('upd', upd)
-    })
-
-    awe.add(store.player.children[2].age, 2)
-
-    console.log(store_real)
-    console.log(store_real.player.children[2].age)
-}
-
-test()
