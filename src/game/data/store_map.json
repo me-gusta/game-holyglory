@@ -1,223 +1,319 @@
 {
-    "player": {
-        "level": 1,
-        "exp_current": 87,
-        "exp_next": 200,
-        "crowns": 652,
-        "username": "Pablo Bar",
-        "avatar": "https://avatars.dzeninfra.ru/get-zen_doc/3373796/pub_5fb17ce11064d30b6c96280d_5fb180eb8d19932be14a90cf/scale_1200"
+  "player": {
+    "level": 3,
+    "exp_current": 4,
+    "exp_next": 5,
+    "crowns": 6,
+    "username": "player.username",
+    "avatar": "player.avatar"
+  },
+  "stats": {
+    "coins": 11,
+    "gems": 12,
+    "energy": 13
+  },
+  "setting": {
+    "is_music_on": 16,
+    "is_sound_on": 17
+  },
+  "quest_list": [
+    {
+      "reward": {
+        "label": "quest_list[0].reward.label",
+        "amount": 23
+      },
+      "task": "quest_list[0].task",
+      "task_current": 26,
+      "task_needed": 27
     },
-    "stats": {
-        "coins": 150,
-        "gems": 60,
-        "energy": 300
+    {
+      "reward": {
+        "label": "quest_list[1].reward.label",
+        "amount": 32
+      },
+      "task": "quest_list[1].task",
+      "task_current": 35,
+      "task_needed": 36
+    }
+  ],
+  "quest_partner_list": [
+    {
+      "reward": {
+        "label": "quest_partner_list[0].reward.label",
+        "amount": 43
+      },
+      "task": "quest_partner_list[0].task",
+      "link": "quest_partner_list[0].link"
+    }
+  ],
+  "spin_data": {
+    "rewards": [
+      {
+        "label": "spin_data.rewards[0].label",
+        "amount": 53
+      },
+      {
+        "label": "spin_data.rewards[1].label",
+        "amount": 57
+      },
+      {
+        "label": "spin_data.rewards[2].label",
+        "amount": 61
+      },
+      {
+        "label": "spin_data.rewards[3].label",
+        "amount": 65
+      },
+      {
+        "label": "spin_data.rewards[4].label",
+        "amount": 69
+      },
+      {
+        "label": "spin_data.rewards[5].label",
+        "amount": 73
+      },
+      {
+        "label": "spin_data.rewards[6].label",
+        "amount": 77
+      },
+      {
+        "label": "spin_data.rewards[7].label",
+        "amount": 81
+      }
+    ],
+    "spins": 84
+  },
+  "hero_selected": "hero_selected",
+  "hero_list": [
+    {
+      "label": "hero_list[0].label",
+      "is_unlocked": 90,
+      "name": "hero_list[0].name",
+      "level": 92,
+      "bio": "hero_list[0].bio",
+      "level_up_price": 94,
+      "buy_price": 95
     },
-
-    "setting": {
-        "is_music_on": 1,
-        "is_sound_on": 0
+    {
+      "label": "hero_list[1].label",
+      "is_unlocked": 99,
+      "name": "hero_list[1].name",
+      "level": 101,
+      "bio": "hero_list[1].bio",
+      "level_up_price": 103,
+      "buy_price": 104
+    }
+  ],
+  "spell_list": [
+    {
+      "label": "spell_list[0].label",
+      "is_unlocked": 109,
+      "name": "spell_list[0].name",
+      "level": 111,
+      "about": "spell_list[0].about",
+      "level_up_price": 113,
+      "buy_price": 114,
+      "rune": "spell_list[0].rune",
+      "runes_needed": 116
     },
-
-    "quest_list": [
-        {
-            "reward": {
-                "label": "coins",
-                "amount": 100
-            },
-            "task": "collect_rune_fire",
-            "task_current": 124,
-            "task_needed": 200
-        },
-        {
-            "reward": {
-                "label": "gems",
-                "amount": 2
-            },
-            "task": "kill_mob",
-            "task_current": 10,
-            "task_needed": 25
-        }
-    ],
-    "quest_partner_list": [
-        {
-            "reward": {
-                "label": "gems",
-                "amount": 15
-            },
-            "task": "subscribe_tg_channel",
-            "link": "https://t.me/durov"
-        }
-    ],
-
-    "spin_data": {
-        "rewards": [
-            {"label": "gems", "amount": 15},
-            {"label": "coins", "amount": 150},
-            {"label": "gems", "amount": 500},
-            {"label": "coins", "amount": 800},
-            {"label": "coins", "amount": 15},
-            {"label": "coins", "amount": 5000},
-            {"label": "gems", "amount": 150},
-            {"label": "coins", "amount": 5}
-        ],
-        "spins": 3
+    {
+      "label": "spell_list[1].label",
+      "is_unlocked": 120,
+      "name": "spell_list[1].name",
+      "level": 122,
+      "about": "spell_list[1].about",
+      "level_up_price": 124,
+      "buy_price": 125,
+      "rune": "spell_list[1].rune",
+      "runes_needed": 127
     },
-
-    "hero_selected": "leonard",
-    "hero_list": [
+    {
+      "label": "spell_list[2].label",
+      "is_unlocked": 131,
+      "name": "spell_list[2].name",
+      "level": 133,
+      "about": "spell_list[2].about",
+      "level_up_price": 135,
+      "buy_price": 136,
+      "rune": "spell_list[2].rune",
+      "runes_needed": 138
+    }
+  ],
+  "spell_equipped_list": [
+    "spell_equipped_list[0]",
+    null,
+    null
+  ],
+  "shop_item_list": [
+    {
+      "reward": {
+        "label": "shop_item_list[0].reward.label",
+        "amount": 150
+      },
+      "text": "shop_item_list[0].text",
+      "price": 153
+    },
+    {
+      "reward": {
+        "label": "shop_item_list[1].reward.label",
+        "amount": 158
+      },
+      "text": "shop_item_list[1].text",
+      "price": 161
+    },
+    {
+      "reward": {
+        "label": "shop_item_list[2].reward.label",
+        "amount": 166
+      },
+      "text": "shop_item_list[2].text",
+      "price": 169
+    },
+    {
+      "reward": {
+        "label": "shop_item_list[3].reward.label",
+        "amount": 174
+      },
+      "text": "shop_item_list[3].text",
+      "price": 177
+    },
+    {
+      "reward": {
+        "label": "shop_item_list[4].reward.label",
+        "amount": 182
+      },
+      "text": "shop_item_list[4].text",
+      "price": 185
+    }
+  ],
+  "location_list": [
+    {
+      "title": "location_list[0].title",
+      "tile_images_folder": "location_list[0].tile_images_folder",
+      "card_image": "location_list[0].card_image",
+      "battles": [
         {
-            "label": "maximus",
-            "is_unlocked": 1,
-            "name": "Maximus",
-            "level": 1,
-            "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            "level_up_price": 500,
-            "buy_price": 30
+          "waves": [
+            [
+              {
+                "label": "location_list[0].battles[0].waves[0][0].label",
+                "level": 200
+              },
+              null,
+              null
+            ]
+          ],
+          "is_captured": 205
         },
         {
-            "label": "leonard",
-            "is_unlocked": 1,
-            "name": "Sir Leonard",
-            "level": 5,
-            "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            "level_up_price": 500,
-            "buy_price": 30
-        }
-    ],
-
-    "spell_list": [
-        {
-            "label": "sun_sneeze",
-            "is_unlocked": 1,
-            "name": "Sun Sneeze",
-            "level": 2,
-            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            "level_up_price": 800,
-            "buy_price": 50,
-            "rune": "light",
-            "runes_needed": 12
-        },
-        {
-            "label": "booooooom",
-            "is_unlocked": 1,
-            "name": "Booooooom",
-            "level": 1,
-            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            "level_up_price": 800,
-            "buy_price": 50,
-            "rune": "dark",
-            "runes_needed": 20
-        },
-        {
-            "label": "call_batgoblin",
-            "is_unlocked": 0,
-            "name": "Call Batgoblin",
-            "level": 1,
-            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            "level_up_price": 800,
-            "buy_price": 50,
-            "rune": "dark",
-            "runes_needed": 20
-        }
-    ],
-    "spell_equipped_list": ["sun_sneeze", null, null],
-
-    "shop_item_list": [
-        {
-            "reward": { "label": "coins", "amount": 100},
-            "text": "A pile of coins",
-            "price": 0.99
-        },
-        {
-            "reward": { "label": "coins", "amount": 1000},
-            "text": "A chest of coins",
-            "price": 0.99
-        },
-        {
-            "reward": { "label": "coins", "amount": 10000},
-            "text": "A mountain of coins",
-            "price": 2.99
-        },
-        {
-            "reward": { "label": "gems", "amount": 10},
-            "text": "A pile of coins",
-            "price": 0.99
-        },
-        {
-            "reward": { "label": "gems", "amount": 100},
-            "text": "A chest of coins",
-            "price": 1.99
-        }
-    ],
-    "location_list": [
-        {
-            "title": "Green Hill Zone",
-            "tile_images_folder": "map/hills/",
-            "card_image": "locations/location1",
-            "battles": [
-                {
-                    "waves": [
-                        [{"label": "wolf", "level": 1}, null, null]
-                    ],
-                    "is_captured": 0
-                },
-                {
-                    "waves": [
-                        [{"label": "wolf", "level": 1}, null, null],
-                        [{"label": "wolf", "level": 1}, {"label": "wolf", "level": 1}, null]
-                    ],
-                    "is_captured": 0
-                },
-                {
-                    "waves": [
-                        [
-                            {"label": "wolf", "level": 1},
-                            {"label": "skeleton", "level": 1},
-                            {"label": "wolf", "level": 1}
-                        ],
-                        [
-                            {"label": "wolf", "level": 2},
-                            {"label": "wolf", "level": 2},
-                            null
-                        ],
-                        [
-                            {"label": "wolf", "level": 2},
-                            null,
-                            {"label": "wolf", "level": 2}
-                        ]
-                    ],
-                    "is_captured": 0
-                }
+          "waves": [
+            [
+              {
+                "label": "location_list[0].battles[1].waves[0][0].label",
+                "level": 211
+              },
+              null,
+              null
             ],
-            "is_unlocked": 1
+            [
+              {
+                "label": "location_list[0].battles[1].waves[1][0].label",
+                "level": 218
+              },
+              {
+                "label": "location_list[0].battles[1].waves[1][1].label",
+                "level": 222
+              },
+              null
+            ]
+          ],
+          "is_captured": 226
         },
         {
-            "title": "Forest",
-            "tile_images_folder": "map/forest/",
-            "card_image": "locations/location2",
-            "battles": [
-                {
-                    "waves": [
-                        [{"label": "wolf", "level": 1}, null, null]
-                    ],
-                    "is_captured": 0
-                }
+          "waves": [
+            [
+              {
+                "label": "location_list[0].battles[2].waves[0][0].label",
+                "level": 232
+              },
+              {
+                "label": "location_list[0].battles[2].waves[0][1].label",
+                "level": 236
+              },
+              {
+                "label": "location_list[0].battles[2].waves[0][2].label",
+                "level": 240
+              }
             ],
-            "is_unlocked": 1
-        },
-        {
-            "title": "Dark Forest",
-            "tile_images_folder": "map/dark_forest/",
-            "card_image": "locations/location3",
-            "battles": [
-                {
-                    "waves": [
-                        [{"label": "wolf", "level": 1}, null, null]
-                    ],
-                    "is_captured": 0
-                }
+            [
+              {
+                "label": "location_list[0].battles[2].waves[1][0].label",
+                "level": 245
+              },
+              {
+                "label": "location_list[0].battles[2].waves[1][1].label",
+                "level": 249
+              },
+              null
             ],
-            "is_unlocked": 0
+            [
+              {
+                "label": "location_list[0].battles[2].waves[2][0].label",
+                "level": 254
+              },
+              null,
+              {
+                "label": "location_list[0].battles[2].waves[2][2].label",
+                "level": 258
+              }
+            ]
+          ],
+          "is_captured": 262
         }
-    ]
+      ],
+      "is_unlocked": 265
+    },
+    {
+      "title": "location_list[1].title",
+      "tile_images_folder": "location_list[1].tile_images_folder",
+      "card_image": "location_list[1].card_image",
+      "battles": [
+        {
+          "waves": [
+            [
+              {
+                "label": "location_list[1].battles[0].waves[0][0].label",
+                "level": 277
+              },
+              null,
+              null
+            ]
+          ],
+          "is_captured": 282
+        }
+      ],
+      "is_unlocked": 285
+    },
+    {
+      "title": "location_list[2].title",
+      "tile_images_folder": "location_list[2].tile_images_folder",
+      "card_image": "location_list[2].card_image",
+      "battles": [
+        {
+          "waves": [
+            [
+              {
+                "label": "location_list[2].battles[0].waves[0][0].label",
+                "level": 298
+              },
+              null,
+              null
+            ]
+          ],
+          "is_captured": 303
+        }
+      ],
+      "is_unlocked": 306
+    }
+  ]
 }

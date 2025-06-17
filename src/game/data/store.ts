@@ -1,10 +1,12 @@
+import store from './store.json'
+
 type Reward = {
     label: string
     amount: number
 }
 
 type Maybe<T> = T | null
-
+type Bool = number
 
 //
 type Store = {
@@ -44,8 +46,8 @@ type Stats = {
 }
 
 type Settings = {
-    is_music_on: number
-    is_sound_on: number
+    is_music_on: Bool
+    is_sound_on: Bool
 }
 
 type QuestList = Quest[]
@@ -86,7 +88,7 @@ type HeroSelected = string
 type HeroList = Hero[]
 type Hero = {
     label: string
-    is_unlocked: boolean
+    is_unlocked: Bool
     name: string
     level: number
     bio: string
@@ -94,11 +96,11 @@ type Hero = {
     buy_price: number
 }
 
-type SpellEquippedList = [Maybe<string>, Maybe<string>, Maybe<string>]
+type SpellEquippedList = Maybe<string>[]
 type SpellList = Spell[]
 type Spell = {
     label: string
-    is_unlocked: boolean
+    is_unlocked: Bool
     name: string
     level: number
     about: string
@@ -121,14 +123,16 @@ type Location = {
     tile_images_folder: string
     card_image: string
     battles: Battle[]
-    is_unlocked: boolean
+    is_unlocked: Bool
 }
 type Battle = {
     waves: Wave[]
-    is_captured: boolean
+    is_captured: Bool
 }
-type Wave = [Maybe<Mob>, Maybe<Mob>, Maybe<Mob>]
+type Wave = Maybe<Mob>[]
 type Mob = {
     label: string
     level: number
 }
+
+export default (store as Store)

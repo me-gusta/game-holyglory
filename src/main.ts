@@ -6,7 +6,6 @@ import {time_groups} from '$lib/BaseNode'
 import AssetManager from '$lib/AssetManager'
 import {sleep} from '$lib/utility'
 import {Howl} from 'howler'
-import store from '$lib/store'
 
 const preload = async () => {
     console.log(window.Telegram)
@@ -23,7 +22,7 @@ const preload = async () => {
     ]);
 
     await load_assets();
-    await store.load_user_data();
+    // await store.load_user_data();
 
 
 

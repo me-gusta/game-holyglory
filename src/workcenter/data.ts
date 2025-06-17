@@ -6,7 +6,7 @@ type Reward = {
 type Maybe<T> = T | null
 
 
-///
+//
 type Store = {
     player: Player
     stats: Stats

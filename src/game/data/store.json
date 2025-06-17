@@ -1,132 +1,223 @@
 {
-    "6834a9c247ba81fc9ff0c88b": {
-        "eid": "6834a9c247ba81fc9ff0c88b",
-        "location": "68346741c2572db90139cc1a",
-        "number": 1,
-        "waves": [
-            [
-                {"label": "wolf", "level": 1},
-                null,
-                null
-            ]
-        ]
+    "player": {
+        "level": 1,
+        "exp_current": 87,
+        "exp_next": 200,
+        "crowns": 652,
+        "username": "Pablo Bar",
+        "avatar": "https://avatars.dzeninfra.ru/get-zen_doc/3373796/pub_5fb17ce11064d30b6c96280d_5fb180eb8d19932be14a90cf/scale_1200"
     },
-    "6834a9e6a48d909121977a2d": {
-        "eid": "6834a9e6a48d909121977a2d",
-        "location": "68346741c2572db90139cc1a",
-        "number": 2,
-        "waves": [
-            [
-                {"label": "wolf", "level": 1},
-                null,
-                null
+    "stats": {
+        "coins": 150,
+        "gems": 60,
+        "energy": 300
+    },
+
+    "setting": {
+        "is_music_on": 1,
+        "is_sound_on": 0
+    },
+
+    "quest_list": [
+        {
+            "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "collect_rune_fire",
+            "task_current": 124,
+            "task_needed": 200
+        },
+        {
+            "reward": {
+                "label": "gems",
+                "amount": 2
+            },
+            "task": "kill_mob",
+            "task_current": 10,
+            "task_needed": 25
+        }
+    ],
+    "quest_partner_list": [
+        {
+            "reward": {
+                "label": "gems",
+                "amount": 15
+            },
+            "task": "subscribe_tg_channel",
+            "link": "https://t.me/durov"
+        }
+    ],
+
+    "spin_data": {
+        "rewards": [
+            {"label": "gems", "amount": 15},
+            {"label": "coins", "amount": 150},
+            {"label": "gems", "amount": 500},
+            {"label": "coins", "amount": 800},
+            {"label": "coins", "amount": 15},
+            {"label": "coins", "amount": 5000},
+            {"label": "gems", "amount": 150},
+            {"label": "coins", "amount": 5}
+        ],
+        "spins": 3
+    },
+
+    "hero_selected": "leonard",
+    "hero_list": [
+        {
+            "label": "maximus",
+            "is_unlocked": 1,
+            "name": "Maximus",
+            "level": 1,
+            "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 500,
+            "buy_price": 30
+        },
+        {
+            "label": "leonard",
+            "is_unlocked": 1,
+            "name": "Sir Leonard",
+            "level": 5,
+            "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 500,
+            "buy_price": 30
+        }
+    ],
+
+    "spell_list": [
+        {
+            "label": "sun_sneeze",
+            "is_unlocked": 1,
+            "name": "Sun Sneeze",
+            "level": 2,
+            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "light",
+            "runes_needed": 12
+        },
+        {
+            "label": "booooooom",
+            "is_unlocked": 1,
+            "name": "Booooooom",
+            "level": 1,
+            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "dark",
+            "runes_needed": 20
+        },
+        {
+            "label": "call_batgoblin",
+            "is_unlocked": 0,
+            "name": "Call Batgoblin",
+            "level": 1,
+            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "dark",
+            "runes_needed": 20
+        }
+    ],
+    "spell_equipped_list": ["sun_sneeze", null, null],
+
+    "shop_item_list": [
+        {
+            "reward": { "label": "coins", "amount": 100},
+            "text": "A pile of coins",
+            "price": 0.99
+        },
+        {
+            "reward": { "label": "coins", "amount": 1000},
+            "text": "A chest of coins",
+            "price": 0.99
+        },
+        {
+            "reward": { "label": "coins", "amount": 10000},
+            "text": "A mountain of coins",
+            "price": 2.99
+        },
+        {
+            "reward": { "label": "gems", "amount": 10},
+            "text": "A pile of coins",
+            "price": 0.99
+        },
+        {
+            "reward": { "label": "gems", "amount": 100},
+            "text": "A chest of coins",
+            "price": 1.99
+        }
+    ],
+    "location_list": [
+        {
+            "title": "Green Hill Zone",
+            "tile_images_folder": "map/hills/",
+            "card_image": "locations/location1",
+            "battles": [
+                {
+                    "waves": [
+                        [{"label": "wolf", "level": 1}, null, null]
+                    ],
+                    "is_captured": 0
+                },
+                {
+                    "waves": [
+                        [{"label": "wolf", "level": 1}, null, null],
+                        [{"label": "wolf", "level": 1}, {"label": "wolf", "level": 1}, null]
+                    ],
+                    "is_captured": 0
+                },
+                {
+                    "waves": [
+                        [
+                            {"label": "wolf", "level": 1},
+                            {"label": "skeleton", "level": 1},
+                            {"label": "wolf", "level": 1}
+                        ],
+                        [
+                            {"label": "wolf", "level": 2},
+                            {"label": "wolf", "level": 2},
+                            null
+                        ],
+                        [
+                            {"label": "wolf", "level": 2},
+                            null,
+                            {"label": "wolf", "level": 2}
+                        ]
+                    ],
+                    "is_captured": 0
+                }
             ],
-            [
-                {"label": "wolf", "level": 1},
-                {"label": "wolf", "level": 1},
-                null
-            ]
-        ]
-    },
-    "6834a9eb20836408c0a75669": {
-        "eid": "6834a9eb20836408c0a75669",
-        "location": "68346741c2572db90139cc1a",
-        "number": 3,
-        "waves": [
-            [
-                {"label": "wolf", "level": 1},
-                {"label": "skeleton", "level": 1},
-                {"label": "wolf", "level": 1}
+            "is_unlocked": 1
+        },
+        {
+            "title": "Forest",
+            "tile_images_folder": "map/forest/",
+            "card_image": "locations/location2",
+            "battles": [
+                {
+                    "waves": [
+                        [{"label": "wolf", "level": 1}, null, null]
+                    ],
+                    "is_captured": 0
+                }
             ],
-            [
-                {"label": "wolf", "level": 2},
-                {"label": "wolf", "level": 2},
-                null
+            "is_unlocked": 1
+        },
+        {
+            "title": "Dark Forest",
+            "tile_images_folder": "map/dark_forest/",
+            "card_image": "locations/location3",
+            "battles": [
+                {
+                    "waves": [
+                        [{"label": "wolf", "level": 1}, null, null]
+                    ],
+                    "is_captured": 0
+                }
             ],
-            [
-                {"label": "wolf", "level": 2},
-                null,
-                {"label": "wolf", "level": 2}
-            ]
-        ]
-    },
-    "6834a9f0dad10f79b6e9df50": {
-        "eid": "6834a9f0dad10f79b6e9df50",
-        "location": "68346741c2572db90139cc1a",
-        "number": 4,
-        "waves": [
-            [
-                {"label": "wolf", "level": 12},
-                {"label": "wolf", "level": 12},
-                {"label": "wolf", "level": 12}
-            ],
-            [
-                null,
-                {"label": "wolf", "level": 3},
-                {"label": "wolf", "level": 3}
-            ],
-            [
-                null,
-                {"label": "wolf", "level": 4},
-                {"label": "wolf", "level": 4}
-            ]
-        ]
-    },
-    "6834a9f4630f6cdf49e87f8e": {
-        "eid": "6834a9f4630f6cdf49e87f8e",
-        "location": "68346741c2572db90139cc1a",
-        "number": 5,
-        "waves": [
-            [
-                {"label": "wolf", "level": 4},
-                {"label": "wolf", "level": 4},
-                {"label": "wolf", "level": 4}
-            ],
-            [
-                {"label": "wolf", "level": 4},
-                null,
-                {"label": "wolf", "level": 4}
-            ],
-            [
-                {"label": "wolf", "level": 4},
-                {"label": "wolf", "level": 4},
-                {"label": "wolf", "level": 4}
-            ],
-            [
-                {"label": "wolf", "level": 4},
-                {"label": "wolf", "level": 4},
-                {"label": "wolf", "level": 4}
-            ]
-        ]
-    },
-    "6834a9fae98b5d7b0cb22fcc": {
-        "eid": "6834a9fae98b5d7b0cb22fcc",
-        "location": "68346741c2572db90139cc1a",
-        "number": 6
-    },
-    "6834a9ff5f650715756bb81b": {
-        "eid": "6834a9ff5f650715756bb81b",
-        "location": "68346741c2572db90139cc1a",
-        "number": 7
-    },
-    "6834aa04284cad623a24a453": {
-        "eid": "6834aa04284cad623a24a453",
-        "location": "68346741c2572db90139cc1a",
-        "number": 8
-    },
-    "6834aa0787d205919b76450a": {
-        "eid": "6834aa0787d205919b76450a",
-        "location": "68346741c2572db90139cc1a",
-        "number": 9
-    },
-    "6834aa0ca89215832769556f": {
-        "eid": "6834aa0ca89215832769556f",
-        "location": "68346741c2572db90139cc1a",
-        "number": 10
-    },
-    "6834aa0fb1fee13a1d8cc474": {
-        "eid": "6834aa0fb1fee13a1d8cc474",
-        "location": "68346741c2572db90139cc1a",
-        "number": 11
-    }
+            "is_unlocked": 0
+        }
+    ]
 }
