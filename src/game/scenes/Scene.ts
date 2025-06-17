@@ -29,7 +29,7 @@ export default class Scene extends SceneSwitch {
         ['soon', S_Soon],
         ['settings', S_Settings],
     ])
-    initial = 'main'
+    initial = 'quests'
 
     constructor() {
         super()

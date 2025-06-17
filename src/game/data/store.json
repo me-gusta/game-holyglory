@@ -14,8 +14,8 @@
     },
 
     "setting": {
-        "is_music_on": 1,
-        "is_sound_on": 0
+        "is_music_on": true,
+        "is_sound_on": false
     },
 
     "quest_list": [
@@ -25,8 +25,9 @@
                 "amount": 100
             },
             "task": "collect_rune_fire",
-            "task_current": 124,
-            "task_needed": 200
+            "task_current": 200,
+            "task_needed": 200,
+            "is_claimed": false
         },
         {
             "reward": {
@@ -35,7 +36,8 @@
             },
             "task": "kill_mob",
             "task_current": 10,
-            "task_needed": 25
+            "task_needed": 25,
+            "is_claimed": false
         }
     ],
     "quest_partner_list": [
@@ -67,7 +69,7 @@
     "hero_list": [
         {
             "label": "maximus",
-            "is_unlocked": 1,
+            "is_unlocked": true,
             "name": "Maximus",
             "level": 1,
             "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -76,7 +78,7 @@
         },
         {
             "label": "leonard",
-            "is_unlocked": 1,
+            "is_unlocked": true,
             "name": "Sir Leonard",
             "level": 5,
             "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -88,7 +90,7 @@
     "spell_list": [
         {
             "label": "sun_sneeze",
-            "is_unlocked": 1,
+            "is_unlocked": true,
             "name": "Sun Sneeze",
             "level": 2,
             "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -99,7 +101,7 @@
         },
         {
             "label": "booooooom",
-            "is_unlocked": 1,
+            "is_unlocked": true,
             "name": "Booooooom",
             "level": 1,
             "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -110,7 +112,7 @@
         },
         {
             "label": "call_batgoblin",
-            "is_unlocked": 0,
+            "is_unlocked": false,
             "name": "Call Batgoblin",
             "level": 1,
             "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -159,14 +161,14 @@
                     "waves": [
                         [{"label": "wolf", "level": 1}, null, null]
                     ],
-                    "is_captured": 0
+                    "is_captured": false
                 },
                 {
                     "waves": [
                         [{"label": "wolf", "level": 1}, null, null],
                         [{"label": "wolf", "level": 1}, {"label": "wolf", "level": 1}, null]
                     ],
-                    "is_captured": 0
+                    "is_captured": false
                 },
                 {
                     "waves": [
@@ -186,10 +188,10 @@
                             {"label": "wolf", "level": 2}
                         ]
                     ],
-                    "is_captured": 0
+                    "is_captured": false
                 }
             ],
-            "is_unlocked": 1
+            "is_unlocked": true
         },
         {
             "title": "Forest",
@@ -200,10 +202,10 @@
                     "waves": [
                         [{"label": "wolf", "level": 1}, null, null]
                     ],
-                    "is_captured": 0
+                    "is_captured": false
                 }
             ],
-            "is_unlocked": 1
+            "is_unlocked": true
         },
         {
             "title": "Dark Forest",
@@ -214,10 +216,10 @@
                     "waves": [
                         [{"label": "wolf", "level": 1}, null, null]
                     ],
-                    "is_captured": 0
+                    "is_captured": false
                 }
             ],
-            "is_unlocked": 0
+            "is_unlocked": false
         }
     ],
 

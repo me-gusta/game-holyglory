@@ -1,9 +1,10 @@
 import BaseNode from "$lib/BaseNode"
-import { create_graphics, create_sprite, create_text } from "$lib/create_things"
+import {create_graphics, create_sprite, create_text} from "$lib/create_things"
 import colors from "$src/game/colors"
-import { Graphics, Sprite, Text } from "pixi.js"
+import {Graphics, Sprite, Text} from "pixi.js"
 import ButtonSettings from "./ButtonSettings"
-import store from "$src/game/data/store.ts";
+import store from "$src/game/data/store.ts"
+import awe from "$src/game/data/awe.ts"
 
 class Stat extends BaseNode {
     bg: Sprite
@@ -18,7 +19,7 @@ class Stat extends BaseNode {
             text: 1000, style: {
                 fill: colors.bright,
                 fontSize: 36,
-                stroke: { width: 2, color: colors.dark },
+                stroke: {width: 2, color: colors.dark},
                 // align: 'right'
             }
         })
@@ -64,6 +65,36 @@ export default class HeaderTop extends BaseNode {
         this.stat_gems.lbl.text = store.stats.coins
         this.stat_energy.lbl.text = store.stats.energy
 
+        awe.listen('stats.coins', (upd) => {
+            // this.stat_coins.lbl.text = upd.current
+            this.anim_count(this.stat_coins.lbl, upd.current)
+        })
+    }
+
+    anim_count(lbl, new_value) {
+        const current = Number(lbl.text)
+        const max_steps = 12
+
+        const difference = new_value - current
+        if (difference === 0) return
+
+        const steps = Math.min(Math.abs(difference), max_steps)
+        const increment = difference / steps
+        const duration = 500
+        const delay = duration / steps
+
+        let i = 0
+        const step = () => {
+            i++
+            const updatedValue = Math.round(current + increment * i)
+            lbl.text = updatedValue
+
+            if (i < steps) {
+                this.set_timeout(delay, step)
+            }
+        }
+
+        this.set_timeout(delay, step)
     }
 
     resize(): void {

@@ -64,11 +64,11 @@ function setValueByPath(obj: any, path: string, value: any): boolean {
 
 
 ///
-type AWEListener = <T>(upd: { current: T, previous: T }) => void
 type Primitive = string | number | boolean
+type AWEListener = (upd: { current: Primitive, previous: Primitive }) => void
 
 export class AWE {
-    listeners = new Map<string, AWEListener[]>()
+    private listeners = new Map<string, AWEListener[]>()
 
     get(path: string) {
         return getValueByPath(store, path)
@@ -135,3 +135,4 @@ export class AWE {
 }
 
 
+export default new AWE()

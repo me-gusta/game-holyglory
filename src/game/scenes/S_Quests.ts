@@ -5,19 +5,16 @@ import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
 import VRowScrollable from "../components/VRowScrollable.ts"
 import ButtonBack from "../components/ButtonBack"
-import store from "$src/game/data/store"
+import store, {Quest, save} from "$src/game/data/store"
 import Item from '$src/game/components/Item.ts'
+import {get_reward_icon} from "$src/game/other.ts";
+import HeaderTop from "$src/game/components/HeaderTop.ts";
+import {IPoint} from "$lib/Vector.ts";
+import {random_float, random_int} from "$lib/random.ts";
+import {randomPointInCircle} from "$lib/utility.ts";
+import {Easing} from "@tweenjs/tween.js";
+import awe from "$src/game/data/awe.ts";
 
-type Quest = {
-    task: string
-    amount_max: number
-    amount_current: number
-    reward: {
-        item: string
-        icon: string
-        amount: number
-    }
-}
 
 class ButtonQuest extends BaseNode {
     bg = create_sprite('button_card')
@@ -34,13 +31,13 @@ class ButtonQuest extends BaseNode {
         this.addChild(this.bg)
         this.addChild(this.lbl)
 
-        this.interactive = true
-        this.cursor = 'pointer'
     }
 
     set_completed() {
         this.bg.texture = Texture.from('button_card_on')
         this.lbl.text = 'Claim'
+        this.interactive = true
+        this.cursor = 'pointer'
     }
 }
 
@@ -52,7 +49,7 @@ class CardQuest extends BaseNode {
     constructor(q: Quest, is_purple = false) {
         super()
 
-        const { task, amount_max, amount_current, reward } = q
+        const { task, task_needed: amount_max, task_current: amount_current, reward } = q
 
         this.bg = create_sprite(is_purple ? 'card_small_purple' : 'card_small')
         this.lbl = create_text({
@@ -62,7 +59,9 @@ class CardQuest extends BaseNode {
             }
         })
         this.lbl.anchor.x = 0
-        this.item = new Item(reward.icon, reward.amount)
+
+        const reward_icon = get_reward_icon(reward)
+        this.item = new Item(reward_icon, reward.amount)
 
         const percents = Math.floor(amount_current / amount_max * 100)
         const btn_text = percents + '%'
@@ -72,6 +71,13 @@ class CardQuest extends BaseNode {
         this.addChild(this.lbl)
         this.addChild(this.item)
         this.addChild(this.button)
+
+        this.button.on('pointerup', () => {
+            this.trigger('drop_coins', this.toGlobal(this.button))
+            awe.add('stats.coins', reward.amount)
+            q.is_claimed = true
+            save()
+        })
 
         if (percents >= 100) {
             this.button.set_completed()
@@ -97,6 +103,7 @@ class CardQuest extends BaseNode {
 
 export default class S_Quests extends BaseNode {
     bg: TilingSprite
+    header_top = new HeaderTop()
     header = new WoodenHeader('Quests')
     vrow = new VRowScrollable()
     button_back = new ButtonBack()
@@ -105,57 +112,73 @@ export default class S_Quests extends BaseNode {
         super()
         this.bg = new TilingSprite({ texture: Texture.from('seamlessbg') })
         this.addChild(this.bg)
+        this.addChild(this.header_top)
         this.addChild(this.header)
         this.addChild(this.vrow)
         this.addChild(this.button_back)
 
-        const quests = [
-            {
-                task: 'Match 100 runes',
-                amount_max: 100,
-                amount_current: 33,
-                reward: {
-                    item: 'coins',
-                    icon: 'icons/coin',
-                    amount: 1
-                }
-            },
-            {
-                task: 'Match 100 runes',
-                amount_max: 100,
-                amount_current: 133,
-                reward: {
-                    item: 'coins',
-                    icon: 'icons/coin',
-                    amount: 100
-                }
-            }
-        ]
+        const quests = store.quest_list
 
         this.vrow.add(
             new CardQuest(
                 {
-                    task: 'Complete 5 quests',
-                    amount_max: 5,
-                    amount_current: 1,
+                    task: 'complete_5',
+                    task_needed: 5,
+                    task_current: 1,
                     reward: {
-                        item: 'gems',
-                        icon: 'icons/gem',
-                        amount: 1000
-                    }
+                        label: 'gems',
+                        amount: 10
+                    },
+                    is_claimed: false
                 },
                 true
             )
         )
 
         for (let e of quests) {
-            const quest = new CardQuest(e)
-            this.vrow.add(quest)
-
+            this.vrow.add(new CardQuest(e))
         }
 
-
         this.button_back.on('pointerup', () => this.trigger('set_scene', 'main'))
+
+        this.on('drop_coins', (global_pos: IPoint) => {
+            const p1 = this.toLocal(global_pos)
+
+            const p2 = this.toLocal(
+                this.header_top.stat_coins.toGlobal(this.header_top.stat_coins.icon)
+            )
+
+            const coins = random_int(8, 15)
+
+            for (let i =0; i < coins; i++) {
+                const p1i = randomPointInCircle(p1, 30)
+                const icon = create_sprite('icons/coin')
+                icon.position.copyFrom(p1i)
+                this.addChild(icon)
+                const scale = random_float(0.1, 0.3)
+                icon.scale.set(0.1)
+
+                this.tween(icon.scale)
+                    .to({x:scale, y:scale}, 200)
+                    .easing(Easing.Quadratic.Out)
+                    .start()
+
+                this.tween(icon.position)
+                    .to(p2, 400 + i * 10)
+                    .easing(Easing.Quadratic.In)
+                    .delay(450 + i * 10)
+                    .start()
+                    .onComplete(() => {
+                        icon.destroy()
+                    })
+
+                this.tween(icon)
+                    .to({alpha: 0}, 130 + i * 10)
+                    .easing(Easing.Quadratic.In)
+                    .delay(750 + i * 10)
+                    .start()
+            }
+        })
     }
 
     start() {
@@ -167,14 +190,20 @@ export default class S_Quests extends BaseNode {
         this.bw = window.screen_size.width
         this.bh = window.screen_size.height
 
+        // header_top
+        this.header_top.bw = this.bw
+        this.header_top.resize()
+        this.header_top.position.x = -this.bw / 2
+        this.header_top.position.y = -this.bh / 2
+
         // header
         this.header.bw = this.bw * 0.75
         this.header.resize()
-        this.header.position.y = -this.bh / 2 + this.header.height / 2 + this.bh * 0.01
+        this.header.position.y = -this.bh / 2 + this.header.height / 2 + this.bh * 0.01 + this.header_top.height
 
         // vrow
         this.vrow.bw = this.bw * 0.9
-        this.vrow.bh = this.bh - (this.header.height + this.bh * 0.04)
+        this.vrow.bh = this.bh - (this.header.height + this.header_top.height + this.bh * 0.04)
         this.vrow.resize()
         this.vrow.position.y = -this.bh / 2 + (this.bh - this.vrow.bh)
 

@@ -1,13 +1,11 @@
 import store_json from './store.json'
-import store from "$src/game/data/store.json";
 
-type Reward = {
+export type Reward = {
     label: string
     amount: number
 }
 
 type Maybe<T> = T | null
-type Bool = number
 
 //
 type Store = {
@@ -50,8 +48,8 @@ type Stats = {
 }
 
 type Settings = {
-    is_music_on: Bool
-    is_sound_on: Bool
+    is_music_on: boolean
+    is_sound_on: boolean
 }
 
 type QuestList = Quest[]
@@ -66,13 +64,15 @@ type QuestTask = 'collect_rune' |
     'complete_level' |
     'play_roulette' |
     'cast_spell' |
-    'level_up'
+    'level_up' |
+    'complete_5'
 
-type Quest = {
+export type Quest = {
     reward: Reward
     task: QuestTask
     task_current: number
     task_needed: number
+    is_claimed: boolean
 }
 
 
@@ -90,9 +90,9 @@ type SpinData = {
 
 type HeroSelected = string
 type HeroList = Hero[]
-type Hero = {
+export type Hero = {
     label: string
-    is_unlocked: Bool
+    is_unlocked: boolean
     name: string
     level: number
     bio: string
@@ -102,9 +102,9 @@ type Hero = {
 
 type SpellEquippedList = Maybe<string>[]
 type SpellList = Spell[]
-type Spell = {
+export type Spell = {
     label: string
-    is_unlocked: Bool
+    is_unlocked: boolean
     name: string
     level: number
     about: string
@@ -127,11 +127,11 @@ type Location = {
     tile_images_folder: string
     card_image: string
     battles: Battle[]
-    is_unlocked: Bool
+    is_unlocked: boolean
 }
 type Battle = {
     waves: Wave[]
-    is_captured: Bool
+    is_captured: boolean
 }
 type Wave = Maybe<Mob>[]
 type Mob = {
@@ -139,17 +139,21 @@ type Mob = {
     level: number
 }
 
+let store: Store
+
 export const save = () => {
     localStorage.setItem('hogl-store', JSON.stringify(store))
 }
 
 export const load = () => {
     const store_string = localStorage.getItem('hogl-store')
-    if (store_string) return JSON.parse(store_string) as Store
-    save()
-    return (store as Store)
+    if (store_string) {
+        store = JSON.parse(store_string) as Store
+    } else {
+        store = store_json as Store
+    }
 }
 
+load()
 
-
-export default load()
+export default store! as Store
