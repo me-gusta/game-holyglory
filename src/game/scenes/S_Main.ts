@@ -224,8 +224,7 @@ export default class S_Main extends BaseNode {
         })
 
         this.dock.button4.on('pointerup', () => {
-            store.soon_triggered = 'town'
-            this.trigger('set_scene', 'soon')
+            this.trigger('set_scene', 'leaderboard')
         })
         this.dock.button5.on('pointerup', () => {
             store.soon_triggered = 'guild'
