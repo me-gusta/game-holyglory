@@ -1,25 +1,27 @@
 import BaseNode from "$lib/BaseNode"
-import {Container, Particle, ParticleContainer, Sprite, Text, Texture, TilingSprite} from "pixi.js"
-import WoodenHeader from "../WoodenHeader"
-import VRowScrollable from "../VRowScrollable.ts"
+import {Container, Particle, ParticleContainer, Sprite, Text, Texture, Ticker, TilingSprite} from "pixi.js"
 import {create_graphics, create_sprite, create_text} from "$lib/create_things"
 import colors from "$src/game/colors"
 import Grid from '$src/game/components/Grid.ts'
 import {Reward} from '$src/game/data/store.ts'
-import {get_reward_icon} from '$src/game/other.ts'
+import {get_reward_icon, get_reward_text} from '$src/game/other.ts'
+import WoodenHeader from '$src/game/components/WoodenHeader.ts'
+import {random_choice} from '$lib/random.ts'
 
-class GILoot extends BaseNode {
+class Loot extends BaseNode {
     icon: Sprite
     lbl: Text
 
     constructor(r: Reward) {
         super()
         this.icon = create_sprite(get_reward_icon(r))
+        let text = get_reward_text(r)
+        if (r.amount > 1) text += ' x' + r.amount
         this.lbl = create_text({
-            text: 'x' + r.amount,
-            style: {fontSize: 42, fill: colors.dark, stroke: {width: 7, color: colors.bright}},
+            text: text,
+            style: {fontSize: 82, fill: colors.dark, stroke: {width: 7, color: colors.bright}},
         })
-        this.lbl.anchor.x = 1
+        // this.lbl.anchor.x = 1
 
         this.addChild(this.icon)
         this.addChild(this.lbl)
@@ -29,11 +31,11 @@ class GILoot extends BaseNode {
         this.icon.scale.set(
             this.bw / (this.icon.width / this.icon.scale.y)
         )
-        this.icon.position.x = this.bw / 2
-        this.icon.position.y = this.bh / 2
+        // this.icon.position.x = this.bw / 2
+        // this.icon.position.y = this.bh / 2
 
-        this.lbl.position.x = this.bw
-        this.lbl.position.y = this.bh - this.lbl.height / 2 - 10
+        // this.lbl.position.x = this.bw
+        this.lbl.position.y = this.icon.height/2 + this.lbl.height / 2 + 10
     }
 }
 
@@ -52,31 +54,32 @@ class ButtonLarge extends BaseNode {
     }
 }
 
+
 class Card extends BaseNode {
     bg = create_sprite('card_large')
     button = new ButtonLarge('Claim')
-    grid = new Grid(5)
+    container = new Container<Loot>()
 
     constructor() {
         super()
         this.addChild(this.bg)
         this.addChild(this.button)
-        this.addChild(this.grid)
+        this.addChild(this.container)
     }
 
     resize() {
         this.button.position.y = this.bg.height / 2 - this.button.height / 2 - 40
 
-        // grid
-        this.grid.bw = this.bg.width * 0.8
-        this.grid.bh = this.bg.height * 0.7
-        this.grid.position.x = -this.grid.bw / 2
-        this.grid.position.y = -this.bg.height / 2 + 10
-        this.grid.resize()
+        const loot: Loot = this.container.children[0]
+        if (!loot) return
+
+        loot.bw = this.bg.width * 0.5
+        loot.resize()
+        loot.position.y = -this.bg.height/2 + loot.height/2 + 60
     }
 }
 
-export default class ModalVictory extends BaseNode {
+export default class ModalItemDrop extends BaseNode {
     bg = create_graphics()
         .rect(0, 0, 100, 100)
         .fill({color: 'black', alpha: 0.6})
@@ -86,19 +89,18 @@ export default class ModalVictory extends BaseNode {
 
     constructor() {
         super()
-        this.header = new WoodenHeader('Victory!')
+        this.header = new WoodenHeader('Hoooraaayy!!!')
         this.addChild(this.bg)
         this.addChild(this.header)
         this.addChild(this.card)
 
         this.bg.interactive = true
     }
-
-
-
     add_reward(r: Reward) {
         this.rewards.push(r)
-        this.card.grid.add(new GILoot(r))
+        this.card.container.removeChildren()
+
+        this.card.container.addChild(new Loot(r))
         this.resize()
     }
 
@@ -118,7 +120,6 @@ export default class ModalVictory extends BaseNode {
         )
         this.card.position.y = this.header.position.y + this.card.height / 2 + this.header.height / 2 + 10
         this.card.resize()
-
 
         // bg
         this.bg.width = this.bw

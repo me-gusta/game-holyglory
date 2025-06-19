@@ -31,7 +31,7 @@ export default class Scene extends SceneSwitch {
         ['settings', S_Settings],
         ['leaderboard', S_Leaderboard],
     ])
-    initial = 'main'
+    initial = 'summon'
 
     constructor() {
         super()

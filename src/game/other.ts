@@ -10,6 +10,13 @@ import BaseNode from '$lib/BaseNode.ts'
 export const get_reward_icon = (r: Reward) => {
     if (r.label === 'coins') return 'icons/coin'
     if (r.label === 'gems') return 'icons/gem'
+    if (r.label === 'hero/maiden') return 'character_icons/maiden'
+    throw new Error(`unknown reward: ${JSON.stringify(r)}`)
+}
+export const get_reward_text = (r: Reward) => {
+    if (r.label === 'coins') return 'Coins'
+    if (r.label === 'gems') return 'Gems'
+    if (r.label === 'hero/maiden') return 'Pistol Maiden'
     throw new Error(`unknown reward: ${JSON.stringify(r)}`)
 }
 
