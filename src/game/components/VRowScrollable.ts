@@ -13,7 +13,7 @@ export default class VRowScrollable extends BaseNode {
     msk = create_graphics().rect(0, 0, 500, 500).fill('white')
     area = create_graphics().rect(0, 0, 500, 500).fill('white')
 
-    
+
     padding_bottom = 20
     gap = 10
     constructor() {
@@ -26,7 +26,6 @@ export default class VRowScrollable extends BaseNode {
         this.area.alpha = 0
 
         make_draggable(this)
-
 
         this.container.mask = this.msk
 
@@ -50,7 +49,7 @@ export default class VRowScrollable extends BaseNode {
             if (max_offset < 0) return
 
             const max_overflow = 50
-            
+
             if (prev_postion.x === 0 && prev_postion.y === 0) prev_postion.copyFrom(event.global)
 
             const v_diff = prev_postion.copy().substract(event.global)

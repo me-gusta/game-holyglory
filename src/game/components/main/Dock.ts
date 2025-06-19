@@ -53,7 +53,7 @@ export default class Dock extends BaseNode {
     button1 = new ButtonDock(1, 'icons/cash')
     button2 = new ButtonDock(2, 'icons/backpack')
     button3 = new ButtonDock(3, 'icons/swords')
-    button4 = new ButtonDock(4, 'icons/town')
+    button4 = new ButtonDock(4, 'icons/podium')
     button5 = new ButtonDock(5, 'icons/shield')
 
     constructor() {

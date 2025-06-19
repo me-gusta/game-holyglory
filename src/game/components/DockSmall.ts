@@ -2,6 +2,7 @@ import BaseNode from "$lib/BaseNode";
 import { create_sprite } from "$lib/create_things";
 import colors from "$src/game/colors";
 import { Sprite, Text } from "pixi.js";
+import store from '$src/game/data/store.ts'
 
 class ButtonDock extends BaseNode {
     bg: Sprite
@@ -53,7 +54,7 @@ export default class DockSmall extends BaseNode {
     button1 = new ButtonDock(1, 'icons/cash')
     button2 = new ButtonDock(2, 'icons/backpack')
     button3 = new ButtonDock(3, 'icons/swords')
-    button4 = new ButtonDock(4, 'icons/town')
+    button4 = new ButtonDock(4, 'icons/podium')
     button5 = new ButtonDock(5, 'icons/shield')
 
     constructor() {
@@ -66,6 +67,26 @@ export default class DockSmall extends BaseNode {
         this.addChild(this.button3)
         this.addChild(this.button4)
         this.addChild(this.button5)
+
+
+        this.button1.on('pointerup', () => {
+            this.trigger('set_scene', 'shop')
+        })
+
+        this.button2.on('pointerup', () => {
+            this.trigger('set_scene', 'backpack')
+        })
+
+        this.button3.on('pointerup', () => {
+            this.trigger('set_scene', 'main')
+        })
+        this.button4.on('pointerup', () => {
+            this.trigger('set_scene', 'leaderboard')
+        })
+        this.button5.on('pointerup', () => {
+            store.soon_triggered = 'guild'
+            this.trigger('set_scene', 'soon')
+        })
     }
 
     resize(): void {

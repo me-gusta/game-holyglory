@@ -40,6 +40,7 @@ type Player = {
     crowns: number
     username: string
     avatar: string
+    leaderboard_place: number
 }
 
 type Stats = {
