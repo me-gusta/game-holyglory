@@ -12,12 +12,14 @@ import microManage from "$lib/dev/microManage"
 import { Spine } from "@esotericsoftware/spine-pixi-v8"
 import colors from "../colors"
 import ButtonSettings from "../components/ButtonSettings"
-import store, {Maybe, Spell} from "$src/game/data/store"
+import store, {Maybe, save, Spell} from "$src/game/data/store"
 import Battlefield from "../components/battle/Battlefield"
 import ModalVictory from "../components/battle/ModalVictory"
 import ModalDefeat from "../components/battle/ModalDefeat"
 import ModalPause from "../components/battle/ModalPause"
 import { GlowFilter } from "pixi-filters"
+import {table_battles_loot} from "$src/game/data/tables.ts";
+import ModalSalute from "$src/game/components/ModalSalute.ts";
 
 
 class ScrollHeader extends BaseNode {
@@ -131,6 +133,7 @@ export default class S_Battle extends BaseNode {
 
     update_hook!: OmitThisParameter<any>
     modal?: BaseNode
+    modal_salute?: ModalSalute
 
     constructor() {
         super()
@@ -445,14 +448,43 @@ export default class S_Battle extends BaseNode {
     }
 
     show_victory() {
+        console.log(
+            store.current_location,
+            store.current_battle,
+            store.location_list[store.current_location].battles[store.current_battle],
+        )
+
+        const location_eid = store.current_location
+        const battle_eid = store.current_battle
+        const e_battle = store.location_list[location_eid].battles[battle_eid]
+
+        const coins = table_battles_loot[location_eid](store.current_battle)
+
         this.modal = new ModalVictory()
-        this.modal.alpha = 0
+
+        ;(this.modal as ModalVictory).add_reward({
+            label: 'coins',
+            amount: coins
+        })
+
+        if (!e_battle.is_captured) {
+            ;(this.modal as ModalVictory).add_reward({
+                label: 'gems',
+                amount: random_int(1, 2)
+            })
+        }
+
+        e_battle.is_captured = true
+        save()
+
         this.addChild(this.modal)
         this.modal.resize()
 
-        this.tween(this.modal)
-            .to({ alpha: 1 }, 400)
-            .start()
+        ;(this.modal as ModalVictory).fade_in()
+
+        ;(this.modal as ModalVictory).card.button.on('pointerup', () => {
+            this.trigger('set_scene', 'location')
+        })
     }
 
 

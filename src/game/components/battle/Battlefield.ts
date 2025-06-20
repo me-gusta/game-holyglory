@@ -1,17 +1,28 @@
-
 import BaseNode from "$lib/BaseNode"
-import { create_fx, create_graphics, create_point, create_sprite, create_text, create_vector } from "$lib/create_things"
+import {create_fx, create_graphics, create_point, create_sprite, create_text, create_vector} from "$lib/create_things"
 import make_draggable from "$lib/make_draggable"
-import { random_choice, random_int } from "$lib/random"
-import { isPointInCircle, rad2sector } from "$lib/utility"
-import { IPoint } from "$lib/Vector"
-import { Easing } from "@tweenjs/tween.js"
-import { Container, DestroyOptions, FederatedEvent, FederatedPointerEvent, Graphics, Sprite, Text, Texture, Ticker, TilingSprite } from "pixi.js"
+import {random_choice, random_int} from "$lib/random"
+import {isPointInCircle, rad2sector} from "$lib/utility"
+import {IPoint} from "$lib/Vector"
+import {Easing} from "@tweenjs/tween.js"
+import {
+    Container,
+    DestroyOptions,
+    FederatedEvent,
+    FederatedPointerEvent,
+    Graphics,
+    Sprite,
+    Text,
+    Texture,
+    Ticker,
+    TilingSprite
+} from "pixi.js"
 import registerKeypress from "$lib/dev/registerKeypress"
 import microManage from "$lib/dev/microManage"
-import { Spine } from "@esotericsoftware/spine-pixi-v8"
+import {Spine} from "@esotericsoftware/spine-pixi-v8"
 import store from "$src/game/data/store"
 import {table_mobs} from '$src/game/data/tables.ts'
+import dev from "$src/game/dev.ts";
 
 
 const char_z = [30, 10, 20]
@@ -56,7 +67,7 @@ class PlacementsEnemies extends Container<Graphics> {
     }
 
     resize() {
-        const { width } = window.screen_size
+        const {width} = window.screen_size
 
         this.p1.position.set(width / this.parent.scale.x - 360, 548)
         this.p2.position.set(width / this.parent.scale.x - 209, 518)
@@ -73,6 +84,7 @@ class HpProgressBar extends BaseNode {
     bg: Sprite
     top: Sprite
     msk: Graphics
+
     constructor() {
         super()
         this.bg = create_sprite('battle/hp_pb')
@@ -125,7 +137,7 @@ class Character extends BaseNode {
         let scale = 1
         if (spine_name === 'leonard') scale = 0.6
         if (spine_name === 'wolf') scale = 0.8
-        this.spine = Spine.from({ skeleton: `spine/${spine_name}-data`, atlas: `spine/${spine_name}-atlas`, scale })
+        this.spine = Spine.from({skeleton: `spine/${spine_name}-data`, atlas: `spine/${spine_name}-atlas`, scale})
 
         this.addChild(this.circle_selected)
         this.addChild(this.spine)
@@ -137,7 +149,7 @@ class Character extends BaseNode {
 
         this.circle_selected
             .ellipse(0, 0, 60, 30)
-            .fill({ color: '#eda91a', alpha: 0.6 })
+            .fill({color: '#eda91a', alpha: 0.6})
 
         this.circle_selected.blendMode = 'screen'
         this.circle_selected.visible = false
@@ -188,13 +200,15 @@ export default class Battlefield extends BaseNode {
         const e_battle = e_location.battles[store.current_battle]
         this.bg.width = e_battle.waves.length * bg_texture.width
 
+        const hero_list = store.hero_list
+        const e_hero = store.hero_list.find(el => el.label === store.hero_selected)!
 
-        this.hero = new Character('leonard')
+        this.hero = new Character(e_hero.label)
         this.hero.setAnimation('idle', true)
         this.spines.addChild(this.hero)
 
-        const mob_data = table_mobs['leonard']
-        const { hp_max, attack } = mob_data.levels["1"]
+        const mob_data = table_mobs[e_hero.label]
+        const {hp_max, attack} = mob_data.levels(e_hero.level)
 
         this.hero.hp_current = hp_max
         this.hero.hp_max = hp_max
@@ -210,7 +224,7 @@ export default class Battlefield extends BaseNode {
         const WAVE_OFFSET = 600
 
         this.tween(this.bg.position)
-            .to({ x: this.bg.position.x - WAVE_OFFSET }, 1200)
+            .to({x: this.bg.position.x - WAVE_OFFSET}, 1200)
             .start()
             .onComplete(() => {
                 this.hero.setAnimation('idle', true)
@@ -225,7 +239,7 @@ export default class Battlefield extends BaseNode {
             mob.visible = true
             if (!mob) continue
             this.tween(mob.position)
-                .to({ x: place.position.x  }, 1200)
+                .to({x: place.position.x}, 1200)
                 .start()
         }
 
@@ -284,10 +298,11 @@ export default class Battlefield extends BaseNode {
             if (mob.rune === 'light') suit_bonus += stats["dark"] || 0
             if (mob.rune === 'dark') suit_bonus += stats["light"] || 0
 
-            mob.hp_current = (mob.hp_current)
-                - this.hero.attack
-                - Math.floor((power_points - 3) * this.hero.attack / 10)
-                - Math.floor(suit_bonus * (power_points * 0.3))
+            const damage = dev.INSTANT_KILL ? 99999999  : this.hero.attack
+                + Math.floor((power_points - 3) * this.hero.attack / 10)
+                + Math.floor(suit_bonus * (power_points * 0.3))
+
+            mob.hp_current = (mob.hp_current)  - damage
 
             if (mob.hp_current < 0) {
                 mob.hp_current = 0
@@ -362,7 +377,8 @@ export default class Battlefield extends BaseNode {
             if (!mob) return
             const hero = this.hero
 
-            hero.hp_current = (hero.hp_current) - random_int(mob.attack, mob.attack)
+            const damage =  dev.INVULNERABLE_HERO ? 0 : random_int(mob.attack, mob.attack)
+            hero.hp_current = (hero.hp_current) - damage
 
             if (hero.hp_current < 0) {
                 hero.hp_current = 0
@@ -429,10 +445,10 @@ export default class Battlefield extends BaseNode {
             for (let mobi = 0; mobi < wave_shortdata.length; mobi++) {
                 const mob_shortdata = wave_shortdata[mobi]
                 if (!mob_shortdata) continue
-                const { label, level } = mob_shortdata
+                const {label, level} = mob_shortdata
                 const mob_data = table_mobs[label]
                 const {rune} = mob_data
-                const { hp_max, attack } = mob_data.levels[level]
+                const {hp_max, attack} = mob_data.levels(level)
 
                 const character = new Character(label)
                 character.hp_current = hp_max
@@ -494,13 +510,11 @@ export default class Battlefield extends BaseNode {
             this.mobs[0]!.circle_selected.visible = true
             this.mob_selected = 0
             return
-        }
-        else if (this.mobs[1]) {
+        } else if (this.mobs[1]) {
             this.mobs[1]!.circle_selected.visible = true
             this.mob_selected = 1
             return
-        }
-        else if (this.mobs[2]) {
+        } else if (this.mobs[2]) {
             this.mobs[2]!.circle_selected.visible = true
             this.mob_selected = 2
             return

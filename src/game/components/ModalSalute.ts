@@ -62,8 +62,6 @@ export default class ModalSalute extends BaseNode {
         const animationLoop = (ticker: Ticker) => {
             const delta = ticker.deltaTime
 
-            console.log(particlesData.length, tick)
-
             for (let i = particlesData.length - 1; i >= 0; i--) {
                 const data = particlesData[i]
                 const p = data.particle

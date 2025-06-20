@@ -83,7 +83,7 @@
             "label": "leonard",
             "is_unlocked": true,
             "name": "Sir Leonard",
-            "level": 5,
+            "level": 1,
             "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
             "level_up_price": 500,
             "buy_price": 30
@@ -123,9 +123,20 @@
             "buy_price": 50,
             "rune": "dark",
             "runes_needed": 20
+        },
+        {
+            "label": "time_juice",
+            "is_unlocked": true,
+            "name": "Time Juice",
+            "level": 1,
+            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "light",
+            "runes_needed": 20
         }
     ],
-    "spell_equipped_list": ["sun_sneeze", null, null],
+    "spell_equipped_list": ["time_juice", "sun_sneeze", null],
 
     "shop_item_list": [
         {
@@ -162,13 +173,13 @@
             "battles": [
                 {
                     "waves": [
-                        [{"label": "wolf", "level": 1}, null, null]
+                        [null, {"label": "wolf", "level": 1}, null]
                     ],
-                    "is_captured": true
+                    "is_captured": false
                 },
                 {
                     "waves": [
-                        [{"label": "wolf", "level": 1}, null, null],
+                        [null, {"label": "wolf", "level": 1}, null],
                         [{"label": "wolf", "level": 1}, {"label": "wolf", "level": 1}, null]
                     ],
                     "is_captured": false

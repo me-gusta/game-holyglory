@@ -7,6 +7,7 @@ import colors from "$src/game/colors"
 import Grid from '$src/game/components/Grid.ts'
 import {Reward} from '$src/game/data/store.ts'
 import {get_reward_icon} from '$src/game/other.ts'
+import ModalSalute from "$src/game/components/ModalSalute.ts";
 
 class GILoot extends BaseNode {
     icon: Sprite
@@ -83,18 +84,35 @@ export default class ModalVictory extends BaseNode {
     header: WoodenHeader
     card = new Card()
     rewards: Reward[] = []
+    modal_salute: ModalSalute
 
     constructor() {
         super()
         this.header = new WoodenHeader('Victory!')
+        this.modal_salute = new ModalSalute()
         this.addChild(this.bg)
+        this.addChild(this.modal_salute)
         this.addChild(this.header)
         this.addChild(this.card)
 
         this.bg.interactive = true
+
+
     }
 
+    fade_in() {
+        this.bg.alpha = 0
+        this.card.alpha = 0
+        this.modal_salute.salute()
 
+        this.tween(this.bg)
+            .to({ alpha: 1 }, 400)
+            .start()
+
+        this.tween(this.card)
+            .to({ alpha: 1 }, 400)
+            .start()
+    }
 
     add_reward(r: Reward) {
         this.rewards.push(r)
@@ -126,6 +144,7 @@ export default class ModalVictory extends BaseNode {
 
         this.bg.position.x = -this.bw / 2
         this.bg.position.y = -this.bh / 2
+        this.modal_salute.resize()
     }
 
 }
