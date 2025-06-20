@@ -12,7 +12,7 @@ import microManage from "$lib/dev/microManage"
 import { Spine } from "@esotericsoftware/spine-pixi-v8"
 import colors from "../colors"
 import ButtonSettings from "../components/ButtonSettings"
-import store from "$src/game/data/store"
+import store, {Maybe, Spell} from "$src/game/data/store"
 import Battlefield from "../components/battle/Battlefield"
 import ModalVictory from "../components/battle/ModalVictory"
 import ModalDefeat from "../components/battle/ModalDefeat"
@@ -44,7 +44,7 @@ class ScrollHeader extends BaseNode {
 
 
 
-class Spell extends BaseNode {
+class SpellBox extends BaseNode {
     img: Sprite
     border: Sprite
     border_loaded: Sprite
@@ -127,7 +127,7 @@ export default class S_Battle extends BaseNode {
     header = new ScrollHeader()
     pole: Pole
     battlefield: Battlefield
-    spells = new Container<Spell>()
+    spells = new Container<SpellBox>()
 
     update_hook!: OmitThisParameter<any>
     modal?: BaseNode
@@ -336,13 +336,28 @@ export default class S_Battle extends BaseNode {
             this.battlefield.next_mob_turn()
         }
 
-        for (let spell_data of store.spells_equipped) {
+        const spells_equipped: Maybe<Spell>[] = []
+
+        for (let label of store.spell_equipped_list) {
+            if (!label) {
+                spells_equipped.push(null)
+                continue
+            }
+            for (let spell of store.spell_list) {
+                if (spell.label === label) {
+                    spells_equipped.push(spell)
+                    break
+                }
+            }
+        }
+
+        for (let spell_data of spells_equipped) {
             if (!spell_data) {
-                const spell = new Spell('', '')
+                const spell = new SpellBox('', '')
                 this.spells.addChild(spell)
                 spell.visible = false
             } else {
-                const spell = new Spell(spell_data.label, spell_data.rune)
+                const spell = new SpellBox(spell_data.label, spell_data.rune)
                 this.spells.addChild(spell)
                 spell.level = spell_data.level
                 spell.runes_needed = spell_data.runes_needed
@@ -372,9 +387,10 @@ export default class S_Battle extends BaseNode {
             this.battlefield.anim_next_wave()
         })
 
+
         this.pole.on('runes_destroyed', (stats) => {
             for (let [key, value] of Object.entries(stats)) {
-                store.battle.runes[key] += value
+                // store.battle.runes[key] += value
 
                 for (let spell of this.spells.children) {
                     if (spell.rune !== key) continue
@@ -384,9 +400,8 @@ export default class S_Battle extends BaseNode {
         })
 
         this.pole.on('match_completed', (stats) => {
-
-
             const total = sum(Object.values(stats))
+
 
             let delay = 0
             if (total > 0) {
@@ -426,7 +441,7 @@ export default class S_Battle extends BaseNode {
             this.trigger('set_scene', 'main')
         })
 
-        store.init_battle()
+        // store.init_battle()
     }
 
     show_victory() {
@@ -470,7 +485,8 @@ export default class S_Battle extends BaseNode {
         this.pole.anim_intial_drop(true)
         this.battlefield.draw_enemies()
 
-        const e_battle = store.battles[store.current_battle]
+        const e_location = store.location_list[store.current_location]
+        const e_battle = e_location.battles[store.current_battle]
         this.header.set_max_wave(e_battle.waves.length)
     }
 
@@ -527,7 +543,7 @@ export default class S_Battle extends BaseNode {
                 (this.bw * 0.25) / (spell.width / spell.scale.x)
             )
 
-            if (i == 1) {
+            if (i == 0) {
                 spell.position.x = -this.bw / 3
             }
             if (i == 2) {

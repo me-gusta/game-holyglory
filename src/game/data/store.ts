@@ -6,7 +6,7 @@ export type Reward = {
     amount: number
 }
 
-type Maybe<T> = T | null
+export type Maybe<T> = T | null
 
 //
 type Store = {
@@ -133,7 +133,7 @@ type Location = {
     battles: Battle[]
     is_unlocked: boolean
 }
-type Battle = {
+export type Battle = {
     waves: Wave[]
     is_captured: boolean
 }

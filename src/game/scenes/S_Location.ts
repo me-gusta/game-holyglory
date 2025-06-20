@@ -6,7 +6,7 @@ import colors from "../colors"
 import microManage from "$lib/dev/microManage"
 import ButtonBack from "../components/ButtonBack"
 import WoodenHeader from "../components/WoodenHeader"
-import store from "$src/game/data/store"
+import store, {Battle} from "$src/game/data/store"
 import { chunk, push_until } from "$lib/utility"
 
 
@@ -21,13 +21,11 @@ class MapMarker extends BaseNode {
     }
 }
 
-type BattlePinEntity = {
-    eid: string
-    number: number
-    is_captured: boolean
+type BattleWithId = Battle & {
+    eid: number
 }
 
-class MapPin extends BaseNode {
+class MapPoint extends BaseNode {
     bg: Sprite
     lbl: Text
     n: number
@@ -56,22 +54,31 @@ class MapPin extends BaseNode {
 
         this.marker.y = -75
 
-        this.set_active(isActive)
         this.set_marker(false)
-        this.interactive = true
+        this.set_active(isActive)
 
-        if (isActive) this.cursor = 'pointer'
     }
 
     set_marker(enable: boolean) {
         this.marker.visible = enable
+        if (enable) {
+            this.interactive = true
+            this.cursor = 'pointer'
+        } else {
+            this.interactive = false
+            this.cursor = 'default'
+        }
     }
 
     set_active(enable: boolean) {
         if (enable) {
             this.bg.texture = Texture.from('map/pin_active')
+            this.interactive = true
+            this.cursor = 'pointer'
         } else {
             this.bg.texture = Texture.from('map/pin')
+            this.interactive = false
+            this.cursor = 'default'
         }
     }
 }
@@ -79,7 +86,7 @@ class MapPin extends BaseNode {
 class MapPiece extends BaseNode {
     bg: Sprite
     container: Container
-    constructor(tile_label: string, n: number, es: (BattlePinEntity|null)[]) {
+    constructor(tile_label: string, n: number, es: (BattleWithId|null)[]) {
         super()
         this.bg = create_sprite(tile_label + n)
         this.container = new Container()
@@ -93,9 +100,13 @@ class MapPiece extends BaseNode {
 
             if (!e) continue
 
-            const pn = e.number
-            const pin = new MapPin(pn, e.is_captured)
+            const pn = e.eid + 1
+            const pin = new MapPoint(pn, e.is_captured)
             this.addChild(pin)
+
+            if (i === 0 && !e.is_captured) {
+                pin.set_marker(true)
+            }
 
             if (i === 0) {
                 pin.position.set(-48, 272)
@@ -135,10 +146,13 @@ export default class S_Location extends BaseNode {
     constructor() {
         super()
 
-        const { title, tile_images_folder } = store.locations[store.current_location]
+        const e_location = store.location_list[store.current_location]
+        const { title, tile_images_folder } = e_location
         this.header = new WoodenHeader(title)
 
-        const pieces = chunk(Object.values(store.battles), 3)
+        const battles = e_location.battles.map((el, i)=> ({...el, eid: i}))
+
+        const pieces = chunk(Object.values(battles), 3)
         for (let es of pieces.reverse()) {
             push_until(es, null, 3)
 

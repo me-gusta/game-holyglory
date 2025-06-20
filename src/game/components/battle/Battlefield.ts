@@ -11,6 +11,7 @@ import registerKeypress from "$lib/dev/registerKeypress"
 import microManage from "$lib/dev/microManage"
 import { Spine } from "@esotericsoftware/spine-pixi-v8"
 import store from "$src/game/data/store"
+import {table_mobs} from '$src/game/data/tables.ts'
 
 
 const char_z = [30, 10, 20]
@@ -183,15 +184,16 @@ export default class Battlefield extends BaseNode {
         this.addChild(this.spines)
         this.addChild(this.place_mobs)
 
-        const e_battle = store.battles[store.current_battle]
+        const e_location = store.location_list[store.current_location]
+        const e_battle = e_location.battles[store.current_battle]
         this.bg.width = e_battle.waves.length * bg_texture.width
 
 
         this.hero = new Character('leonard')
         this.hero.setAnimation('idle', true)
         this.spines.addChild(this.hero)
-        
-        const mob_data = store.mobs['leonard']
+
+        const mob_data = table_mobs['leonard']
         const { hp_max, attack } = mob_data.levels["1"]
 
         this.hero.hp_current = hp_max
@@ -281,8 +283,8 @@ export default class Battlefield extends BaseNode {
             if (mob.rune === 'plant') suit_bonus += stats["fire"] || 0
             if (mob.rune === 'light') suit_bonus += stats["dark"] || 0
             if (mob.rune === 'dark') suit_bonus += stats["light"] || 0
-            
-            mob.hp_current = (mob.hp_current) 
+
+            mob.hp_current = (mob.hp_current)
                 - this.hero.attack
                 - Math.floor((power_points - 3) * this.hero.attack / 10)
                 - Math.floor(suit_bonus * (power_points * 0.3))
@@ -414,7 +416,8 @@ export default class Battlefield extends BaseNode {
     }
 
     draw_enemies() {
-        const e_battle = store.battles[store.current_battle]
+        const e_location = store.location_list[store.current_location]
+        const e_battle = e_location.battles[store.current_battle]
         const waves = e_battle.waves
 
         for (let wi = 0; wi < waves.length; wi++) {
@@ -427,7 +430,7 @@ export default class Battlefield extends BaseNode {
                 const mob_shortdata = wave_shortdata[mobi]
                 if (!mob_shortdata) continue
                 const { label, level } = mob_shortdata
-                const mob_data = store.mobs[label]
+                const mob_data = table_mobs[label]
                 const {rune} = mob_data
                 const { hp_max, attack } = mob_data.levels[level]
 

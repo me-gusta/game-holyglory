@@ -6,13 +6,13 @@ export type Hero = {
     bio: string
 }
 
-export type Spell = {
-    label: string
-    is_unlocked: boolean
-    name: string
-    level: number
-    about: string
-}
+// export type Spell = {
+//     label: string
+//     is_unlocked: boolean
+//     name: string
+//     level: number
+//     about: string
+// }
 
 export type BuyPack = {
     label: string

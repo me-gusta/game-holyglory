@@ -164,7 +164,7 @@
                     "waves": [
                         [{"label": "wolf", "level": 1}, null, null]
                     ],
-                    "is_captured": false
+                    "is_captured": true
                 },
                 {
                     "waves": [

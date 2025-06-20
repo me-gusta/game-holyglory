@@ -1,6 +1,6 @@
 import BaseNode from "$lib/BaseNode"
-import { create_graphics, create_point, create_sprite, create_text, create_vector } from "$lib/create_things"
-import { Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite } from "pixi.js"
+import {create_graphics, create_point, create_sprite, create_text, create_vector} from "$lib/create_things"
+import {Container, FederatedPointerEvent, Sprite, Text, Texture, TilingSprite} from "pixi.js"
 import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
 import VRowScrollable from "../components/VRowScrollable.ts"
@@ -12,6 +12,7 @@ class CardLocation extends BaseNode {
     icon: Sprite
     lbl: Text
     bg: Sprite
+
     constructor(bg_image: string, lbl_text: string, isUnlocked = false) {
         super()
 
@@ -20,8 +21,8 @@ class CardLocation extends BaseNode {
             text: lbl_text, style: {
                 fontSize: 64,
                 fill: colors.bright,
-                stroke: { width: 6, color: colors.dark }
-            }
+                stroke: {width: 6, color: colors.dark},
+            },
         })
         this.lbl.anchor.x = 1
         this.icon = create_sprite('icons/lock')
@@ -32,7 +33,7 @@ class CardLocation extends BaseNode {
         if (!isUnlocked) {
             this.bg = create_sprite(bg_image + '_disabled')
             this.lbl.alpha = 0
-            
+
             this.interactive = false
             this.cursor = 'default'
         }
@@ -41,7 +42,7 @@ class CardLocation extends BaseNode {
         this.addChild(this.lbl)
         this.addChild(this.icon)
 
-        this.icon.alpha = isUnlocked ?  0 : 0.7
+        this.icon.alpha = isUnlocked ? 0 : 0.7
     }
 
     resize() {
@@ -54,7 +55,6 @@ class CardLocation extends BaseNode {
 }
 
 
-
 export default class S_LocationSelect extends BaseNode {
     bg: TilingSprite
     header = new WoodenHeader('World')
@@ -63,25 +63,26 @@ export default class S_LocationSelect extends BaseNode {
 
     constructor() {
         super()
-        this.bg  = new TilingSprite({texture: Texture.from('seamlessbg')})
+        this.bg = new TilingSprite({texture: Texture.from('seamlessbg')})
         this.addChild(this.bg)
         this.addChild(this.header)
         this.addChild(this.vrow)
         this.addChild(this.button_back)
 
 
-        for (let e of Object.values(store.locations)) {
+        for (let i = 0; i < store.location_list.length; i++) {
+            const e = store.location_list[i]
             const loc = new CardLocation(e.card_image, e.title, e.is_unlocked)
             this.vrow.add(
-                loc
+                loc,
             )
             loc.on('pointerup', () => {
-                store.current_location = e.eid
+                store.current_location = i
                 this.trigger('set_scene', 'location')
             })
         }
 
-        
+
         this.button_back.on('pointerup', () => this.trigger('set_scene', 'main'))
     }
 
@@ -107,19 +108,19 @@ export default class S_LocationSelect extends BaseNode {
 
         // button_back
         this.button_back.scale.set(
-            (this.bw / 10) / (this.button_back.width / this.button_back.scale.x)
+            (this.bw / 10) / (this.button_back.width / this.button_back.scale.x),
         )
         this.button_back.position.x = -this.bw / 2 + this.button_back.width / 2 + this.bw * 0.02
         this.button_back.position.y = this.bh / 2 - this.button_back.height / 2 - this.bw * 0.02
-        
+
         // bg
         this.bg.width = this.bw
         this.bg.height = this.bh
 
-        this.bg.position.x = -this.bw/2
-        this.bg.position.y = -this.bh/2
+        this.bg.position.x = -this.bw / 2
+        this.bg.position.y = -this.bh / 2
 
-        const bg_scale = (this.bw/ 256) / 5
+        const bg_scale = (this.bw / 256) / 5
         this.bg.tileScale.set(bg_scale)
 
     }
