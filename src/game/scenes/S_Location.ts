@@ -104,7 +104,7 @@ class MapPiece extends BaseNode {
             const pin = new MapPoint(pn, e.is_captured)
             this.addChild(pin)
 
-            if (i === 0 && !e.is_captured) {
+            if (e.eid === 0 && !e.is_captured) {
                 pin.set_marker(true)
             }
 

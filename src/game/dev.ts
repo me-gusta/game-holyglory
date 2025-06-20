@@ -2,9 +2,9 @@
 
 const dev = {
     DISABLE_AUTOSWAP: false,
-    PREVENT_SAVE: true,
+    PREVENT_SAVE: false,
     INVULNERABLE_HERO: false,
-    INSTANT_KILL: true,
+    INSTANT_KILL: false,
 }
 
 window.dev = (key: any, value: any) => {
