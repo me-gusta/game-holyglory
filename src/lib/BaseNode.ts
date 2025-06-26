@@ -60,7 +60,7 @@ export default class BaseNode extends Container {
         }
         this.tween_group.removeAll()
         time_groups.delete(this.slug)
-        super.destroy(options)
+        super.destroy({children: true})
     }
 
     trigger(name: string, ...args: any[]) {
