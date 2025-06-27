@@ -1,6 +1,7 @@
 import {Container, DestroyOptions} from 'pixi.js'
 import {Easing, Group, Tween} from '@tweenjs/tween.js'
 import {clear_timeout, set_timeout} from '$lib/time'
+import awe, {AWEListener} from '$src/game/data/awe.ts'
 
 type UnknownProps = Record<string, any>;
 
@@ -19,6 +20,7 @@ export default class BaseNode extends Container {
     timers = new Set<number>()
 
     slug = ''
+    listeners: any = []
 
     constructor() {
         super()
@@ -60,6 +62,10 @@ export default class BaseNode extends Container {
         }
         this.tween_group.removeAll()
         time_groups.delete(this.slug)
+        for (let i = 0; i < this.listeners.length; i++) {
+            const [path, listener] = this.listeners[i]
+            awe.unlisten(path, listener)
+        }
         super.destroy({children: true})
     }
 
@@ -77,5 +83,10 @@ export default class BaseNode extends Container {
                 return
             }
         }
+    }
+
+    awe_listen(path: string, listener: AWEListener) {
+        awe.listen(path, listener)
+        this.listeners.push([path, listener])
     }
 }

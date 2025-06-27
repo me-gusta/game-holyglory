@@ -200,7 +200,7 @@ export default class S_DailySpin extends BaseNode {
             this.trigger('set_scene', 'main')
         })
 
-        awe.listen('spin_data.spins', (upd) => {
+        this.awe_listen('spin_data.spins', (upd) => {
             this.note.text = `You have ${upd.current} free spins`
             if (Number(upd.current) <= 0 ) this.note.text = `You'll get a free spin tomorrow!`
         })

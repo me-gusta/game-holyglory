@@ -217,13 +217,13 @@ export default class Header extends BaseNode {
             store.player.exp_current / store.player.exp_next
         )
 
-        awe.listen('stats.coins', (upd) => {
+        this.awe_listen('stats.coins', (upd) => {
             this.anim_count(this.stat_coins.lbl, upd.current)
         })
-        awe.listen('stats.gems', (upd) => {
+        this.awe_listen('stats.gems', (upd) => {
             this.anim_count(this.stat_gems.lbl, upd.current)
         })
-        awe.listen('stats.energy', (upd) => {
+        this.awe_listen('stats.energy', (upd) => {
             this.anim_count(this.stat_energy.lbl, upd.current)
         })
     }

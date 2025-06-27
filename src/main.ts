@@ -7,8 +7,10 @@ import AssetManager from '$lib/AssetManager'
 import {Howl} from 'howler'
 import store from "$src/game/data/store.ts";
 import preload_avatar from "$lib/preload_avatar.ts";
+import awe from '$src/game/data/awe.ts'
 
 const preload = async () => {
+    window.awe = awe
     // await preload_avatar(store.player.avatar)
     Assets.load({
         alias: 'player_avatar',

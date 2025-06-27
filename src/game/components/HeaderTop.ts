@@ -65,13 +65,13 @@ export default class HeaderTop extends BaseNode {
         this.stat_gems.lbl.text = store.stats.gems
         this.stat_energy.lbl.text = store.stats.energy
 
-        awe.listen('stats.coins', (upd) => {
+        this.awe_listen('stats.coins', (upd) => {
             this.anim_count(this.stat_coins.lbl, upd.current)
         })
-        awe.listen('stats.gems', (upd) => {
+        this.awe_listen('stats.gems', (upd) => {
             this.anim_count(this.stat_gems.lbl, upd.current)
         })
-        awe.listen('stats.energy', (upd) => {
+        this.awe_listen('stats.energy', (upd) => {
             this.anim_count(this.stat_energy.lbl, upd.current)
         })
 
