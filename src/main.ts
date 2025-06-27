@@ -10,7 +10,6 @@ import preload_avatar from "$lib/preload_avatar.ts";
 import awe from '$src/game/data/awe.ts'
 
 const preload = async () => {
-    window.awe = awe
     // await preload_avatar(store.player.avatar)
     Assets.load({
         alias: 'player_avatar',
@@ -42,6 +41,14 @@ const preload = async () => {
 
     // Load spines in parallel
     await Promise.all([
+        Assets.load({
+            alias: 'spine/maximus-data',
+            src: 'assets/spines/maximus/maximus.json',
+        }),
+        Assets.load({
+            alias: 'spine/maximus-atlas',
+            src: 'assets/spines/maximus/maximus_tex.atlas',
+        }),
         Assets.load({
             alias: 'spine/leonard-data',
             src: 'assets/spines/leonard/leonard.json',

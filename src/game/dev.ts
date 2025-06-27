@@ -2,7 +2,7 @@
 
 const dev = {
     DISABLE_AUTOSWAP: false,
-    PREVENT_SAVE: false,
+    PREVENT_SAVE: true,
     INVULNERABLE_HERO: false,
     INSTANT_KILL: false,
 }

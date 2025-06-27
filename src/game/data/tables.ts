@@ -28,6 +28,16 @@ export const table_mobs = {
                 "attack": Math.round(21 + x * 4.7)
             }
         }
+    },
+    "maximus": {
+        "label": "maximus",
+        "rune": null,
+        "levels": (x) => {
+            return {
+                "hp_max": Math.round(143 + x * 2.7),
+                "attack": Math.round(21 + x * 4.7)
+            }
+        }
     }
 }
 

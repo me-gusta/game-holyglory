@@ -6,7 +6,7 @@ import {Easing} from "@tweenjs/tween.js";
 import registerKeypress from "$lib/dev/registerKeypress.ts";
 import awe from '$src/game/data/awe.ts'
 import {random_int} from '$lib/random.ts'
-import {save} from '$src/game/data/store.ts'
+import store, {save} from '$src/game/data/store.ts'
 
 export default class BattleAnimation extends BaseNode {
     bg: TilingSprite
@@ -19,9 +19,13 @@ export default class BattleAnimation extends BaseNode {
         const bg_texture = Texture.from('battle/bgs/forest')
         this.bg = new TilingSprite({texture: bg_texture})
 
-        const spine_name = 'leonard'
+        const spine_name = store.hero_selected
+        let scale = 1
+        if (spine_name === 'leonard') scale = 0.6
+        if (spine_name === 'wolf') scale = 0.8
+        if (spine_name === 'maximus') scale = 1.1
         this.hero = Spine.from(
-            {skeleton: `spine/${spine_name}-data`, atlas: `spine/${spine_name}-atlas`, scale: 0.6}
+            {skeleton: `spine/${spine_name}-data`, atlas: `spine/${spine_name}-atlas`, scale}
         )
 
         this.addChild(this.bg)

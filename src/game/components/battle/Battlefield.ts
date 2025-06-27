@@ -137,6 +137,7 @@ class Character extends BaseNode {
         let scale = 1
         if (spine_name === 'leonard') scale = 0.6
         if (spine_name === 'wolf') scale = 0.8
+        if (spine_name === 'maximus') scale = 1.1
         this.spine = Spine.from({skeleton: `spine/${spine_name}-data`, atlas: `spine/${spine_name}-atlas`, scale})
 
         this.addChild(this.circle_selected)
@@ -160,6 +161,11 @@ class Character extends BaseNode {
             if (name === 'idle') this.spine.state.timeScale = 0.6
             if (name === 'run') this.spine.state.timeScale = 3
             if (name === 'attack') this.spine.state.timeScale = 1.7
+        }
+        if (this.spine_name === 'maximus') {
+            if (name === 'idle') this.spine.state.timeScale = 1
+            if (name === 'run') this.spine.state.timeScale = 3
+            if (name === 'attack') this.spine.state.timeScale = 1.3
         }
         this.spine.state.setAnimation(0, name, loop)
     }
