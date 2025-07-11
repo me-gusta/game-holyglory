@@ -15,6 +15,7 @@ type Store = {
 
     setting: Settings
 
+    quest_complete_5: Quest
     quest_list: QuestList
     quest_partner_list: QuestPartnerList
 
@@ -66,7 +67,6 @@ type QuestTask = 'collect_rune' |
     'complete_level' |
     'play_roulette' |
     'cast_spell' |
-    'level_up' |
     'complete_5'
 
 export type Quest = {

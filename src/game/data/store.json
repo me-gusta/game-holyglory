@@ -18,8 +18,27 @@
         "is_music_on": true,
         "is_sound_on": false
     },
-    "complete_5_claimed": false,
+    "quest_complete_5": {
+        "reward": {
+            "label": "gems",
+            "amount": 100
+        },
+        "task": "complete_5",
+        "task_current": 0,
+        "task_needed": 5,
+        "is_claimed": false
+    },
     "quest_list": [
+        {
+            "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "collect_rune",
+            "task_current": 200,
+            "task_needed": 200,
+            "is_claimed": false
+        },
         {
             "reward": {
                 "label": "coins",
@@ -32,12 +51,82 @@
         },
         {
             "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "collect_rune_water",
+            "task_current": 200,
+            "task_needed": 200,
+            "is_claimed": false
+        },
+        {
+            "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "collect_rune_plant",
+            "task_current": 200,
+            "task_needed": 200,
+            "is_claimed": false
+        },
+        {
+            "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "collect_rune_light",
+            "task_current": 100,
+            "task_needed": 200,
+            "is_claimed": false
+        },
+        {
+            "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "collect_rune_dark",
+            "task_current": 100,
+            "task_needed": 200,
+            "is_claimed": false
+        },
+        {
+            "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "kill_mob",
+            "task_current": 10,
+            "task_needed": 20,
+            "is_claimed": false
+        },
+        {
+            "reward": {
+                "label": "coins",
+                "amount": 100
+            },
+            "task": "complete_level",
+            "task_current": 20,
+            "task_needed": 20,
+            "is_claimed": false
+        },
+        {
+            "reward": {
                 "label": "gems",
                 "amount": 2
             },
-            "task": "kill_mob",
-            "task_current": 25,
-            "task_needed": 25,
+            "task": "play_roulette",
+            "task_current": 20,
+            "task_needed": 20,
+            "is_claimed": false
+        },
+        {
+            "reward": {
+                "label": "gems",
+                "amount": 2
+            },
+            "task": "cast_spell",
+            "task_current": 20,
+            "task_needed": 20,
             "is_claimed": false
         }
     ],

@@ -11,7 +11,7 @@ import {get_reward_icon, set_up_drop_items} from "$src/game/other.ts";
 import HeaderTop from "$src/game/components/HeaderTop.ts";
 import {IPoint} from "$lib/Vector.ts";
 import {random_float, random_int} from "$lib/random.ts";
-import {randomPointInCircle} from "$lib/utility.ts";
+import {clamp, randomPointInCircle} from "$lib/utility.ts";
 import {Easing} from "@tweenjs/tween.js";
 import awe from "$src/game/data/awe.ts";
 
@@ -92,12 +92,32 @@ class CardQuest extends BaseNode {
                 q.is_claimed = true
                 save()
             })
+
+            if (task === 'complete_5') return
+
+            const quest = store.quest_complete_5
+            quest.task_current = clamp(0, quest.task_needed, quest.task_current + 1)
+
+            save()
+            this.trigger('update_complete_5')
         })
 
         if (percents >= 100) {
             this.button.set_completed()
         }
         if (q.is_claimed) {
+            this.button.set_claimed()
+        }
+    }
+
+    update(quest: Quest) {
+        const percents = Math.floor(quest.task_current / quest.task_needed * 100)
+        this.button.lbl.text = percents + '%'
+
+        if (percents >= 100) {
+            this.button.set_completed()
+        }
+        if (quest.is_claimed) {
             this.button.set_claimed()
         }
     }
@@ -136,23 +156,18 @@ export default class S_Quests extends BaseNode {
 
         const quests = store.quest_list
 
-        let amount_completed = quests.filter(el=> el.task_current / el.task_needed >= 1).length
-
         this.vrow.add(
             new CardQuest(
-                {
-                    task: 'complete_5',
-                    task_needed: 5,
-                    task_current: amount_completed,
-                    reward: {
-                        label: 'gems',
-                        amount: 10,
-                    },
-                    is_claimed: false,
-                },
+                store.quest_complete_5,
                 true,
             ),
         )
+
+        this.on('update_complete_5', () => {
+            (
+                this.vrow.container.children[0] as any
+            ).update(store.quest_complete_5)
+        })
 
         for (let e of quests) {
             this.vrow.add(new CardQuest(e))

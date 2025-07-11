@@ -2,7 +2,15 @@ import BaseNode from "$lib/BaseNode"
 import { create_fx, create_graphics, create_point, create_sprite, create_text, create_vector } from "$lib/create_things"
 import make_draggable from "$lib/make_draggable"
 import { random_choice, random_int } from "$lib/random"
-import { isPointInCircle, loading_circle, map_interval, rad2sector, random_points_on_a_grid, sum } from "$lib/utility"
+import {
+    clamp,
+    isPointInCircle,
+    loading_circle,
+    map_interval,
+    rad2sector,
+    random_points_on_a_grid,
+    sum,
+} from "$lib/utility"
 import { IPoint } from "$lib/Vector"
 import { Easing } from "@tweenjs/tween.js"
 import { Container, DestroyOptions, FederatedEvent, FederatedPointerEvent, Graphics, Sprite, Text, Texture, Ticker } from "pixi.js"
@@ -134,6 +142,13 @@ export default class S_Battle extends BaseNode {
     update_hook!: OmitThisParameter<any>
     modal?: BaseNode
     modal_salute?: ModalSalute
+    runes_stats: any = {
+        fire: 0,
+        water: 0,
+        plant: 0,
+        light: 0,
+        dark: 0,
+    }
 
     constructor() {
         super()
@@ -239,7 +254,7 @@ export default class S_Battle extends BaseNode {
                 for (let i= 0;i<3;i++) {
                     const target = i
                     const mob = this.battlefield.mobs[target]
-                    if (!mob) return
+                    if (!mob) continue
 
                     const p = create_point().copyFrom(
                         this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
@@ -369,10 +384,14 @@ export default class S_Battle extends BaseNode {
                 spell.on('pointerdown', () => {
                     spell_actions[spell_data.label] ? spell_actions[spell_data.label](spell_data.level*100) : null
 
+                    console.log(spell_actions[spell_data.label])
+
                     this.set_timeout(700, () => {
                         const enemies = this.battlefield.mobs.filter(e => e !== null)
                         if (!enemies.length) if_next_turn()
                     })
+
+                    this.count_quest_cast_spell()
                 })
             }
         }
@@ -393,7 +412,7 @@ export default class S_Battle extends BaseNode {
 
         this.pole.on('runes_destroyed', (stats) => {
             for (let [key, value] of Object.entries(stats)) {
-                // store.battle.runes[key] += value
+                this.runes_stats[key] += value
 
                 for (let spell of this.spells.children) {
                     if (spell.rune !== key) continue
@@ -444,16 +463,40 @@ export default class S_Battle extends BaseNode {
             this.trigger('set_scene', 'main')
         })
 
-        // store.init_battle()
+    }
+
+    count_quest_cast_spell() {
+        for (let quest of store.quest_list) {
+            if (quest.task === 'cast_spell')
+                quest.task_current = clamp(0, quest.task_needed, quest.task_current + 1)
+        }
+
+        save()
+    }
+
+    count_quest_runes() {
+        for (let [key, value] of Object.entries(this.runes_stats)) {
+            for (let quest of store.quest_list) {
+                if (quest.task === 'collect_rune')
+                    quest.task_current = clamp(0, quest.task_needed, quest.task_current + (value as any))
+                if (quest.task === 'collect_rune_' + key)
+                    quest.task_current = clamp(0, quest.task_needed, quest.task_current + (value as any))
+            }
+        }
+
+        save()
+    }
+
+    count_quest_complete_level() {
+        for (let quest of store.quest_list) {
+            if (quest.task === 'complete_level')
+                quest.task_current = clamp(0, quest.task_needed, quest.task_current + 1)
+        }
+
+        save()
     }
 
     show_victory() {
-        console.log(
-            store.current_location,
-            store.current_battle,
-            store.location_list[store.current_location].battles[store.current_battle],
-        )
-
         const location_eid = store.current_location
         const battle_eid = store.current_battle
         const e_battle = store.location_list[location_eid].battles[battle_eid]
@@ -485,6 +528,9 @@ export default class S_Battle extends BaseNode {
         ;(this.modal as ModalVictory).card.button.on('pointerup', () => {
             this.trigger('set_scene', 'location')
         })
+
+        this.count_quest_runes()
+        this.count_quest_complete_level()
     }
 
 
@@ -497,6 +543,7 @@ export default class S_Battle extends BaseNode {
         this.tween(this.modal)
             .to({ alpha: 1 }, 400)
             .start()
+        this.count_quest_runes()
     }
 
     show_pause() {

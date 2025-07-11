@@ -240,3 +240,7 @@ export const random_points_on_a_grid = (amount: number, grid_size: number): IPoi
     }
     return points
   }
+
+  export const clamp = (min: number, max: number, value: number) => {
+      return Math.max(min, Math.min(max, value))
+  }

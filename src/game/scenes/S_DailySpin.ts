@@ -15,6 +15,7 @@ import HeaderTop from '$src/game/components/HeaderTop.ts'
 import store, {save} from '$src/game/data/store.ts'
 import {get_reward_icon} from '$src/game/other.ts'
 import awe from '$src/game/data/awe.ts'
+import {clamp} from '$lib/utility.ts'
 
 class Wheel extends BaseNode {
     bg = create_sprite('daily_spin/wheel')
@@ -235,6 +236,7 @@ export default class S_DailySpin extends BaseNode {
                         if (reward.label === 'energy') awe.add('stats.energy', reward.amount)
                     }
                     if (store.spin_data.spins >= 1) awe.sub('spin_data.spins', 1)
+                    this.count_quest_play_roulette()
                     save()
                     modal.destroy()
                     can_spin = true
@@ -248,6 +250,15 @@ export default class S_DailySpin extends BaseNode {
 
     start() {
 
+    }
+
+    count_quest_play_roulette() {
+        for (let quest of store.quest_list) {
+            if (quest.task === 'play_roulette')
+                quest.task_current = clamp(0, quest.task_needed, quest.task_current + 1)
+        }
+
+        save()
     }
 
     resize() {

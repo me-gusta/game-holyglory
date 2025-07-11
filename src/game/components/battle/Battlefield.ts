@@ -2,7 +2,7 @@ import BaseNode from "$lib/BaseNode"
 import {create_fx, create_graphics, create_point, create_sprite, create_text, create_vector} from "$lib/create_things"
 import make_draggable from "$lib/make_draggable"
 import {random_choice, random_int} from "$lib/random"
-import {isPointInCircle, rad2sector} from "$lib/utility"
+import {clamp, isPointInCircle, rad2sector} from "$lib/utility"
 import {IPoint} from "$lib/Vector"
 import {Easing} from "@tweenjs/tween.js"
 import {
@@ -20,7 +20,7 @@ import {
 import registerKeypress from "$lib/dev/registerKeypress"
 import microManage from "$lib/dev/microManage"
 import {Spine} from "@esotericsoftware/spine-pixi-v8"
-import store from "$src/game/data/store"
+import store, {save} from "$src/game/data/store"
 import {table_mobs} from '$src/game/data/tables.ts'
 import dev from "$src/game/dev.ts";
 
@@ -317,9 +317,11 @@ export default class Battlefield extends BaseNode {
             mob.hp_pb.setValue(mob.hp_current / mob.hp_max)
 
             if (mob.hp_current === 0) {
+                this.count_quest_kill_mob()
                 mob!.destroy()
                 this.mobs[target] = null
                 this.select_mob(target)
+
             }
         }
 
@@ -351,6 +353,15 @@ export default class Battlefield extends BaseNode {
                     character.spine.state.timeScale = 0.6
                 })
         })
+    }
+
+    count_quest_kill_mob() {
+        for (let quest of store.quest_list) {
+            if (quest.task === 'kill_mob')
+                quest.task_current = clamp(0, quest.task_needed, quest.task_current + 1)
+        }
+
+        save()
     }
 
     anim_enemies_hit() {
