@@ -5948,7 +5948,7 @@
                     "is_captured": false
                 }
             ],
-            "is_unlocked": true
+            "is_unlocked": false
         },
         {
             "title": "Dark Forest",
