@@ -16,6 +16,7 @@ import store, {save} from '$src/game/data/store.ts'
 import {get_reward_icon} from '$src/game/other.ts'
 import awe from '$src/game/data/awe.ts'
 import {clamp} from '$lib/utility.ts'
+import ModalSalute from '$src/game/components/ModalSalute.ts'
 
 class Wheel extends BaseNode {
     bg = create_sprite('daily_spin/wheel')
@@ -165,6 +166,7 @@ export default class S_DailySpin extends BaseNode {
     header: WoodenHeader
     button_back = new ButtonBack()
     button_spin = new ButtonSpin()
+    modal_salute = new ModalSalute()
     bg: Sprite
     wheel: Wheel
     node: Sprite
@@ -228,6 +230,9 @@ export default class S_DailySpin extends BaseNode {
                 const modal = new ModalVictory()
                 modal.add_reward(reward)
                 this.addChild(modal)
+                this.addChild(this.modal_salute)
+                this.modal_salute.resize()
+                this.modal_salute.salute()
                 modal.resize()
                 modal.card.button.on('pointerup', () => {
                     for (let reward of modal.rewards) {

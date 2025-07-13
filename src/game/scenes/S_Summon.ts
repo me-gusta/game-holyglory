@@ -66,7 +66,7 @@ class CardSummon extends BaseNode {
 
         this.bg = create_sprite('card_large')
         this.lbl = create_text({
-            text: "Hello, my dear Friend!\nClick the button to see how I can\noperate with my magic wand!" ,
+            text: "Don't you dare touch\nmy magic wand! — Merlin" ,
             style: {
                 fontSize: 48,
                 fill: colors.dark,
@@ -79,7 +79,7 @@ class CardSummon extends BaseNode {
             color: 'any',
             amount: 100,
             icon: 'icons/gem',
-            text: 'Summon a new character',
+            text: 'Summon a new spell',
         })
 
         this.addChild(this.bg)
@@ -133,8 +133,8 @@ export default class S_Summon extends BaseNode {
             this.addChild(this.modal_salute)
 
             this.modal.add_reward({
-                label: 'hero/maiden',
-                amount: 15
+                label: 'spells/poseidons_party',
+                amount: 1
             })
 
             this.modal.alpha = 0
@@ -147,6 +147,11 @@ export default class S_Summon extends BaseNode {
             this.modal.resize()
 
             this.modal_salute.salute()
+
+            this.modal.card.button.on('pointerup', () => {
+                this.modal?.destroy()
+                this.modal = undefined
+            })
         })
 
 
