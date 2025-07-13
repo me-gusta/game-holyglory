@@ -5,8 +5,9 @@ import VRowScrollable from "../VRowScrollable.ts"
 import {create_graphics, create_sprite, create_text} from "$lib/create_things"
 import colors from "$src/game/colors"
 import {Easing} from "@tweenjs/tween.js"
-import {Hero, Spell} from "$src/game/types.ts";
+import {Hero} from "$src/game/types.ts";
 import ScrollableContainer from "$src/game/components/ScrollableContainer.ts";
+import {Spell} from '$src/game/data/store.ts'
 
 
 type ButtonWithPriceInfo = {
@@ -188,10 +189,6 @@ class Card extends BaseNode {
         this.addChild(this.scrollable)
         this.scrollable.add(this.text6)
         this.scrollable.add(this.text7)
-
-        this.button1.on('pointerup', () => {
-            this.trigger('set_scene', 'main')
-        })
     }
 
     resize() {

@@ -185,7 +185,7 @@
             "is_unlocked": true,
             "name": "Sun Sneeze",
             "level": 2,
-            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "about": "AoE light damage. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
             "level_up_price": 800,
             "buy_price": 50,
             "rune": "light",
@@ -196,21 +196,65 @@
             "is_unlocked": true,
             "name": "Booooooom",
             "level": 1,
-            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "about": "Destroy random runes. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
             "level_up_price": 800,
             "buy_price": 50,
             "rune": "dark",
             "runes_needed": 20
         },
         {
-            "label": "call_batgoblin",
-            "is_unlocked": false,
-            "name": "Call Batgoblin",
+            "label": "fairys_kiss",
+            "is_unlocked": true,
+            "name": "Fairy's kiss",
             "level": 1,
-            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "about": "Heal. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
             "level_up_price": 800,
             "buy_price": 50,
-            "rune": "dark",
+            "rune": "plant",
+            "runes_needed": 20
+        },
+        {
+            "label": "fireball",
+            "is_unlocked": true,
+            "name": "Fireball",
+            "level": 1,
+            "about": "Deal fire damage. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "fire",
+            "runes_needed": 20
+        },
+        {
+            "label": "poseidons_party",
+            "is_unlocked": true,
+            "name": "Poseidon's Party",
+            "level": 1,
+            "about": "Fill board with water runes. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "water",
+            "runes_needed": 20
+        },
+        {
+            "label": "sun_sweat",
+            "is_unlocked": true,
+            "name": "Sun Sweat",
+            "level": 1,
+            "about": "Fill board with light runes. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "light",
+            "runes_needed": 20
+        },
+        {
+            "label": "throw_the_fish",
+            "is_unlocked": true,
+            "name": "Throw the Fish",
+            "level": 1,
+            "about": "Deal water damage. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "level_up_price": 800,
+            "buy_price": 50,
+            "rune": "water",
             "runes_needed": 20
         },
         {
@@ -218,10 +262,10 @@
             "is_unlocked": true,
             "name": "Time Juice",
             "level": 1,
-            "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "about": "Get an extra turn. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
             "level_up_price": 800,
             "buy_price": 50,
-            "rune": "light",
+            "rune": "dark",
             "runes_needed": 20
         }
     ],
@@ -271,7 +315,7 @@
                             null
                         ]
                     ],
-                    "is_captured": false
+                    "is_captured": true
                 },
                 {
                     "waves": [
@@ -287,7 +331,7 @@
                             }
                         ]
                     ],
-                    "is_captured": false
+                    "is_captured": true
                 },
                 {
                     "waves": [
@@ -306,7 +350,7 @@
                             }
                         ]
                     ],
-                    "is_captured": false
+                    "is_captured": true
                 },
                 {
                     "waves": [

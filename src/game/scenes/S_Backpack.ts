@@ -5,7 +5,7 @@ import colors from "../colors"
 import WoodenHeader from "../components/WoodenHeader"
 import VRowScrollable from "../components/VRowScrollable.ts"
 import ButtonBack from "../components/ButtonBack"
-import store from "$src/game/data/store"
+import store, {Spell} from "$src/game/data/store"
 import Item from '$src/game/components/Item.ts'
 import DockSmall from '$src/game/components/DockSmall.ts'
 import Grid from '$src/game/components/Grid.ts'
@@ -14,7 +14,7 @@ import {rad2sector} from '$lib/utility.ts'
 import {Easing} from '@tweenjs/tween.js'
 import ScrollableContainer from '$src/game/components/ScrollableContainer.ts'
 import ModalHero from "$src/game/components/backpack/ModalHero.ts";
-import {Hero, Spell} from "$src/game/types.ts";
+import {Hero} from "$src/game/types.ts";
 import ModalSpell from '$src/game/components/backpack/ModalSpell.ts'
 import {set_timeout} from '$lib/time.ts'
 import HeaderTop from "$src/game/components/HeaderTop.ts";
@@ -119,10 +119,11 @@ class GI_SpellEquipped extends BaseNode {
     msk = create_graphics()
     icon = create_sprite('icons/xmark')
     lbl: Text
+    is_equipped = false
 
     constructor(e: Spell|null) {
         super()
-        this.spell = e ? create_sprite(`spells/${e.label}`) : create_sprite()
+        this.spell = e ? create_sprite(`spells/${e.label}`) : create_sprite(`spells/throw_the_fish`)
         this.lbl = create_text({
             text: 'Nothing',
             style: {
@@ -147,9 +148,33 @@ class GI_SpellEquipped extends BaseNode {
 
         if (!e) {
             this.icon.visible = false
+            this.is_equipped = false
+            this.spell.visible = false
         } else {
             this.lbl.visible = false
+            this.is_equipped = true
         }
+
+        this.interactive = true
+        this.cursor = 'pointer'
+    }
+
+    unequip() {
+        this.icon.visible = false
+        this.lbl.visible = true
+        this.is_equipped = false
+        this.spell.visible = false
+        this.cursor = 'auto'
+    }
+
+    equip(e: Spell) {
+        this.icon.visible = true
+        this.lbl.visible = false
+        this.is_equipped = true
+        this.spell.visible = true
+        this.cursor = 'pointer'
+
+        this.spell.texture = Texture.from(`spells/${e.label}`)
     }
 
     resize() {
@@ -224,11 +249,11 @@ export default class S_Backpack extends BaseNode {
         this.addChild(this.scrollable)
         this.addChild(this.dock)
 
-        this.scrollable.add(this.header1)
-        this.scrollable.add(this.description1)
+        // this.scrollable.add(this.header1)
+        // this.scrollable.add(this.description1)
         this.scrollable.add(this.header2)
         this.scrollable.add(this.description2)
-        this.scrollable.add(this.grid_heroes)
+        // this.scrollable.add(this.grid_heroes)
         this.scrollable.add(this.description3)
         this.scrollable.add(this.grid_spells_equipped)
         this.scrollable.add(this.grid_spells)
@@ -257,17 +282,7 @@ export default class S_Backpack extends BaseNode {
             })
         }
 
-        const spells = [
-            {label: "sun_sneeze", is_unlocked: true, level: 5, name: 'Sun Sneeze', about: lorem},
-            {label: "booooooom", is_unlocked: true, level: 5, name: 'Booooooom', about: lorem},
-            {label: "call_batgoblin", is_unlocked: true, level: 5, name: 'Call Batgoblin', about: lorem},
-            {label: "fairys_kiss", is_unlocked: true, level: 5, name: 'Fairy\'s kiss', about: lorem},
-            {label: "fireball", is_unlocked: true, level: 5, name: 'Fireball', about: lorem},
-            {label: "poseidons_party", is_unlocked: true, level: 5, name: 'Poseidon\'s Party', about: lorem},
-            {label: "sun_sweat", is_unlocked: true, level: 5, name: 'Sun Sweat', about: lorem},
-            {label: "throw_the_fish", is_unlocked: true, level: 5, name: 'Throw the Fish', about: lorem},
-            {label: "time_juice", is_unlocked: true, level: 5, name: 'Time Juice', about: lorem},
-        ]
+        const spells = store.spell_list
 
         for (let e of spells) {
             const gi = new GI_Spell(e)
@@ -277,17 +292,40 @@ export default class S_Backpack extends BaseNode {
                 this.modal = new ModalSpell(e)
                 this.addChild(this.modal)
                 this.modal.resize()
+
+                ;(this.modal as ModalSpell).card.button1.on('pointerup', () => {
+
+                })
+
+                ;(this.modal as ModalSpell).card.button2.on('pointerup', () => {
+                    for (let i = 0; i < store.spell_equipped_list.length; i++) {
+                        const label = store.spell_equipped_list[i]
+                        if (label) continue
+
+                        store.spell_equipped_list[i] = e.label
+
+                        const ui = this.grid_spells_equipped.container.children[i]! as GI_SpellEquipped
+                        ui.equip(e)
+                        this.modal?.destroy()
+                    }
+                })
             })
         }
 
-        const spells_equipped = [
-            null,
-            null,
-            {label: "sun_sneeze", is_unlocked: true, level: 5, name: 'Sun Sneeze', about: lorem},
-        ]
+        const spells_equipped = store.spell_equipped_list.map(
+            el=> store.spell_list.find(s=> s.label == el)!
+        )
 
-        for (let e of spells_equipped) {
-            this.grid_spells_equipped.add(new GI_SpellEquipped(e))
+        for (let i = 0; i < spells_equipped.length; i++) {
+            const e = spells_equipped[i]
+            const ui = new GI_SpellEquipped(e)
+            this.grid_spells_equipped.add(ui)
+
+            ui.on('pointerup', () => {
+                if (!ui.is_equipped) return
+                store.spell_equipped_list[i] = null
+                ui.unequip()
+            })
         }
 
 
@@ -318,25 +356,25 @@ export default class S_Backpack extends BaseNode {
         this.header.position.x = -this.bw / 2
         this.header.position.y = - this.bh / 2
 
-        // header1
-        this.header1.bw = this.bw * 0.75
-        this.header1.resize()
-        this.header1.position.y = this.header1.height / 2 + this.bh * 0.01
-
-        // description1
-        this.description1.style.wordWrapWidth = this.bw * 0.95
-        this.description1.position.y = this.header1.position.y + this.header1.height / 2 + this.description1.height / 2
-
-        // grid_heroes
-        this.grid_heroes.bw = this.bw * 0.9
-        this.grid_heroes.position.x = -this.grid_heroes.bw / 2
-        this.grid_heroes.position.y = this.description1.position.y + this.description1.height / 2 + 10
-        this.grid_heroes.resize()
+        // // header1
+        // this.header1.bw = this.bw * 0.75
+        // this.header1.resize()
+        // this.header1.position.y = this.header1.height / 2 + this.bh * 0.01
+        //
+        // // description1
+        // this.description1.style.wordWrapWidth = this.bw * 0.95
+        // this.description1.position.y = this.header1.position.y + this.header1.height / 2 + this.description1.height / 2
+        //
+        // // grid_heroes
+        // this.grid_heroes.bw = this.bw * 0.9
+        // this.grid_heroes.position.x = -this.grid_heroes.bw / 2
+        // this.grid_heroes.position.y = this.description1.position.y + this.description1.height / 2 + 10
+        // this.grid_heroes.resize()
 
         // header2
         this.header2.bw = this.bw * 0.75
         this.header2.resize()
-        this.header2.position.y = this.grid_heroes.position.y + this.grid_heroes.height + this.header2.height / 2 + 40
+        this.header2.position.y = this.header2.height / 2 + this.bh * 0.01
 
         // description2
         this.description2.style.wordWrapWidth = this.bw * 0.95
