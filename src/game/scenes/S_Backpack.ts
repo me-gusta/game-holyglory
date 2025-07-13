@@ -298,6 +298,8 @@ export default class S_Backpack extends BaseNode {
                 })
 
                 ;(this.modal as ModalSpell).card.button2.on('pointerup', () => {
+                    if (store.spell_equipped_list.includes(e.label)) return
+
                     for (let i = 0; i < store.spell_equipped_list.length; i++) {
                         const label = store.spell_equipped_list[i]
                         if (label) continue
@@ -307,6 +309,7 @@ export default class S_Backpack extends BaseNode {
                         const ui = this.grid_spells_equipped.container.children[i]! as GI_SpellEquipped
                         ui.equip(e)
                         this.modal?.destroy()
+                        return
                     }
                 })
             })

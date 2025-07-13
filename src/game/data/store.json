@@ -315,7 +315,7 @@
                             null
                         ]
                     ],
-                    "is_captured": true
+                    "is_captured": false
                 },
                 {
                     "waves": [
@@ -331,7 +331,7 @@
                             }
                         ]
                     ],
-                    "is_captured": true
+                    "is_captured": false
                 },
                 {
                     "waves": [
@@ -350,7 +350,7 @@
                             }
                         ]
                     ],
-                    "is_captured": true
+                    "is_captured": false
                 },
                 {
                     "waves": [

@@ -8,6 +8,7 @@ import ButtonBack from "../components/ButtonBack"
 import WoodenHeader from "../components/WoodenHeader"
 import store, {Battle} from "$src/game/data/store"
 import { chunk, push_until } from "$lib/utility"
+import {random_int} from '$lib/random.ts'
 
 
 class MapMarker extends BaseNode {
@@ -86,7 +87,7 @@ class MapPoint extends BaseNode {
 class MapPiece extends BaseNode {
     bg: Sprite
     container: Container
-    constructor(tile_label: string, n: number, es: (BattleWithId|null)[]) {
+    constructor(tile_label: string, n: number, es: (BattleWithId|null)[], location_title) {
         super()
         this.bg = create_sprite(tile_label + n)
         this.container = new Container()
@@ -118,11 +119,17 @@ class MapPiece extends BaseNode {
                 pin.position.set(-32, -224)
             }
 
-            if (i > 0) {
-                const prev = es[i-1]
-                if (prev?.is_captured && !e.is_captured) {
-                    pin.set_marker(true)
-                }
+            const all_captured = store
+                .location_list
+                .find(loc => loc.title === location_title)!
+                .battles
+                .filter(b => b.is_captured)
+
+            const prev_eid = all_captured.length + 1
+            console.log(prev_eid, e.eid)
+
+            if (prev_eid - e.eid === 1) {
+                pin.set_marker(true)
             }
 
             pin.on('pointerup', () => {
@@ -150,13 +157,15 @@ export default class S_Location extends BaseNode {
         const { title, tile_images_folder } = e_location
         this.header = new WoodenHeader(title)
 
-        const battles = e_location.battles.map((el, i)=> ({...el, eid: i}))
+        const battles = e_location.battles
+            .map((el, i)=> ({...el, eid: i}))
 
         const pieces = chunk(Object.values(battles), 3)
         for (let es of pieces.reverse()) {
             push_until(es, null, 3)
+            console.log(es)
 
-            const tile = new MapPiece(tile_images_folder, 1, es)
+            const tile = new MapPiece(tile_images_folder, random_int(1, 3), es, e_location.title)
 
             this.vrow.add(tile)
         }
