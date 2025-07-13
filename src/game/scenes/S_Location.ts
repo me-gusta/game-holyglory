@@ -126,7 +126,6 @@ class MapPiece extends BaseNode {
                 .filter(b => b.is_captured)
 
             const prev_eid = all_captured.length + 1
-            console.log(prev_eid, e.eid)
 
             if (prev_eid - e.eid === 1) {
                 pin.set_marker(true)
@@ -163,7 +162,6 @@ export default class S_Location extends BaseNode {
         const pieces = chunk(Object.values(battles), 3)
         for (let es of pieces.reverse()) {
             push_until(es, null, 3)
-            console.log(es)
 
             const tile = new MapPiece(tile_images_folder, random_int(1, 3), es, e_location.title)
 

@@ -336,11 +336,15 @@ export default class S_Battle extends BaseNode {
             },
         }
 
-        const if_next_turn = () => {
+        const if_next_turn = (skipMobs=false) => {
             const enemies = this.battlefield.mobs.filter(e => e !== null)
 
+            let delay = 0
             if (enemies.length) {
-                this.battlefield.anim_enemies_hit()
+                if (!skipMobs) {
+                    this.battlefield.anim_enemies_hit()
+                    delay = 900
+                }
             } else {
                 if (this.header.wave === this.header.max_wave) {
                     this.show_victory()
@@ -350,6 +354,10 @@ export default class S_Battle extends BaseNode {
                 this.battlefield.anim_next_wave()
                 this.header.set_wave(this.header.wave + 1)
             }
+
+            this.set_timeout(delay, () => {
+                this.pole.touchpad.interactive = true
+            })
 
             this.battlefield.next_mob_turn()
         }
@@ -383,8 +391,6 @@ export default class S_Battle extends BaseNode {
                 spell.set_load(1)
                 spell.on('pointerdown', () => {
                     spell_actions[spell_data.label] ? spell_actions[spell_data.label](spell_data.level*100) : null
-
-                    console.log(spell_actions[spell_data.label])
 
                     this.set_timeout(700, () => {
                         const enemies = this.battlefield.mobs.filter(e => e !== null)
@@ -422,6 +428,7 @@ export default class S_Battle extends BaseNode {
         })
 
         this.pole.on('match_completed', (stats) => {
+            this.pole.touchpad.interactive = false
             const total = sum(Object.values(stats))
 
 
@@ -431,12 +438,16 @@ export default class S_Battle extends BaseNode {
                 delay = 1000
             }
 
+            let skipMobs = false
             if (extra_turns > 0) {
                 extra_turns -= 1
-                return
+                skipMobs = true
             }
 
-            this.set_timeout(delay, () => if_next_turn())
+            this.set_timeout(delay, () => if_next_turn(skipMobs))
+
+
+
         })
 
         this.button_settings.on('pointerup', () => {

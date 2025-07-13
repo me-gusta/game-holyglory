@@ -188,7 +188,7 @@ export default class Battlefield extends BaseNode {
     next_waves: (Character | null)[][] = []
 
     current_wave = 0
-    mob_turn = 0
+    mob_turn = -1
     mob_selected = 0
 
     constructor() {
@@ -222,7 +222,6 @@ export default class Battlefield extends BaseNode {
 
         this.place_hero.position.set(122, 545)
         this.place_hero.visible = false
-
 
     }
 
@@ -435,7 +434,11 @@ export default class Battlefield extends BaseNode {
             return
         }
 
-        if (this.mob_turn === 0) {
+        if (this.mob_turn === -1) {
+            if (this.mobs[0]) this.mob_turn = 0
+            else if (this.mobs[1]) this.mob_turn = 1
+            else if (this.mobs[2]) this.mob_turn = 2
+        } else if (this.mob_turn === 0) {
             if (this.mobs[1]) this.mob_turn = 1
             else if (this.mobs[2]) this.mob_turn = 2
         } else if (this.mob_turn === 1) {
@@ -497,6 +500,7 @@ export default class Battlefield extends BaseNode {
         }
 
         this.select_mob(0)
+        this.next_mob_turn()
         this.set_mobs_selectable()
     }
 
