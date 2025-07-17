@@ -420,13 +420,16 @@ export default class Pole extends BaseNode {
             const rune = this.runes_arr[x][y]
 
             if (score >= 2) {
-                create_fx('splash', this, this.runes.toGlobal(rune))
+                const fx = create_fx('splash', this, this.runes.toGlobal(rune))
+                fx.animationSpeed = 0.6
                 rune.set_variant('cross')
             } else if (variant_new != rune.variant && variant_new !== 'normal') {
-                create_fx('splash', this, this.runes.toGlobal(rune))
+                const fx = create_fx('splash', this, this.runes.toGlobal(rune))
+                fx.animationSpeed = 0.6
                 rune.set_variant(variant_new)
             } else {
-                create_fx('spin', this, this.runes.toGlobal(rune))
+                const fx = create_fx('bullet1', this, this.runes.toGlobal(rune))
+                fx.animationSpeed = 0.6
                 this.stat_destroys[rune.suit] = (this.stat_destroys[rune.suit] || 0) + 1
                 this_destroys[rune.suit] = (this_destroys[rune.suit] || 0) + 1
 

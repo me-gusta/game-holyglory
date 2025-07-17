@@ -1,0 +1,238 @@
+{
+  "frames": {
+    "bighit-0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-1": {
+      "frame": {
+        "x": 557,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 557,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-2": {
+      "frame": {
+        "x": 1114,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1114,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-3": {
+      "frame": {
+        "x": 1671,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1671,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-4": {
+      "frame": {
+        "x": 2228,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 2228,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-5": {
+      "frame": {
+        "x": 2785,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 2785,
+        "y": 0,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-6": {
+      "frame": {
+        "x": 0,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-7": {
+      "frame": {
+        "x": 557,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 557,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-8": {
+      "frame": {
+        "x": 1114,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1114,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-9": {
+      "frame": {
+        "x": 1671,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1671,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    },
+    "bighit-10": {
+      "frame": {
+        "x": 2228,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 2228,
+        "y": 553,
+        "w": 557,
+        "h": 553
+      },
+      "sourceSize": {
+        "w": 3342,
+        "h": 2765
+      }
+    }
+  },
+  "animations": {
+    "bighit": ["bighit-0","bighit-1","bighit-2","bighit-3","bighit-4","bighit-5","bighit-6","bighit-7","bighit-8","bighit-9","bighit-10"]
+  },
+  "meta": {
+    "app": "sprite-sheet-to-json",
+    "version": "1.0.0",
+    "image": "Effect_BigHit_1_557x553.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 3342,
+      "h": 2765
+    },
+    "scale": "1"
+  }
+}

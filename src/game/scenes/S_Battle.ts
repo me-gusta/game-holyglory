@@ -175,8 +175,8 @@ export default class S_Battle extends BaseNode {
                     this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
                 )
                 p.y -= 60
-                const fx = create_fx('spin', this.battlefield, p)
-                fx.scale.set(12)
+                const fx = create_fx('bighit', this.battlefield, p)
+                fx.scale.set(0.6)
 
                 mob.hp_current -= level * 4
                 if (mob.rune === 'plant') mob.hp_current -= Math.floor(level * 4 * 0.3)
@@ -203,8 +203,8 @@ export default class S_Battle extends BaseNode {
                     this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
                 )
                 p.y -= 60
-                const fx = create_fx('spin', this.battlefield, p)
-                fx.scale.set(12)
+                const fx = create_fx('bighit', this.battlefield, p)
+                fx.scale.set(0.6)
 
                 mob.hp_current -= level * 4
                 if (mob.rune === 'fire') mob.hp_current -= Math.floor(level * 4 * 0.3)
@@ -231,8 +231,8 @@ export default class S_Battle extends BaseNode {
                     this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
                 )
                 p.y -= 60
-                const fx = create_fx('spin', this.battlefield, p)
-                fx.scale.set(12)
+                const fx = create_fx('bighit', this.battlefield, p)
+                fx.scale.set(0.8)
 
                 mob.hp_current -= level * 4
                 if (mob.rune === 'light') mob.hp_current -= Math.floor(level * 4 * 0.3)
@@ -260,8 +260,8 @@ export default class S_Battle extends BaseNode {
                         this.battlefield.place_mobs.toGlobal(this.battlefield.place_mobs.get(target))
                     )
                     p.y -= 60
-                    const fx = create_fx('spin', this.battlefield, p)
-                    fx.scale.set(12)
+                    const fx = create_fx('bighit', this.battlefield, p)
+                    fx.scale.set(0.6)
 
                     mob.hp_current -= level * 4
                     if (mob.rune === 'dark') mob.hp_current -= Math.floor(level * 4 * 0.3)
@@ -295,8 +295,8 @@ export default class S_Battle extends BaseNode {
                     this.battlefield.toGlobal(this.battlefield.place_hero)
                 )
                 p.y -= 60
-                const fx = create_fx('spin', this.battlefield, p)
-                fx.scale.set(12)
+                const fx = create_fx('bighit', this.battlefield, p)
+                fx.scale.set(0.6)
             },
             sun_sweat: (level) => {
                 const points = random_points_on_a_grid(12, 7)
@@ -304,7 +304,7 @@ export default class S_Battle extends BaseNode {
                     const rune = this.pole.runes_arr[gp.x][gp.y]
                     rune.set_suit('light')
                     const p = this.pole.runes.toGlobal(rune)
-                    create_fx('spin', this, p)
+                    create_fx('splash', this, p)
                 }
                 this.set_timeout(400, () => this.pole.match_all())
             },
@@ -314,7 +314,7 @@ export default class S_Battle extends BaseNode {
                     const rune = this.pole.runes_arr[gp.x][gp.y]
                     rune.set_suit('water')
                     const p = this.pole.runes.toGlobal(rune)
-                    create_fx('spin', this, p)
+                    create_fx('splash', this, p)
                 }
 
                 this.set_timeout(400, () => this.pole.match_all())

@@ -333,11 +333,12 @@ export default class Battlefield extends BaseNode {
             .start()
 
         this.set_timeout(700 * time_scale, () => {
-            const fx = create_fx('splash', this.spines, character)
-            fx.scale.set(6)
+            const fx = create_fx('impact', this.spines, character)
+            fx.scale.set(0.9)
             fx.zIndex = char_z[target] + 2
             fx.position.copyFrom(point_a)
-            fx.position.x + 60
+            fx.position.x += 40
+            fx.position.y -= 60
 
             reduce_enemy_hp()
         })
@@ -408,11 +409,12 @@ export default class Battlefield extends BaseNode {
         }
 
         this.set_timeout(700 * time_scale, () => {
-            const fx = create_fx('splash', this.spines, character)
-            fx.scale.set(6)
+            const fx = create_fx('impact', this.spines, character)
+            fx.scale.set(0.8)
             fx.zIndex = char_z[attacker] + 2
             fx.position.copyFrom(point_a)
-            fx.position.x + 60
+            fx.position.x -= 60
+            fx.position.y -= 140
             reduce_friend_hp()
         })
 

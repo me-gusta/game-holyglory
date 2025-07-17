@@ -32,6 +32,10 @@ const preload = async () => {
 
     // Load spritesheets in parallel
     await Promise.all([
+        AssetManager.load_spritesheet('impact'),
+        AssetManager.load_spritesheet('bighit'),
+        AssetManager.load_spritesheet('bullet1'),
+        AssetManager.load_spritesheet('bullet2'),
         AssetManager.load_spritesheet('splash'),
         AssetManager.load_spritesheet('jackpot'),
         AssetManager.load_spritesheet('merge'),

@@ -9,6 +9,8 @@ class AssetManager {
             src: `assets/animations/${name}.json`,
         })
 
+        console.log(`load spritesheet ${name}`)
+
         const sheet: Spritesheet = Assets.get(name)
         Object.entries(sheet.textures).forEach(([key, value]) => {
             this.set(key, value)
@@ -27,7 +29,7 @@ class AssetManager {
 
     get(key: string) {
         const value = this.map.get(key)
-        if (!value) throw Error(`unknow asset "${key}"`)
+        if (!value) throw Error(`unknown asset "${key}"`)
         return value
     }
 }

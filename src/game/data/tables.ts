@@ -4,8 +4,8 @@ export const table_mobs = {
         "rune": null,
         "levels": (x) => {
             return {
-                "hp_max": Math.round(130 + x * 2.7),
-                "attack": Math.round(9 + x * 4.7)
+                "hp_max": Math.round(130 + x * 110.7),
+                "attack": Math.round(9 + x * 7.7)
             }
         }
     },

@@ -1,0 +1,258 @@
+{
+  "frames": {
+    "impact-0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-1": {
+      "frame": {
+        "x": 291,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 291,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-2": {
+      "frame": {
+        "x": 582,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 582,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-3": {
+      "frame": {
+        "x": 873,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 873,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-4": {
+      "frame": {
+        "x": 1164,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1164,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-5": {
+      "frame": {
+        "x": 1455,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1455,
+        "y": 0,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-6": {
+      "frame": {
+        "x": 0,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-7": {
+      "frame": {
+        "x": 291,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 291,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-8": {
+      "frame": {
+        "x": 582,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 582,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-9": {
+      "frame": {
+        "x": 873,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 873,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-10": {
+      "frame": {
+        "x": 1164,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1164,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    },
+    "impact-11": {
+      "frame": {
+        "x": 1455,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 1455,
+        "y": 301,
+        "w": 291,
+        "h": 301
+      },
+      "sourceSize": {
+        "w": 1746,
+        "h": 1505
+      }
+    }
+  },
+  "animations": {
+    "impact": ["impact-0","impact-1","impact-2","impact-3","impact-4","impact-5","impact-6","impact-7","impact-8","impact-9","impact-10","impact-11"]
+  },
+  "meta": {
+    "app": "sprite-sheet-to-json",
+    "version": "1.0.0",
+    "image": "Effect_Impact_1_291x301.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1746,
+      "h": 1505
+    },
+    "scale": "1"
+  }
+}
